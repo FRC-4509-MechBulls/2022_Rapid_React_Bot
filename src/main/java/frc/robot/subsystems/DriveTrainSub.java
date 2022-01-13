@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -15,14 +17,20 @@ import frc.robot.Constants;
 
 public class DriveTrainSub extends SubsystemBase {
   //Declaring all MotorControllers, MotorControllerGroups, and XboxController
-  DifferentialDrive drive;
-  MotorController mc_frontLeft;
-  MotorController mc_frontRight;
-  MotorController mc_backLeft;
-  MotorController mc_backRight;
-  MotorControllerGroup left;
-  MotorControllerGroup right;
-  XboxController driverJoystick;
+  private DifferentialDrive drive;
+  private MotorController mc_frontLeft;
+  private MotorController mc_frontRight;
+  private MotorController mc_backLeft;
+  private MotorController mc_backRight;
+  private MotorControllerGroup left;
+  private MotorControllerGroup right;
+
+  private DoubleSolenoid shifter;
+
+  private PneumaticsModuleType REVPH;
+
+  //private XboxController driverJoystick;
+
   /** Creates a new DriveTrain. */
   public DriveTrainSub() {
     //Initializing all objects, as well as the DifferentialDrive
@@ -39,14 +47,27 @@ public class DriveTrainSub extends SubsystemBase {
     right = new MotorControllerGroup(mc_frontRight, mc_backRight);
 
     drive = new DifferentialDrive(left, right);
+
+    shifter = new DoubleSolenoid(REVPH, Constants.SHIFTER_1_FORWARD_CHANNEL, Constants.SHIFTER_2_REVERSE_CHANNEL);
+  }
+
+  //Creating a Command to drive and steer with the controller
+  public void joystickDrive(XboxController controller, double speed) {
+    drive.arcadeDrive(((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed, controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed);
+  }
+
+  //high gear
+  public void shiftIn() {
+    shifter.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  //low gear
+  public void shiftOut() {
+    shifter.set(DoubleSolenoid.Value.kForward);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-  //Creating a Command to drive and steer with the controller
-  public void joystickDrive(XboxController controller, double speed) {
-    drive.arcadeDrive(((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed, controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed);
   }
 }

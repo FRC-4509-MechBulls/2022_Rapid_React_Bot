@@ -5,17 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
 
-public class JoystickDriveCmd extends CommandBase {
-  private final DriveTrainSub driveTrain;
-  /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt) {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class ShiftInCmd extends CommandBase {
+  /** Creates a new ShiftInCmd. */
+  DriveTrainSub driveTrain;
+  public ShiftInCmd(DriveTrainSub dt) {
     driveTrain = dt;
     addRequirements(driveTrain);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +23,7 @@ public class JoystickDriveCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.joystickDrive(RobotContainer.driverController, Constants.DRIVETRAIN_SPEED);
+    driveTrain.shiftIn();
   }
 
   // Called once the command ends or is interrupted.
