@@ -27,14 +27,14 @@ public class ShooterSub extends SubsystemBase {
     shooter2 = new WPI_TalonFX(Constants.SHOOTER_TALON_2);
     shooter2.setInverted(false);
     shooter3 = new WPI_TalonFX(Constants.SHOOTER_TALON_3);
-    shooter3.setInverted(false);
+    shooter3.setInverted(true);
     shooter4 = new WPI_TalonFX(Constants.SHOOTER_TALON_4);
     shooter4.setInverted(true);
 
     // makes sure shooter2, shooter3, and shooter4 all spin together, 
-    // however shooter4 spins in the opposite direction
+    // however shooter2 spins in the opposite direction
     shooter3.follow(shooter2);
-    shooter4.follow(shooter2);
+    //shooter4.follow(shooter2);
   }
 
   @Override
@@ -48,8 +48,9 @@ public class ShooterSub extends SubsystemBase {
   }
 
   // spins shooter2, shooter3, and shooter4
-  public void shootGroup2(double speed) {
-    shooter2.set(TalonFXControlMode.PercentOutput, speed);
+  public void shootGroup2(double speed1, double speed2) {
+    shooter2.set(TalonFXControlMode.PercentOutput, speed1);
+    shooter3.set(TalonFXControlMode.PercentOutput, speed2);
   }
 
   // stops shooter1
@@ -60,6 +61,7 @@ public class ShooterSub extends SubsystemBase {
   // stops shooter2, shooter3, and shooter4
   public void stop2() {
     shooter2.set(TalonFXControlMode.PercentOutput, 0);
+    shooter4.set(TalonFXControlMode.PercentOutput, 0);
   }
 
   @Override
