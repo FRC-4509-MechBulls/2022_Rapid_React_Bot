@@ -6,16 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.ShooterSub;
 
-public class JoystickDriveCmd extends CommandBase {
-  private final DriveTrainSub driveTrain;
-  /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt) {
+public class Shoot1Cmd extends CommandBase {
+  private ShooterSub shooter;
+  /** Creates a new Shoot1. */
+  public Shoot1Cmd(ShooterSub s) {
+    shooter = s;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
-    driveTrain = dt;
-    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -25,12 +24,14 @@ public class JoystickDriveCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.joystickDrive(RobotContainer.controller, Constants.DRIVETRAIN_SPEED);
+    shooter.shootGroup1(Constants.SHOOTER_SPEED_1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stop1();
+  }
 
   // Returns true when the command should end.
   @Override

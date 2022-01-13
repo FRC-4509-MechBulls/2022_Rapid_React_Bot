@@ -7,8 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.Shoot1Cmd;
+import frc.robot.commands.Shoot2Cmd;
 import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.ShooterSub;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,16 +22,30 @@ import frc.robot.subsystems.DriveTrainSub;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static XboxController driverJoystick;
+  public static XboxController controller;
+
+  public static DriveTrainSub driveTrain;
+  public static JoystickDriveCmd joystickDrive;
+
+  public static ShooterSub shooter;
+  public static Shoot1Cmd shoot1;
+  public static Shoot2Cmd shoot2;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //Initializing all DriveTrain Components
-    DriveTrainSub driveTrain = new DriveTrainSub();
-    JoystickDriveCmd joystickDrive = new JoystickDriveCmd(driveTrain);
+    driveTrain = new DriveTrainSub();
+    joystickDrive = new JoystickDriveCmd(driveTrain);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
-    driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
+
+    shooter = new ShooterSub();
+    shoot1 = new Shoot1Cmd(shooter);
+    shoot1.addRequirements(shooter);
+    shoot2 = new Shoot2Cmd(shooter);
+    shoot2.addRequirements(shooter);
+
+    controller = new XboxController(Constants.DRIVER_JOYSTICK);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -38,7 +56,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    JoystickButton shootButton1 = new JoystickButton(controller, XboxController.Button.kA.value);
+    shootButton1.whileHeld(new Shoot1Cmd(shooter));
+
+    JoystickButton shootButton2 = new JoystickButton(controller, XboxController.Button.kB.value);
+    shootButton2.whileHeld(new Shoot2Cmd(shooter));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
