@@ -28,9 +28,11 @@ public final class Constants {
     public static final double DRIVETRAIN_SPEED = 0;
     public static final double SHOOTER_SPEED_1 = 0.7;
     public static final double SHOOTER_SPEED_2 = 0.7;
+    public static final double SHOOTER_SPEED_TOP = 1.0;
 
     //Controller Inputs
     public static final int RIGHT_TRIGGER = 3;
     public static final int LEFT_TRIGGER = 2;
     public static final int XBOX_LEFT_X_AXIS = 0;
-    public static final int DRIVER_JOYSTICK = 0;}
+    public static final int DRIVER_JOYSTICK = 0;
+}
