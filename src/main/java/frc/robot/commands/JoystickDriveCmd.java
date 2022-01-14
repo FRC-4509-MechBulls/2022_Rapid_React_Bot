@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LimelightSub;
 
 public class JoystickDriveCmd extends CommandBase {
   private DriveTrainSub driveTrain;
-  private Limelight limelight;
+  private LimelightSub limelight;
   /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt, Limelight l) {
+  public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = dt;
     limelight = l;
