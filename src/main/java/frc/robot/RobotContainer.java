@@ -14,6 +14,7 @@ import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.Shoot1Cmd;
 import frc.robot.commands.Shoot2Cmd;
 import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSub;
 
 /**
@@ -27,15 +28,17 @@ public class RobotContainer {
   public static XboxController driverController;
   public static XboxController shooterController;
 
-  private final DriveTrainSub driveTrain;
-  private final JoystickDriveCmd joystickDrive;
+  DriveTrainSub driveTrain;
+  JoystickDriveCmd joystickDrive;
 
-  private final ShiftInCmd shiftIn;
-  private final ShiftOutCmd shiftOut;
+  Limelight limelight;
 
-  private final ShooterSub shooter;
-  private final Shoot1Cmd shoot1;
-  private final Shoot2Cmd shoot2;
+  ShiftInCmd shiftIn;
+  ShiftOutCmd shiftOut;
+
+  ShooterSub shooter;
+  Shoot1Cmd shoot1;
+  Shoot2Cmd shoot2;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,7 +47,9 @@ public class RobotContainer {
 
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
-    joystickDrive = new JoystickDriveCmd(driveTrain);
+    limelight = new Limelight();
+
+    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
 

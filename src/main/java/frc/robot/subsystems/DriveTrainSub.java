@@ -56,14 +56,22 @@ public class DriveTrainSub extends SubsystemBase {
     drive.arcadeDrive(((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed, controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed);
   }
 
-  //high gear
+  //high gear?
   public void shiftIn() {
     shifter.set(DoubleSolenoid.Value.kReverse);
   }
 
-  //low gear
+  //low gear?
   public void shiftOut() {
     shifter.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void aimLimelight(double driveCommand, double steerCommand) {
+    drive.arcadeDrive(driveCommand, steerCommand);
+  }
+
+  public void stop() {
+    drive.stopMotor();
   }
 
   @Override
