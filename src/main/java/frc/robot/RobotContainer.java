@@ -14,7 +14,7 @@ import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.Shoot1Cmd;
 import frc.robot.commands.Shoot2Cmd;
 import frc.robot.subsystems.DriveTrainSub;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterSub;
 
 /**
@@ -31,7 +31,7 @@ public class RobotContainer {
   DriveTrainSub driveTrain;
   JoystickDriveCmd joystickDrive;
 
-  Limelight limelight;
+  LimelightSub limelight;
 
   ShiftInCmd shiftIn;
   ShiftOutCmd shiftOut;
@@ -47,7 +47,7 @@ public class RobotContainer {
 
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
-    limelight = new Limelight();
+    limelight = new LimelightSub();
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
