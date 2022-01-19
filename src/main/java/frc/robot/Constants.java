@@ -37,6 +37,11 @@ public final class Constants {
     public static final int LEFT_TRIGGER = 2;
     public static final int XBOX_LEFT_X_AXIS = 0;
 
+    public static final double DRIVETRAIN_SPEED = 0;
+    public static final int DRIVER_JOYSTICK = 0;
+    public static final int INTAKE = 11;
+    public static final double INTAKE_SPEED = 0.5;
+    public static final int SHOOTER_JOYSTICK = 1;
     public static final int DRIVER_CONTROLLER = 0;
     public static final int SHOOTER_CONTROLLER = 1;
 
@@ -44,3 +49,4 @@ public final class Constants {
     public static final int SHIFTER_1_FORWARD_CHANNEL = 0;
     public static final int SHIFTER_2_REVERSE_CHANNEL = 1;
 }
+
