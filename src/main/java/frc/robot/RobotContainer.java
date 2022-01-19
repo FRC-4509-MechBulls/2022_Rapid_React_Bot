@@ -32,26 +32,8 @@ import frc.robot.subsystems.ShooterSub;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  public static XboxController driverJoystick;
-  public static XboxController shooterJoystick;
   private final IntakeSub intake;
   public static DeployIntakeCmd deployIntake;
-  public static XboxController driverController;
-  public static XboxController shooterController;
-
-  DriveTrainSub driveTrain;
-  JoystickDriveCmd joystickDrive;
-
-  LimelightSub limelight;
-
-  ShiftInCmd shiftIn;
-  ShiftOutCmd shiftOut;
-
-  ShooterSub shooter;
-  Shoot1Cmd shoot1;
-  Shoot2Cmd shoot2;
-
   public static XboxController driverController;
   public static XboxController shooterController;
 
@@ -81,14 +63,14 @@ public class RobotContainer {
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
 
-    driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
+    driverJoystick = new XboxController(Constants.DRIVER_CONTROLLER);
     
     //Initializing all Intake Components
     intake = new IntakeSub();
     DeployIntakeCmd deployIntake = new DeployIntakeCmd(intake);
     RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
 
-    shooterJoystick = new XboxController(Constants.SHOOTER_JOYSTICK);
+    shooterJoystick = new XboxController(Constants.SHOOTER_CONTROLLER);
     shiftIn = new ShiftInCmd(driveTrain);
     shiftIn.addRequirements(driveTrain);
     shiftOut = new ShiftOutCmd(driveTrain);
@@ -113,11 +95,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    JoystickButton deployIntakeButton = new JoystickButton(shooterJoystick, XboxController.Button.kRightBumper.value);
+    JoystickButton deployIntakeButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
     deployIntakeButton.whenPressed(new DeployIntakeCmd(intake));
    
    
-    JoystickButton retractIntakeButton = new JoystickButton(shooterJoystick,XboxController.Button.kLeftBumper.value);
+    JoystickButton retractIntakeButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
     retractIntakeButton.whenPressed(new RetractIntakeCmd(intake));
     
     JoystickButton shootButton1 = new JoystickButton(shooterController, XboxController.Button.kA.value);
