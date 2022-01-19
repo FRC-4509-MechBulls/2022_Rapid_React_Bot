@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase {
+public class LimelightSub extends SubsystemBase {
   private double STEER_K = 0.03;
   private double DRIVE_K = 0.26;
   private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
@@ -21,7 +21,7 @@ public class Limelight extends SubsystemBase {
   double ty;
 
   /** Creates a new Limelight. */
-  public Limelight() {
+  public LimelightSub() {
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
