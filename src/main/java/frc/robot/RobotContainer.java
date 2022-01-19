@@ -36,19 +36,14 @@ public class RobotContainer {
   public static DeployIntakeCmd deployIntake;
   public static XboxController driverController;
   public static XboxController shooterController;
-
   DriveTrainSub driveTrain;
   JoystickDriveCmd joystickDrive;
-
   LimelightSub limelight;
-
   ShiftInCmd shiftIn;
   ShiftOutCmd shiftOut;
-
   ShooterSub shooter;
   Shoot1Cmd shoot1;
   Shoot2Cmd shoot2;
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -58,24 +53,22 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-
+    shiftIn = new ShiftInCmd(driveTrain);
+    shiftIn.addRequirements(driveTrain);
+    shiftOut = new ShiftOutCmd(driveTrain);
+    shiftOut.addRequirements(driveTrain);
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
 
-    driverJoystick = new XboxController(Constants.DRIVER_CONTROLLER);
     
     //Initializing all Intake Components
     intake = new IntakeSub();
     DeployIntakeCmd deployIntake = new DeployIntakeCmd(intake);
     RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
 
-    shooterJoystick = new XboxController(Constants.SHOOTER_CONTROLLER);
-    shiftIn = new ShiftInCmd(driveTrain);
-    shiftIn.addRequirements(driveTrain);
-    shiftOut = new ShiftOutCmd(driveTrain);
-    shiftOut.addRequirements(driveTrain);
-
+    
+    //Intitializing all Shooter Components
     shooter = new ShooterSub();
     shoot1 = new Shoot1Cmd(shooter);
     shoot1.addRequirements(shooter);
