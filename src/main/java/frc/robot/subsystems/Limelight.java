@@ -18,10 +18,13 @@ public class Limelight extends SubsystemBase {
   double tv;
   double ta;
   double tx;
+  double ty;
+
   /** Creates a new Limelight. */
   public Limelight() {
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
   }
@@ -29,6 +32,10 @@ public class Limelight extends SubsystemBase {
   public double getSteer() {
     double steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
     return steer_cmd;
+  }
+
+  public double getHood() {
+    
   }
 
   public double getX() {
@@ -40,7 +47,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getY(){
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
   }
 
   public boolean isTargetValid() { //ONLY RETURNS FALSE if you type tv == 1.0 (must not be updating enough)
@@ -56,5 +63,6 @@ public class Limelight extends SubsystemBase {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
   }
 }
