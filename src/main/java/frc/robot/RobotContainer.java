@@ -8,11 +8,21 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RetractIntakeCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IntakeSub;
+import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.ShiftInCmd;
+import frc.robot.commands.ShiftOutCmd;
+import frc.robot.commands.Shoot1Cmd;
+import frc.robot.commands.Shoot2Cmd;
+import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.LimelightSub;
+import frc.robot.subsystems.ShooterSub;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,18 +32,55 @@ import frc.robot.subsystems.IntakeSub;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+
   public static XboxController driverJoystick;
   public static XboxController shooterJoystick;
   private final IntakeSub intake;
   public static DeployIntakeCmd deployIntake;
+  public static XboxController driverController;
+  public static XboxController shooterController;
+
+  DriveTrainSub driveTrain;
+  JoystickDriveCmd joystickDrive;
+
+  LimelightSub limelight;
+
+  ShiftInCmd shiftIn;
+  ShiftOutCmd shiftOut;
+
+  ShooterSub shooter;
+  Shoot1Cmd shoot1;
+  Shoot2Cmd shoot2;
+
+  public static XboxController driverController;
+  public static XboxController shooterController;
+
+  DriveTrainSub driveTrain;
+  JoystickDriveCmd joystickDrive;
+
+  LimelightSub limelight;
+
+  ShiftInCmd shiftIn;
+  ShiftOutCmd shiftOut;
+
+  ShooterSub shooter;
+  Shoot1Cmd shoot1;
+  Shoot2Cmd shoot2;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    driverController = new XboxController(Constants.DRIVER_CONTROLLER);
+    shooterController = new XboxController(Constants.SHOOTER_CONTROLLER);
+
     //Initializing all DriveTrain Components
-    DriveTrainSub driveTrain = new DriveTrainSub();
-    JoystickDriveCmd joystickDrive = new JoystickDriveCmd(driveTrain);
+    driveTrain = new DriveTrainSub();
+    limelight = new LimelightSub();
+
+    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
+
     driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
     
     //Initializing all Intake Components
@@ -42,6 +89,19 @@ public class RobotContainer {
     RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
 
     shooterJoystick = new XboxController(Constants.SHOOTER_JOYSTICK);
+    shiftIn = new ShiftInCmd(driveTrain);
+    shiftIn.addRequirements(driveTrain);
+    shiftOut = new ShiftOutCmd(driveTrain);
+    shiftOut.addRequirements(driveTrain);
+
+    shooter = new ShooterSub();
+    shoot1 = new Shoot1Cmd(shooter);
+    shoot1.addRequirements(shooter);
+    shoot2 = new Shoot2Cmd(shooter);
+    shoot2.addRequirements(shooter);
+
+    // Configure the button bindings
+
     configureButtonBindings();
   }
 
@@ -52,15 +112,29 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     JoystickButton deployIntakeButton = new JoystickButton(shooterJoystick, XboxController.Button.kRightBumper.value);
     deployIntakeButton.whenPressed(new DeployIntakeCmd(intake));
    
    
     JoystickButton retractIntakeButton = new JoystickButton(shooterJoystick,XboxController.Button.kLeftBumper.value);
     retractIntakeButton.whenPressed(new RetractIntakeCmd(intake));
+    
+    JoystickButton shootButton1 = new JoystickButton(shooterController, XboxController.Button.kA.value);
+    shootButton1.whileHeld(new Shoot1Cmd(shooter));
+
+    JoystickButton shootButton2 = new JoystickButton(shooterController, XboxController.Button.kB.value);
+    shootButton2.whileHeld(new Shoot2Cmd(shooter));
+
+    JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    shiftInButton.whileHeld(new ShiftInCmd(driveTrain));
+
+    JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    shiftOutButton.whileHeld(new ShiftOutCmd(driveTrain));
   
   }
   
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
