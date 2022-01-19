@@ -7,8 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.RetractIntakeCmd;
 import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.IntakeSub;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,6 +23,9 @@ import frc.robot.subsystems.DriveTrainSub;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static XboxController driverJoystick;
+  public static XboxController shooterJoystick;
+  private final IntakeSub intake;
+  public static DeployIntakeCmd deployIntake;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -28,7 +35,13 @@ public class RobotContainer {
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
     driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
-    // Configure the button bindings
+    
+    //Initializing all Intake Components
+    intake = new IntakeSub();
+    DeployIntakeCmd deployIntake = new DeployIntakeCmd(intake);
+    RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
+
+    shooterJoystick = new XboxController(Constants.SHOOTER_JOYSTICK);
     configureButtonBindings();
   }
 
@@ -38,15 +51,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
-
+  private void configureButtonBindings() {
+    JoystickButton deployIntakeButton = new JoystickButton(shooterJoystick, XboxController.Button.kRightBumper.value);
+    deployIntakeButton.whenPressed(new DeployIntakeCmd(intake));
+   
+   
+    JoystickButton retractIntakeButton = new JoystickButton(shooterJoystick,XboxController.Button.kLeftBumper.value);
+    retractIntakeButton.whenPressed(new RetractIntakeCmd(intake));
+  
+  }
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // An ExampleCommand all run in autonomous
     return null;
   }
 }
