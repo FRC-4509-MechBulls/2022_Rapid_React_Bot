@@ -25,7 +25,8 @@ public DeployIntakeCmd(IntakeSub i) {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.deployIntake(Constants.INTAKE_SPEED);
+    intake.deployIntakeTalon(Constants.INTAKE_SPEED);
+    intake.deplo
 }
   // Called once the command ends or is interrupted.
   @Override

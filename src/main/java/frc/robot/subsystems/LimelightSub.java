@@ -34,9 +34,9 @@ public class LimelightSub extends SubsystemBase {
     return steer_cmd;
   }
 
-  public double getHood() {
+ // public double getHood() {
     
-  }
+  
 
   public double getX() {
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -60,9 +60,9 @@ public class LimelightSub extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
   }
 }
