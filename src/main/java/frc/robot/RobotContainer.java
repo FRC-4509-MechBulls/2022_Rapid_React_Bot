@@ -32,41 +32,18 @@ import frc.robot.subsystems.ShooterSub;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  public static XboxController driverJoystick;
-  public static XboxController shooterJoystick;
   private final IntakeSub intake;
   public static DeployIntakeCmd deployIntake;
   public static XboxController driverController;
   public static XboxController shooterController;
-
   DriveTrainSub driveTrain;
   JoystickDriveCmd joystickDrive;
-
   LimelightSub limelight;
-
   ShiftInCmd shiftIn;
   ShiftOutCmd shiftOut;
-
   ShooterSub shooter;
   Shoot1Cmd shoot1;
   Shoot2Cmd shoot2;
-
-  public static XboxController driverController;
-  public static XboxController shooterController;
-
-  DriveTrainSub driveTrain;
-  JoystickDriveCmd joystickDrive;
-
-  LimelightSub limelight;
-
-  ShiftInCmd shiftIn;
-  ShiftOutCmd shiftOut;
-
-  ShooterSub shooter;
-  Shoot1Cmd shoot1;
-  Shoot2Cmd shoot2;
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -76,24 +53,22 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-
+    shiftIn = new ShiftInCmd(driveTrain);
+    shiftIn.addRequirements(driveTrain);
+    shiftOut = new ShiftOutCmd(driveTrain);
+    shiftOut.addRequirements(driveTrain);
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
 
-    driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
     
     //Initializing all Intake Components
     intake = new IntakeSub();
     DeployIntakeCmd deployIntake = new DeployIntakeCmd(intake);
     RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
 
-    shooterJoystick = new XboxController(Constants.SHOOTER_JOYSTICK);
-    shiftIn = new ShiftInCmd(driveTrain);
-    shiftIn.addRequirements(driveTrain);
-    shiftOut = new ShiftOutCmd(driveTrain);
-    shiftOut.addRequirements(driveTrain);
-
+    
+    //Intitializing all Shooter Components
     shooter = new ShooterSub();
     shoot1 = new Shoot1Cmd(shooter);
     shoot1.addRequirements(shooter);
@@ -113,11 +88,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    JoystickButton deployIntakeButton = new JoystickButton(shooterJoystick, XboxController.Button.kRightBumper.value);
+    JoystickButton deployIntakeButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
     deployIntakeButton.whenPressed(new DeployIntakeCmd(intake));
    
    
-    JoystickButton retractIntakeButton = new JoystickButton(shooterJoystick,XboxController.Button.kLeftBumper.value);
+    JoystickButton retractIntakeButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
     retractIntakeButton.whenPressed(new RetractIntakeCmd(intake));
     
     JoystickButton shootButton1 = new JoystickButton(shooterController, XboxController.Button.kA.value);
