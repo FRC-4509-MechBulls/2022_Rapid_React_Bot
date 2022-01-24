@@ -47,12 +47,13 @@ public final class Constants {
     public static final int XBOX_LEFT_X_AXIS = 0;
     
     //Intake
-    public static final int INTAKE = 11;
+    public static final int INTAKE_LEFT_TALON = 11;
+    public static final int INTAKE_RIGHT_TALON = 12;
     public static final double INTAKE_SPEED = 0.5;
-    public static final int INTAKE_2_REVERSE = 0;
-    public static final int INTAKE_2_FORWARD = 1;
-    public static final int INTAKE_1_REVERSE = 2;
-    public static final int INTAKE_1_FORWARD = 3;
+    public static final int INTAKE_2_REVERSE = 0; // reverse pneumatics channel
+    public static final int INTAKE_2_FORWARD = 1; // forward pneumatics channel
+    public static final int INTAKE_1_REVERSE = 2; // reverse pneumatics channel
+    public static final int INTAKE_1_FORWARD = 3; // forward pneumatics channel
    
    
 

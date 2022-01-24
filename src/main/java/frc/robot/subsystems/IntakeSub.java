@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -12,41 +13,39 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSub extends SubsystemBase {
-  DoubleSolenoid intakeSolenoid1;
-  DoubleSolenoid intakeSolenoid2;
-  WPI_TalonFX intake;
+  DoubleSolenoid intakeSolenoidLeft;
+  DoubleSolenoid intakeSolenoidRight;
+  WPI_TalonSRX intakeLeft;
+  WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
-    intake = new WPI_TalonFX(Constants.INTAKE);
-    intakeSolenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
-    intakeSolenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
+    intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
+    intakeSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
+    intakeLeft = new WPI_TalonSRX(Constants.INTAKE_LEFT_TALON);
+    intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
   }
 
   //temporary methods for actuating intake, might change later depending on logic
-  public void deployIntake1() {
-    intakeSolenoid1.set(DoubleSolenoid.Value.kForward);
+  public void deployIntakeLeft() {
+    intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+    intakeLeft.set(Constants.INTAKE_SPEED);
   }
 
-  public void deployIntake2() {
-    intakeSolenoid2.set(DoubleSolenoid.Value.kForward);
+  public void deployIntakeRight() {
+    intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    intakeRight.set(Constants.INTAKE_SPEED);
   }
 
-
-  public void retractIntake1() {
-    intakeSolenoid1.set(DoubleSolenoid.Value.kReverse);
+  public void retractIntakeLeft() {
+    intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+    intakeLeft.set(0);
   }
 
-  public void retractIntake2() {
-    intakeSolenoid2.set(DoubleSolenoid.Value.kReverse);
-  }
-  
-  public void deployIntakeTalon(double speed) {
-    intake.set(speed);
+  public void retractIntakeRight() {
+    intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+    intakeRight.set(0);
   }
 
-  public void retractIntakeTalon() {
-    intake.set(0);
-  } 
 
 @Override
   public void periodic() {

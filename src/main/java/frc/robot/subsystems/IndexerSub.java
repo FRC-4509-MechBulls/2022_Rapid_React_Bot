@@ -15,6 +15,7 @@ public class IndexerSub extends SubsystemBase {
   WPI_TalonSRX indexerBelt2;
   WPI_TalonFX indexerKick1;
   WPI_TalonFX indexerKick2;
+ 
   /** Creates a new IndexerSub. */
   public IndexerSub() {
     indexerBelt1 = new WPI_TalonSRX(Constants.INDEX_BELT_1_TALON);

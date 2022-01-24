@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.DeployIntakeCmd;
+import frc.robot.commands.DeployIntakeLeftCmd;
+import frc.robot.commands.DeployIntakeRightCmd;
 import frc.robot.commands.JoystickDriveCmd;
-import frc.robot.commands.RetractIntakeCmd;
+import frc.robot.commands.RetractIntakeLeftCmd;
+import frc.robot.commands.RetractIntakeRightCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -50,7 +52,7 @@ public class RobotContainer {
 
   //Intake
   private final IntakeSub intake;
-  public static DeployIntakeCmd deployIntake;
+  public static DeployIntakeLeftCmd deployIntake;
 
   //Indexer
   IndexerSub indexer;
@@ -69,19 +71,14 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-    shiftIn = new ShiftInCmd(driveTrain);
     shiftIn.addRequirements(driveTrain);
-    shiftOut = new ShiftOutCmd(driveTrain);
     shiftOut.addRequirements(driveTrain);
-    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain);
     driveTrain.setDefaultCommand(joystickDrive);
 
     
     //Initializing all Intake Components
     intake = new IntakeSub();
-    DeployIntakeCmd deployIntake = new DeployIntakeCmd(intake);
-    RetractIntakeCmd retractIntake = new RetractIntakeCmd(intake);
 
     
     //Intitializing all Shooter Components
@@ -107,11 +104,17 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //Intake
-    JoystickButton deployIntakeButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
-    deployIntakeButton.whenPressed(new DeployIntakeCmd(intake));
+    JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
+    deployIntakeLeftButton.whenPressed(new DeployIntakeLeftCmd(intake));
    
-    JoystickButton retractIntakeButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
-    retractIntakeButton.whenPressed(new RetractIntakeCmd(intake));
+    JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
+    retractIntakeLeftButton.whenPressed(new RetractIntakeLeftCmd(intake));
+
+    JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kRightBumper.value);
+    deployIntakeRightButton.whenPressed(new DeployIntakeRightCmd(intake));
+
+    JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kRightBumper.value);
+    retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
     
     //Shooter
     JoystickButton shootButton1 = new JoystickButton(shooterController, XboxController.Button.kA.value);
