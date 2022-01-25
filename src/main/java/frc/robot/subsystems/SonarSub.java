@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SonarSub extends SubsystemBase {
@@ -49,7 +49,7 @@ public class SonarSub extends SubsystemBase {
   }
 */
 
-  //need to see if the second half of the if statements satisfies the logic
+  //need to see if the second half of the if statement satisfies the logic
   public boolean canRun1() {
     if ((channel1.getVoltage()/voltsPerInch) <= 15 && (channel1.getVoltage()/voltsPerInch) >= 0) {
       return true;
@@ -138,5 +138,9 @@ public class SonarSub extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Indexer1 Sonar Voltage: ", getVoltage1());
+    SmartDashboard.putNumber("Indexer2 Sonar Voltage: ", getVoltage2());
+    SmartDashboard.putNumber("Indexer1 Sonar Distance: ", getDistance1());
+    SmartDashboard.putNumber("Indexer2 Sonar Distance: ", getDistance2());
   }
 }

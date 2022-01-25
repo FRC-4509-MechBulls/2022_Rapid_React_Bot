@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,8 @@ public class ClimbSub extends SubsystemBase {
   WPI_TalonFX climb;
   WPI_TalonFX climbInverted;
   DoubleSolenoid hook;
+
+  private BangBangController controller; //https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/bang-bang.html
   
   /** Creates a new ClimbSub. */
   public ClimbSub() {
@@ -22,7 +25,10 @@ public class ClimbSub extends SubsystemBase {
     climb.setInverted(false);
     climbInverted = new WPI_TalonFX(Constants.CLIMB_FALCON_INVERTED);
     climbInverted.setInverted(true);
-    hook = new DoubleSolenoid(PneumaticsModuleType.REVPH,Constants.HOOK_FORWARD,Constants.HOOK_REVERSE);
+
+    hook = new DoubleSolenoid(PneumaticsModuleType.REVPH,Constants.HOOK_FORWARD, Constants.HOOK_REVERSE);
+
+    controller = new BangBangController();
   }
 
   public void activateClimb()
