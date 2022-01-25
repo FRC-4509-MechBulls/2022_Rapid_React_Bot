@@ -82,6 +82,13 @@ public class SonarSub extends SubsystemBase {
     if (range < min_voltage) {
       return -2.0;
     }
+    //first, normalize the voltage
+    range = (range - min_voltage) / voltage_range;
+    //next, denormalize to the unit range
+    range = (range * distance_range) + min_distance;
+    //finally, convert to centimeters
+    range *= IN_TO_CM_CONVERSION;
+    return range;
   }
 
 
