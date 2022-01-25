@@ -60,7 +60,8 @@ public class RobotContainer {
   //Limelight
   LimelightSub limelight;
   
-  
+  //Sonar
+  SonarSub sonar;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -88,11 +89,17 @@ public class RobotContainer {
     shoot2 = new Shoot2Cmd(shooter);
     shoot2.addRequirements(shooter);
 
+    //Initializing sonar sub
+    sonar = new SonarSub(Constants.SONAR_CHANNEL);
+
     //Inititalizing all Indexer Components
     indexer = new IndexerSub();
 
-    // Configure the button bindings
+    // runs indexer when sonar conditions are true
+    Trigger indexer1Trigger = new Trigger(() -> sonar.isRequiredDistance());
+    indexer1Trigger.whileActiveContinuous(new ());
 
+    // Configure the button bindings
     configureButtonBindings();
   }
 
