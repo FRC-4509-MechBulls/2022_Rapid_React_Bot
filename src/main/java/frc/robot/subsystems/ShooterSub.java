@@ -29,10 +29,10 @@ public class ShooterSub extends SubsystemBase {
   public ShooterSub() {
     shooterWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_1);
     shooterWheel.setInverted(false);
-    shooterWheelInverted   = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
+    shooterWheelInverted = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
     shooterWheelInverted.setInverted(true);
 
-    topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
+    topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
     topWheel.setInverted(false);
    
     hood = new WPI_TalonSRX(Constants.HOOD_TALON);

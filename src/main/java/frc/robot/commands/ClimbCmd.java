@@ -10,9 +10,10 @@ import frc.robot.subsystems.ClimbSub;
 public class ClimbCmd extends CommandBase {
   ClimbSub climb;
   /** Creates a new ClimbCmd. */
-  public ClimbCmd() {
-    
+  public ClimbCmd(ClimbSub c) {
+    climb = c;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climb);
   }
 
   // Called when the command is initially scheduled.
@@ -21,7 +22,9 @@ public class ClimbCmd extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climb.activateClimb();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

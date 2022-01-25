@@ -23,7 +23,8 @@ public final class Constants {
     //Shooter
     public static final int SHOOTER_FALCON_1 = 5;
     public static final int SHOOTER_FALCON_2 = 6;
-    public static final int SHOOTER_TALON = 7;
+    //public static final int SHOOTER_TALON = 7;
+    public static final int SHOOTER_FALCON_TOP = 0;
     
     public static final int HOOD_TALON = 0;
 
@@ -69,7 +70,6 @@ public final class Constants {
     //Climb Motors
     public static final int CLIMB_FALCON = 0;
 	public static final int CLIMB_FALCON_INVERTED = 0;
-    
     
     
 }
