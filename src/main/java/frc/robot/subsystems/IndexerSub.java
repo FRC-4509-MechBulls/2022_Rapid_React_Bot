@@ -32,6 +32,14 @@ public class IndexerSub extends SubsystemBase {
     indexerBelt2.set(speed);
   }
 
+  public void indexStop1() {
+    indexerBelt1.set(0);
+  }
+
+  public void indexStop2() {
+    indexerBelt2.set(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

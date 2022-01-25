@@ -38,6 +38,9 @@ public final class Constants {
     public static final double SHOOTER_SPEED_1 = 0.7;
     public static final double SHOOTER_SPEED_2 = 0.7;
     public static final double SHOOTER_SPEED_TOP = 1.0;
+    public static final double INDEXER_SPEED = 0;
+    public static final double INTAKE_SPEED = 0.5;
+    public static final double CLIMB_SPEED = 0;
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;
@@ -49,7 +52,6 @@ public final class Constants {
     //Intake
     public static final int INTAKE_LEFT_TALON = 11;
     public static final int INTAKE_RIGHT_TALON = 12;
-    public static final double INTAKE_SPEED = 0.5;
     public static final int INTAKE_2_REVERSE = 0; // reverse pneumatics channel
     public static final int INTAKE_2_FORWARD = 1; // forward pneumatics channel
     public static final int INTAKE_1_REVERSE = 2; // reverse pneumatics channel
@@ -61,6 +63,14 @@ public final class Constants {
     //Solenoid Channels
     public static final int SHIFTER_1_FORWARD_CHANNEL = 0;
     public static final int SHIFTER_2_REVERSE_CHANNEL = 1;
+    public static final int HOOK_FORWARD = 0;
+    public static final int HOOK_REVERSE = 0;
+
+    //Climb Motors
+    public static final int CLIMB_FALCON = 0;
+	public static final int CLIMB_FALCON_INVERTED = 0;
+    
+    
     
 }
 

@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SonarSub extends SubsystemBase {
@@ -15,15 +16,16 @@ public class SonarSub extends SubsystemBase {
   private double min_distance = 3.0; //minimum distance the ultrasonic sensor can return inches
   private double distance_range = 60 - min_distance; //range of distances returned by this class in inches (max - min)
   AnalogInput channel1;
-  AnaglogInput channel2;
+  AnalogInput channel2;
 
   final double voltsPerInch = 5.0 / 512.0;
   //double distance;
 
   /** Creates a new SonarSub. */
-  public SonarSub(int _channel) {
+  public SonarSub() {
     channel1 = new AnalogInput(0); //channel number will need to be changed
     channel2 = new AnalogInput(1); //channel number will need to be changed
+
     //default values
     //use_units = true;
 		//min_voltage = .5;
@@ -47,16 +49,19 @@ public class SonarSub extends SubsystemBase {
   }
 */
 
-  public boolean isRequiredDistance1() {
-    if ((channel1.getVoltage()/voltsPerInch) <= 15 && (channel.getVoltage()/voltsPerInch) >= 0) {
+  //need to see if the second half of the if statements satisfies the logic
+  public boolean canRun1() {
+    if ((channel1.getVoltage()/voltsPerInch) <= 15 && (channel1.getVoltage()/voltsPerInch) >= 0) {
       return true;
     }
     return false;
   }
 
-  public boolean isRequiredDistance2() {
-    if ((channel2.getVoltage()/voltsPerInch) <= 15 && (channel.getVoltage()/voltsPerInch) >= 0) {
-      return true;
+  public boolean canRun2() {
+    if ((channel2.getVoltage()/voltsPerInch) <= 15 && (channel2.getVoltage()/voltsPerInch) >= 0) {
+      if (!canRun1()) {
+        return true;
+      }
     }
     return false;
   }
@@ -66,7 +71,7 @@ public class SonarSub extends SubsystemBase {
   }
 
   public double getDistance2() {
-    return channel2.getVoltage();
+    return channel2.getVoltage()/voltsPerInch;
   }
 
   public double getVoltage1() {
@@ -82,6 +87,8 @@ public class SonarSub extends SubsystemBase {
   * Returns -1.0 if units are not being used
   * Returns -2.0 if the voltage is below the minimum voltage
   */
+
+  /*
   public double getRangeInInches() {
     double range;
     //if we're not using units, return -1, a range that will most likely never be returned
@@ -98,6 +105,7 @@ public class SonarSub extends SubsystemBase {
     range = (range * distance_range) + min_distance;
     return range;
   }
+  */
 
   /* GetRangeInCM
   * Returns the range in centimeters
@@ -105,6 +113,7 @@ public class SonarSub extends SubsystemBase {
   * Returns -2.0 if the voltage is below the minimum voltage
   */
 
+  /*
   public double getRangeInCM() {
     double range;
     //if we're not using units, return -1, a range that will most likely never be returned
@@ -123,6 +132,7 @@ public class SonarSub extends SubsystemBase {
     range *= IN_TO_CM_CONVERSION;
     return range;
   }
+  */
 
 
   @Override

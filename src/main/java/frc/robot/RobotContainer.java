@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeLeftCmd;
 import frc.robot.commands.DeployIntakeRightCmd;
+import frc.robot.commands.IndexBall1Cmd;
+import frc.robot.commands.IndexBall2Cmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RetractIntakeLeftCmd;
 import frc.robot.commands.RetractIntakeRightCmd;
@@ -20,11 +22,12 @@ import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
-import frc.robot.commands.Shoot1Cmd;
-import frc.robot.commands.Shoot2Cmd;
+import frc.robot.commands.ShootShootersCmd;
+import frc.robot.commands.ShootTopCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterSub;
+import frc.robot.subsystems.SonarSub;
 
 
 /**
@@ -41,8 +44,8 @@ public class RobotContainer {
 
   //Shooter
   ShooterSub shooter;
-  Shoot1Cmd shoot1;
-  Shoot2Cmd shoot2;
+  ShootShootersCmd shootShooters;
+  ShootTopCmd shootTop;
 
   //DriveTrain
   ShiftInCmd shiftIn;
@@ -56,12 +59,15 @@ public class RobotContainer {
 
   //Indexer
   IndexerSub indexer;
+  IndexBall1Cmd indexBall1;
+  IndexBall2Cmd indexBall2;
   
   //Limelight
   LimelightSub limelight;
   
   //Sonar
   SonarSub sonar;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -84,20 +90,23 @@ public class RobotContainer {
     
     //Intitializing all Shooter Components
     shooter = new ShooterSub();
-    shoot1 = new Shoot1Cmd(shooter);
-    shoot1.addRequirements(shooter);
-    shoot2 = new Shoot2Cmd(shooter);
-    shoot2.addRequirements(shooter);
+    shootShooters = new ShootShootersCmd(shooter);
+    shootShooters.addRequirements(shooter);
+    shootTop = new ShootTopCmd(shooter);
+    shootTop.addRequirements(shooter);
 
     //Initializing sonar sub
-    sonar = new SonarSub(Constants.SONAR_CHANNEL);
+    sonar = new SonarSub();
 
     //Inititalizing all Indexer Components
     indexer = new IndexerSub();
 
-    // runs indexer when sonar conditions are true
-    Trigger indexer1Trigger = new Trigger(() -> sonar.isRequiredDistance());
-    indexer1Trigger.whileActiveContinuous(new ());
+    //runs indexer when sonar conditions are true
+    Trigger indexer1Trigger = new Trigger(() -> sonar.canRun1());
+    indexer1Trigger.whileActiveContinuous(new IndexBall1Cmd(indexer));
+
+    Trigger indexer2Trigger = new Trigger(() -> sonar.canRun2());
+    indexer2Trigger.whileActiveContinuous(new IndexBall2Cmd(indexer));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -124,11 +133,11 @@ public class RobotContainer {
     retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
     
     //Shooter
-    JoystickButton shootButton1 = new JoystickButton(shooterController, XboxController.Button.kA.value);
-    shootButton1.whileHeld(new Shoot1Cmd(shooter));
+    JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
+    shootShootersButton.whileHeld(new ShootShootersCmd(shooter));
 
-    JoystickButton shootButton2 = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootButton2.whileHeld(new Shoot2Cmd(shooter));
+    JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
+    shootTopButton.whileHeld(new ShootTopCmd(shooter));
 
     //DriveTrain
     JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);

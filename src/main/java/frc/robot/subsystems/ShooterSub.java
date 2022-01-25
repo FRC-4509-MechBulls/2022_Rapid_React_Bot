@@ -15,11 +15,11 @@ import frc.robot.Constants;
 
 public class ShooterSub extends SubsystemBase {
   // shooter1 is spun by pressing the A button
-  WPI_TalonFX shooter1;
+  WPI_TalonFX shooterWheel;
+  WPI_TalonFX shooterWheelInverted;
 
   // shooter2, shooter3, and shooter4 are spun by pressing the B button
-  WPI_TalonFX shooter2;
-  WPI_TalonSRX shooter3;
+  WPI_TalonFX topWheel;
  
 
   WPI_TalonSRX hood;
@@ -27,26 +27,25 @@ public class ShooterSub extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSub() {
-    shooter1 = new WPI_TalonFX(Constants.SHOOTER_FALCON_1);
-    shooter1.setInverted(false);
+    shooterWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_1);
+    shooterWheel.setInverted(false);
+    shooterWheelInverted   = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
+    shooterWheelInverted.setInverted(true);
 
-    shooter2 = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
-    shooter2.setInverted(false);
-    shooter3 = new WPI_TalonSRX(Constants.SHOOTER_TALON);
-    shooter3.setInverted(true);
+    topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
+    topWheel.setInverted(false);
    
-
     hood = new WPI_TalonSRX(Constants.HOOD_TALON);
     // configuring which encoder is being used - ctre mag encoder, relative
     hood.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 10);
     hood.setSensorPhase(false); // decides which direction is positive
 
     // reset encoders to zero
-    hood.setSelectedSensorPosition(0, 0 , 10);
+    hood.setSelectedSensorPosition(0, 0, 10);
 
-    // makes sure shooter2, shooter3, and shooter4 all spin together, 
-    // however shooter2 spins in the opposite direction
-    shooter3.follow(shooter2);
+    // makes sure both shooter wheels spin together, but one is inverted
+    shooterWheelInverted.follow(shooterWheel); //maybe only works for motor controller, we'll see
+    
   }
 
   @Override
@@ -55,14 +54,14 @@ public class ShooterSub extends SubsystemBase {
     SmartDashboard.putNumber("Hood Encoder Value", hood.getSelectedSensorPosition() * kHoodTick2Degree);
   }
 
-  // spins shooter1
-  public void shootGroup1(double speed) {
-    shooter1.set(TalonFXControlMode.PercentOutput, speed);
+  // spins shooterWheels
+  public void shootShooters(double speed) {
+    shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
   }
 
-  // spins shooter2, shooter3, and shooter4
-  public void shootGroup2(double speed1, double speed2) {
-    shooter2.set(TalonFXControlMode.PercentOutput, speed1);
+  // spins top Wheel
+  public void shootTop(double speed) {
+    topWheel.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void adjustHood() {
@@ -73,12 +72,12 @@ public class ShooterSub extends SubsystemBase {
 
   // stops shooter1
   public void stop1() {
-    shooter1.set(TalonFXControlMode.PercentOutput, 0);
+    shooterWheel.set(TalonFXControlMode.PercentOutput, 0);
   }
 
   // stops shooter2, shooter3, and shooter4
   public void stop2() {
-    shooter2.set(TalonFXControlMode.PercentOutput, 0);
+    topWheel.set(TalonFXControlMode.PercentOutput, 0);
   }
 
   @Override

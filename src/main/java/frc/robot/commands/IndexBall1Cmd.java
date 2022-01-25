@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSub;
+import frc.robot.subsystems.IndexerSub;
 
-public class Shoot2Cmd extends CommandBase {
-  private ShooterSub shooter;
-  /** Creates a new Shoot2. */
-  public Shoot2Cmd(ShooterSub s) {
-    shooter = s;
-    addRequirements(shooter);
+public class IndexBall1Cmd extends CommandBase {
+  IndexerSub indexer;
+  /** Creates a new IndexBall1Cmd. */
+  public IndexBall1Cmd(IndexerSub i) {
+    indexer = i;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,16 +24,17 @@ public class Shoot2Cmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.shootGroup2(Constants.SHOOTER_SPEED_2, Constants.SHOOTER_SPEED_TOP);
+    indexer.indexBall1(Constants.INDEXER_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop2();
+    new WaitCommand(1.5); //https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/WaitCommand.html
+    indexer.indexStop1();
   }
 
-  // Returns true when the command should end.
+  // Returns true when the command should end Sussy among us mogus sus sus.
   @Override
   public boolean isFinished() {
     return false;
