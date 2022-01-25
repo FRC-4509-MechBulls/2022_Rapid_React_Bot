@@ -16,6 +16,10 @@ public class SonarSub extends SubsystemBase {
   private double distance_range; //range of distances returned by this class in inches (max - min)
   AnalogInput channel;
 
+  double voltsPerInch = 5.0 / 512.0;
+  double voltage = channel.getVoltage();
+  double distance;
+
   /** Creates a new SonarSub. */
   public SonarSub(int _channel) {
     channel = new AnalogInput(_channel);
@@ -38,6 +42,17 @@ public class SonarSub extends SubsystemBase {
       min_distance = _min_distance;
       distance_range = _max_distance - _min_distance;
     }
+  }
+
+  public boolean isRequiredDistance() {
+    if (((channel.getVoltage())/voltsPerInch) <= 15) {
+      return true;
+    }
+    return false;
+  }
+
+  public double getDistance() {
+    return distance = volts/voltsPerInch;
   }
 
   public double getVoltage() {

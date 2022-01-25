@@ -55,7 +55,8 @@ public final class Constants {
     public static final int INTAKE_1_REVERSE = 2; // reverse pneumatics channel
     public static final int INTAKE_1_FORWARD = 3; // forward pneumatics channel
    
-   
+    //Sonar
+    public static final int SONAR_CHANNEL = 0;
 
     //Solenoid Channels
     public static final int SHIFTER_1_FORWARD_CHANNEL = 0;
