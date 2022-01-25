@@ -97,7 +97,7 @@ public class RobotContainer {
 
     // runs indexer when sonar conditions are true
     Trigger indexer1Trigger = new Trigger(() -> sonar.isRequiredDistance());
-    indexer1Trigger.whileActiveContinuous(new IndexBallCmd(indexer));
+    indexer1Trigger.whileActiveContinuous(new ());
 
     // Configure the button bindings
     configureButtonBindings();
