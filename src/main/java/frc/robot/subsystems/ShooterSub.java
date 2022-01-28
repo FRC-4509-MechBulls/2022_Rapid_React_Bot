@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -37,6 +39,7 @@ public class ShooterSub extends SubsystemBase {
    
     hood = new WPI_TalonSRX(Constants.HOOD_TALON);
     // configuring which encoder is being used - ctre mag encoder, relative
+    hood.configFactoryDefault();
     hood.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 10);
     hood.setSensorPhase(false); // decides which direction is positive
 
@@ -68,6 +71,7 @@ public class ShooterSub extends SubsystemBase {
     System.out.println("Sensor Vel:" + hood.getSelectedSensorVelocity());
     System.out.println("Sensor Pos:" + hood.getSelectedSensorPosition());
     System.out.println("Out %" + hood.getMotorOutputPercent());
+    hood.set(ControlMode.Velocity, 0.4);
   }
 
   // stops shooter1
