@@ -71,6 +71,11 @@ public final class Constants {
     public static final int CLIMB_FALCON = 0;
 	public static final int CLIMB_FALCON_INVERTED = 0;
     
+    public static int kTimeoutMs = 30;
+    public static int kPIDLoopIdx = 0;
+
+    //kP kI kD kF Iz PeakOut -- FOR PID LOOP
+    public final static Gains kGains_Velocit = new Gains(0.1, 0.001, 2, 767.25/17207,  300,  1.00);
     
 }
 
