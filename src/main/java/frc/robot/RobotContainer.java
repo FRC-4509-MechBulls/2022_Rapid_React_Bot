@@ -19,12 +19,10 @@ import frc.robot.commands.RetractIntakeRightCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
 import frc.robot.commands.ShootTopCmd;
-import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterSub;
 import frc.robot.subsystems.SonarSub;
@@ -80,7 +78,9 @@ public class RobotContainer {
     limelight = new LimelightSub();
     shiftIn.addRequirements(driveTrain);
     shiftOut.addRequirements(driveTrain);
-    joystickDrive.addRequirements(driveTrain);
+
+    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
+    joystickDrive.addRequirements(driveTrain, limelight);
     driveTrain.setDefaultCommand(joystickDrive);
 
     
@@ -119,7 +119,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //Intake
+    /* Intake */
     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
     deployIntakeLeftButton.whenPressed(new DeployIntakeLeftCmd(intake));
    
@@ -132,14 +132,14 @@ public class RobotContainer {
     JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kRightBumper.value);
     retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
     
-    //Shooter
+    /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
     shootShootersButton.whileHeld(new ShootShootersCmd(shooter));
 
-    JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootTopButton.whileHeld(new ShootTopCmd(shooter));
+    /* JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
+    shootTopButton.whileHeld(new ShootTopCmd(shooter)); */
 
-    //DriveTrain
+    /* Shifting */
     JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
     shiftInButton.whileHeld(new ShiftInCmd(driveTrain));
 

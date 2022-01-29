@@ -24,7 +24,7 @@ public class ShootTopCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.shootTop(Constants.SHOOTER_SPEED_TOP);
+    //shooter.shootTop(Constants.SHOOTER_SPEED_TOP);
   }
 
   // Called once the command ends or is interrupted.

@@ -25,9 +25,9 @@ public class ShooterSub extends SubsystemBase {
   private final double kHoodTick2Degree = 360 / 4096 * 26 / 42 * 18 / 60 * 18 / 84;
 
   public ShooterSub() {
-    shooterWheel = new TalonFX(Constants.SHOOTER_FALCON_1);
+    shooterWheel = new TalonFX(Constants.SHOOTER_FALCON);
     shooterWheel.setInverted(false);
-    shooterWheelInverted = new TalonFX(Constants.SHOOTER_FALCON_2);
+    shooterWheelInverted = new TalonFX(Constants.SHOOTER_FALCON_INVERTED);
     shooterWheelInverted.setInverted(true);
 
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
@@ -55,22 +55,31 @@ public class ShooterSub extends SubsystemBase {
   }
 
   // spins shooterWheels
-  public void shootShooters(double speed) {
-    double targetVelocity_UnitsPer100ms = 2.5 * 2000.0 * 2048.0 / 600.0; //changed with limelight equation
+  // might need to be separate from topWheel??
+  public void shootShooters(double variable) {
+    /* shooterWheel and topWheel spin at different velocities,
+    * but should spin at the same time, so they are in the same method */
+    double targetVelocity_UnitsPer100ms_shooterWheel = variable * 2000.0 * 2048.0 / 600.0; // changed with limelight equation
+    double targetVelocity_UnitsPer100ms_topWheel = variable * 2000.0 * 2048.0 / 600.0; // change the first number, not the rest!!
+    // we'll figure out these equations later^^ (and changed "variable" to something passed throught by limelight)
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
-    shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_shooterWheel);
+    topWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_topWheel);
+
+
   }
 
-  // spins top Wheel
+  /* spins top Wheel
   public void shootTop(double speed) {
     topWheel.set(TalonFXControlMode.PercentOutput, speed);
-  }
+  } */
+  //uncomment this in case we need a separate method for the topWheel
 
   public void adjustHood() {
     System.out.println("Sensor Vel:" + hood.getSelectedSensorVelocity());
     System.out.println("Sensor Pos:" + hood.getSelectedSensorPosition());
     System.out.println("Out %" + hood.getMotorOutputPercent());
-    hood.set(ControlMode.Velocity, 0.4);
+    hood.set(ControlMode.Velocity, 0.4); // ???
   }
 
   // stops shooter1
@@ -104,6 +113,7 @@ public class ShooterSub extends SubsystemBase {
 
     topWheel.configAllSettings(configs);
 
+    /*config nominal outputs */
     shooterWheel.configNominalOutputForward(0, Constants.kTimeoutMs);
 		shooterWheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		shooterWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
@@ -115,16 +125,16 @@ public class ShooterSub extends SubsystemBase {
 		topWheel.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-		shooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-		shooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-		shooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-		shooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+		shooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
+		shooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
+		shooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
+		shooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-		topWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
-		topWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
-		topWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
-		topWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+		topWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kF, Constants.kTimeoutMs);
+		topWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kP, Constants.kTimeoutMs);
+		topWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kI, Constants.kTimeoutMs);
+		topWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kD, Constants.kTimeoutMs);
 
     /* hood */
     // configuring which encoder is being used - ctre mag encoder, relative

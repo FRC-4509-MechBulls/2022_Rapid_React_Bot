@@ -21,8 +21,8 @@ public final class Constants {
     public static final int BACK_RIGHT_TALON = 4;
     
     //Shooter
-    public static final int SHOOTER_FALCON_1 = 5;
-    public static final int SHOOTER_FALCON_2 = 6;
+    public static final int SHOOTER_FALCON = 5;
+    public static final int SHOOTER_FALCON_INVERTED = 6;
     //public static final int SHOOTER_TALON = 7;
     public static final int SHOOTER_FALCON_TOP = 0;
     
@@ -75,7 +75,8 @@ public final class Constants {
     public static int kPIDLoopIdx = 0;
 
     //kP kI kD kF Iz PeakOut -- FOR PID LOOP
-    public final static Gains kGains_Velocit = new Gains(0.1, 0.001, 2, 767.25/17207,  300,  1.00);
+    public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
+    public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
     
 }
 
