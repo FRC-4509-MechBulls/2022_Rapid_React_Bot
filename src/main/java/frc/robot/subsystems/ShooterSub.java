@@ -65,8 +65,6 @@ public class ShooterSub extends SubsystemBase {
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
     shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_shooterWheel);
     topWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_topWheel);
-
-
   }
 
   /* spins top Wheel
@@ -137,6 +135,7 @@ public class ShooterSub extends SubsystemBase {
 		topWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kD, Constants.kTimeoutMs);
 
     /* hood */
+    /*
     // configuring which encoder is being used - ctre mag encoder, relative
     hood.configFactoryDefault();
     hood.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 10);
@@ -144,6 +143,7 @@ public class ShooterSub extends SubsystemBase {
  
     // reset encoders to zero
     hood.setSelectedSensorPosition(0, 0, 10);
+    */
   }
 
   @Override
