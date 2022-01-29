@@ -6,13 +6,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSub extends SubsystemBase {
-  private double STEER_K = 0.03;
-  private double DRIVE_K = 0.26;
-  private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
-  private double MAX_DRIVE = 0.7;
+  private double STEER_K = 0.03; // needs to be tuned
+  //private double DRIVE_K = 0.26;
+  //private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
+  //private double MAX_DRIVE = 0.7;
+
+  private double current_distance;
 
   private NetworkTable limelight;
   double tv;
@@ -30,20 +33,17 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getSteer() {
-    double steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
+    double steer_cmd = tx * STEER_K;
     return steer_cmd;
   }
 
+  /* NEED TO UPDATE EQUATION */
   public double getDistance() {
-    
+    return current_distance;
   }
 
- // public double getHood() {
-    
-  
-
   public double getX() {
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    return tx;
   }
 
   public double getArea() {
@@ -51,11 +51,11 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getY(){
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    return ty;
   }
 
   public boolean isTargetValid() { //ONLY RETURNS FALSE if you type tv == 1.0 (must not be updating enough)
-    if (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1.0) {
+    if (tv == 1.0) {
       return true;
     }
     return false;
@@ -66,7 +66,14 @@ public class LimelightSub extends SubsystemBase {
     // This method will be called once per scheduler run
     tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    current_distance = 37.0 / (Math.tan(20.474 + ty)); //NEED TO UPDATE EQUATION
+
+    SmartDashboard.putNumber("Current Distance: ", current_distance);
+    SmartDashboard.putBoolean("Is Target Valid", isTargetValid());
+    SmartDashboard.putNumber("Horizonatal Error (tx): ", tx);
+    SmartDashboard.putNumber("Vertical Error (ty): ", ty);
+    SmartDashboard.putNumber("Area of Screen (ta): ", ta);
   }
 }
