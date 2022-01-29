@@ -34,6 +34,10 @@ public class LimelightSub extends SubsystemBase {
     return steer_cmd;
   }
 
+  public double getDistance() {
+    
+  }
+
  // public double getHood() {
     
   
