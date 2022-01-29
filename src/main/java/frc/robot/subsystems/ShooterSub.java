@@ -34,6 +34,28 @@ public class ShooterSub extends SubsystemBase {
     shooterWheelInverted = new WPI_TalonFX(Constants.SHOOTER_FALCON_2);
     shooterWheelInverted.setInverted(true);
 
+    shooterWheel.configFactoryDefault();
+    shooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    shooterWheel.setSelectedSensorPosition(0, 0, 10);
+
+    /* newer config API */
+    TalonFXConfiguration configs = new TalonFXConfiguration();
+    configs.primaryPID.seelectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+    /* config all the settings */
+    shooterWheel.configAllSettings(configs);
+    shooterWheelInverted.configAllSettings(configs);
+
+    motor.configNominalOutputForward(0, Constants.kTimeoutMs);
+		motor.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		motor.configPeakOutputForward(1, Constants.kTimeoutMs);
+		motor.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+    /* Config the Velocity closed loop gains in slot0 */
+		motor.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kF, Constants.kTimeoutMs);
+		motor.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kP, Constants.kTimeoutMs);
+		motor.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kI, Constants.kTimeoutMs);
+		motor.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Constants.kTimeoutMs);
+
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
     topWheel.setInverted(false);
    
@@ -59,7 +81,9 @@ public class ShooterSub extends SubsystemBase {
 
   // spins shooterWheels
   public void shootShooters(double speed) {
-    shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
+    double targetVelocity_UnitsPer100ms = 2.5 * 2000.0 * 2048.0 / 600.0; //changed with limelight equation
+    //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
+    shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   // spins top Wheel
