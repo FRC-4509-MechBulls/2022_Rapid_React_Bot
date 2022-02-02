@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSub extends SubsystemBase {
-  DoubleSolenoid intakeSolenoidLeft;
-  DoubleSolenoid intakeSolenoidRight;
-  WPI_TalonSRX intakeLeft;
-  WPI_TalonSRX intakeRight;
+  private DoubleSolenoid intakeSolenoidLeft;
+  private DoubleSolenoid intakeSolenoidRight;
+  private WPI_TalonSRX intakeLeft;
+  private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
     intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);

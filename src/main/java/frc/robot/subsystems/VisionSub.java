@@ -9,7 +9,7 @@ import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSub extends SubsystemBase {
-  PhotonCamera camera4509;
+  private PhotonCamera camera4509;
   /** Creates a new VisionSub. */
   public VisionSub() {
     camera4509 = new PhotonCamera("photonvision4509");

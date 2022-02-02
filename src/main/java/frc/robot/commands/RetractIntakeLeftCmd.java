@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSub;
 
 public class RetractIntakeLeftCmd extends CommandBase {
-  IntakeSub intake;
+  private IntakeSub intake;
   /** Creates a new RetractIntakeCmd. */
   public RetractIntakeLeftCmd(IntakeSub i) {  
     intake = i; 

@@ -53,7 +53,9 @@ public class DriveTrainSub extends SubsystemBase {
 
   //Creating a Command to drive and steer with the controller
   public void joystickDrive(XboxController controller, double speed) {
-    drive.arcadeDrive(((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed, controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed);
+    double xSpeed = ((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed;
+    double zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
+    drive.arcadeDrive(xSpeed, zRotation);
   }
 
   //high gear?

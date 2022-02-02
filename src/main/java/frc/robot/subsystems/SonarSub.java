@@ -15,10 +15,11 @@ public class SonarSub extends SubsystemBase {
   private double voltage_range = 5.0 - min_voltage; //range of velocities returned by sensor (max - min)
   private double min_distance = 3.0; //minimum distance the ultrasonic sensor can return inches
   private double distance_range = 60 - min_distance; //range of distances returned by this class in inches (max - min)
-  AnalogInput channel1;
-  AnalogInput channel2;
+  
+  private AnalogInput channel1;
+  private AnalogInput channel2;
 
-  final double voltsPerInch = 5.0 / 512.0;
+  private final double voltsPerInch = 5.0 / 512.0;
   //double distance;
 
   /** Creates a new SonarSub. */

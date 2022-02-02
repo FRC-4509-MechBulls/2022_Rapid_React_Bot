@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbSub extends SubsystemBase {
-  WPI_TalonFX climb;
-  WPI_TalonFX climbInverted;
-  DoubleSolenoid hook;
+  private WPI_TalonFX climb;
+  private WPI_TalonFX climbInverted;
+  private DoubleSolenoid hook;
 
   private BangBangController controller; //https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/bang-bang.html
   

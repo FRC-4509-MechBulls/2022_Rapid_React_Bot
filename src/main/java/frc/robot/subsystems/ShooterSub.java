@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSub extends SubsystemBase {
-  TalonFX shooterWheel;
-  TalonFX shooterWheelInverted;
-  TalonFX topWheel;
+  private TalonFX shooterWheel;
+  private TalonFX shooterWheelInverted;
+  private TalonFX topWheel;
  
-  WPI_TalonSRX hood;
+  private WPI_TalonSRX hood;
   private final double kHoodTick2Degree = 360 / 4096 * 26 / 42 * 18 / 60 * 18 / 84;
 
   public ShooterSub() {

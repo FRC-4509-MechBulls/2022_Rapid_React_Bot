@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IndexerSub extends SubsystemBase {
-  WPI_TalonSRX indexerBelt1;
-  WPI_TalonSRX indexerBelt2;
-  WPI_TalonFX indexerKick1;
-  WPI_TalonFX indexerKick2;
+  private WPI_TalonSRX indexerBelt1;
+  private WPI_TalonSRX indexerBelt2;
+  private WPI_TalonFX indexerKick1;
+  private WPI_TalonFX indexerKick2;
  
   /** Creates a new IndexerSub. */
   public IndexerSub() {
