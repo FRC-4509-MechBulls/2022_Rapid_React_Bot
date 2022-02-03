@@ -15,10 +15,10 @@ package frc.robot;
  */
 public final class Constants {
     //DriveTrain
-    public static final int FRONT_LEFT_TALON = 1;
-    public static final int FRONT_RIGHT_TALON = 2;
-    public static final int BACK_LEFT_TALON = 3;
-    public static final int BACK_RIGHT_TALON = 4;
+    public static final int LEFT_FRONT_TALON = 1;
+    public static final int LEFT_BACK_TALON = 2;
+    public static final int RIGHT_FRONT_TALON = 3;
+    public static final int RIGHT_BACK_TALON = 4;
     
     //Shooter
     public static final int SHOOTER_FALCON = 5;
@@ -35,7 +35,7 @@ public final class Constants {
     public static final int INDEX_KICK_2_TALON = 0; //figure out later
 
     //Speeds
-    public static final double DRIVETRAIN_SPEED = 0;
+    public static final double DRIVETRAIN_SPEED = 0.5;
     public static final double SHOOTER_SPEED_1 = 0.7;
     public static final double SHOOTER_SPEED_2 = 0.7;
     public static final double SHOOTER_SPEED_TOP = 1.0;

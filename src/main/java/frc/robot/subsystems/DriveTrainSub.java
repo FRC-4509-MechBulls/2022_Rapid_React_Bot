@@ -17,13 +17,16 @@ import frc.robot.Constants;
 
 public class DriveTrainSub extends SubsystemBase {
   //Declaring all MotorControllers, MotorControllerGroups, and XboxController
-  private DifferentialDrive drive;
-  private MotorController mc_frontLeft;
-  private MotorController mc_frontRight;
-  private MotorController mc_backLeft;
-  private MotorController mc_backRight;
+  private MotorController mc_leftFront;
+  private MotorController mc_leftBack;
+
+  private MotorController mc_rightFront;
+  private MotorController mc_rightBack;
+
   private MotorControllerGroup left;
   private MotorControllerGroup right;
+
+  private DifferentialDrive drive;
 
   private DoubleSolenoid shifter;
 
@@ -34,17 +37,18 @@ public class DriveTrainSub extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrainSub() {
     //Initializing all objects, as well as the DifferentialDrive
-    mc_backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON);
-    mc_backLeft.setInverted(false);
-    mc_backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON);
-    mc_backRight.setInverted(false);
-    mc_frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON);
-    mc_frontLeft.setInverted(false);
-    mc_frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON);
-    mc_frontRight.setInverted(false);
+    mc_leftFront = new WPI_TalonFX(Constants.LEFT_FRONT_TALON);
+    mc_leftFront.setInverted(false);
+    mc_leftBack = new WPI_TalonFX(Constants.LEFT_BACK_TALON);
+    mc_leftBack.setInverted(false);
+
+    mc_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_TALON);
+    mc_rightFront.setInverted(true);
+    mc_rightBack = new WPI_TalonFX(Constants.RIGHT_BACK_TALON);
+    mc_rightBack.setInverted(true);
     
-    left = new MotorControllerGroup(mc_frontLeft, mc_backLeft);
-    right = new MotorControllerGroup(mc_frontRight, mc_backRight);
+    left = new MotorControllerGroup(mc_leftFront, mc_leftBack);
+    right = new MotorControllerGroup(mc_rightFront, mc_rightBack);
 
     drive = new DifferentialDrive(left, right);
 
@@ -53,7 +57,7 @@ public class DriveTrainSub extends SubsystemBase {
 
   //Creating a Command to drive and steer with the controller
   public void joystickDrive(XboxController controller, double speed) {
-    double xSpeed = ((controller.getRawAxis(Constants.RIGHT_TRIGGER))-(controller.getRawAxis(Constants.LEFT_TRIGGER)))*speed;
+    double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*speed;
     double zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
     drive.arcadeDrive(xSpeed, zRotation);
   }

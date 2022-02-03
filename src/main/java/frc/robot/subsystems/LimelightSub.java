@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSub extends SubsystemBase {
-  private double STEER_K = 0.03; // needs to be tuned
+  private double STEER_K = -0.1f; // needs to be tuned
+  private double min_cmd = 0.03f;
+  private double steer_cmd;
   //private double DRIVE_K = 0.26;
   //private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
   //private double MAX_DRIVE = 0.7;
@@ -33,7 +35,19 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getSteer() {
-    double steer_cmd = tx * STEER_K;
+    if (tv == 0.0f)
+    {
+      // We don't see the target, seek for the target by spinning in place at a safe speed.
+      steer_cmd = 0.3f;
+    } else {
+      steer_cmd = 0f;
+      // We do see the target, execute aiming code
+      if (tx > 1.0) {
+        return steer_cmd = tx * STEER_K + min_cmd; //either + or -
+      } else if (tx < 1.0) {
+        return steer_cmd = tx * STEER_K - min_cmd; //either + or -
+      }
+    }
     return steer_cmd;
   }
 
