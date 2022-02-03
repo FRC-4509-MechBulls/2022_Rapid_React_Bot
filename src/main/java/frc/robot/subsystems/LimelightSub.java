@@ -20,18 +20,18 @@ public class LimelightSub extends SubsystemBase {
   private double current_distance;
 
   private NetworkTable limelight;
-  double tv;
-  double ta;
-  double tx;
-  double ty;
+  private double tv;
+  private double ta;
+  private double tx;
+  private double ty;
 
   /** Creates a new Limelight. */
   public LimelightSub() {
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
   }
 
   public double getSteer() {
