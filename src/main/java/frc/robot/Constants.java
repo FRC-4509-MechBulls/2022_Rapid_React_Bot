@@ -71,12 +71,19 @@ public final class Constants {
     public static final int CLIMB_FALCON = 0;
 	public static final int CLIMB_FALCON_INVERTED = 0;
     
-    public static int kTimeoutMs = 30;
-    public static int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    public static final int kPIDLoopIdx = 0;
 
     //kP kI kD kF Iz PeakOut -- FOR PID LOOP
     public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
     public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
+    
+    public static final int BB_BOTTOM_1_CHANNEL = 0;
+    public static final int BB_TOP_1_CHANNEL = 1;
+    public static final int BB_BOTTOM_2_CHANNEL = 2;
+    public static final int BB_TOP_2_CHANNEL = 3;
+    public static final int BB_BOTTOM_3_CHANNEL = 4;
+    public static final int BB_TOP_3_CHANNEL = 5;
     
 }
 
