@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -15,8 +16,7 @@ import frc.robot.Constants;
 public class IndexerSub extends SubsystemBase {
   private WPI_TalonSRX indexerBeltLeft;
   private WPI_TalonSRX indexerBeltRight;
-  private WPI_TalonFX indexerKickLeft;
-  private WPI_TalonFX indexerKickRight;
+  private WPI_TalonFX indexerKick;
 
   private DigitalInput bb1;
   //private DigitalInput bbTop1;
@@ -29,8 +29,7 @@ public class IndexerSub extends SubsystemBase {
   public IndexerSub() {
     indexerBeltLeft = new WPI_TalonSRX(Constants.INDEX_BELT_LEFT_TALON);
     indexerBeltRight = new WPI_TalonSRX(Constants.INDEX_BELT_RIGHT_TALON);
-    indexerKickLeft = new WPI_TalonFX(Constants.INDEX_KICK_LEFT_TALON);
-    indexerKickRight = new WPI_TalonFX(Constants.INDEX_KICK_RIGHT_TALON);
+    indexerKick = new WPI_TalonFX(Constants.INDEX_KICK_TALON);
 
     bb1 = new DigitalInput(Constants.BB_1_CHANNEL);
     //bbTop1 = new DigitalInput(Constants.BB_TOP_1_CHANNEL);
@@ -48,12 +47,18 @@ public class IndexerSub extends SubsystemBase {
     indexerBeltRight.set(speed);
   }
 
+  public void runKick(double speed) {
+    indexerKick.set(speed);
+  }
+
   public void indexStopLeft() {
     indexerBeltLeft.set(0);
+    indexerKick.set(0);
   }
 
   public void indexStopRight() {
     indexerBeltRight.set(0);
+    indexerKick.set(0);
   }
 
   //if only beambreak 1 is brokekn

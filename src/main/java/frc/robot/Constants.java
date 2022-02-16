@@ -31,8 +31,8 @@ public final class Constants {
     //Indexer
     public static final int INDEX_BELT_LEFT_TALON = 0; //figure out later
     public static final int INDEX_BELT_RIGHT_TALON = 0; //figure out later
-    public static final int INDEX_KICK_LEFT_TALON = 0; //figure out later
-    public static final int INDEX_KICK_RIGHT_TALON = 0; //figure out later
+    public static final int INDEX_KICK_TALON = 0;
+    
 
     //Speeds
     public static final double DRIVETRAIN_SPEED = 0.5;
@@ -42,6 +42,7 @@ public final class Constants {
     public static final double INDEXER_SPEED = 0;
     public static final double INTAKE_SPEED = 0.5;
     public static final double CLIMB_SPEED = 0;
+    public static final double KICK_SPEED = 0;
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;
@@ -84,6 +85,7 @@ public final class Constants {
     //public static final int BB_TOP_2_CHANNEL = 3;
     public static final int BB_3_CHANNEL = 4;
     //public static final int BB_TOP_3_CHANNEL = 5;
+   
     
 }
 

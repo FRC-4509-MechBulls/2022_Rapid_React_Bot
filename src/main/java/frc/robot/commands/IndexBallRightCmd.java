@@ -24,6 +24,8 @@ public class IndexBallRightCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    indexer.runKick(Constants.KICK_SPEED);
+    new WaitCommand(2); // change numner
     indexer.indexBallRight(Constants.INDEXER_SPEED);
   }
 
