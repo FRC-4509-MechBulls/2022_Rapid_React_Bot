@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSub;
 
-public class IndexBall1Cmd extends CommandBase {
+public class IndexBallLeftCmd extends CommandBase {
   IndexerSub indexer;
   /** Creates a new IndexBall1Cmd. */
-  public IndexBall1Cmd(IndexerSub i) {
+  public IndexBallLeftCmd(IndexerSub i) {
     indexer = i;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,14 +24,14 @@ public class IndexBall1Cmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexBall1(Constants.INDEXER_SPEED);
+    indexer.indexBallLeft(Constants.INDEXER_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     new WaitCommand(1.5); //https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/WaitCommand.html
-    indexer.indexStop1();
+    indexer.indexStopLeft();
   }
 
   // Returns true when the command should end Sussy among us mogus sus sus.

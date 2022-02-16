@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.beans.beancontext.BeanContextMembershipEvent;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeLeftCmd;
 import frc.robot.commands.DeployIntakeRightCmd;
-import frc.robot.commands.IndexBall1Cmd;
-import frc.robot.commands.IndexBall2Cmd;
+import frc.robot.commands.IndexBallLeftCmd;
+import frc.robot.commands.IndexBallRightCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RetractIntakeLeftCmd;
 import frc.robot.commands.RetractIntakeRightCmd;
@@ -57,8 +59,8 @@ public class RobotContainer {
 
   //Indexer
   IndexerSub indexer;
-  IndexBall1Cmd indexBall1;
-  IndexBall2Cmd indexBall2;
+  IndexBallLeftCmd indexBall1;
+  IndexBallRightCmd indexBall2;
   
   //Limelight
   LimelightSub limelight;
@@ -102,11 +104,34 @@ public class RobotContainer {
     indexer = new IndexerSub();
 
     //runs indexer when sonar conditions are true
-    Trigger indexer1Trigger = new Trigger(() -> sonar.canRun1());
-    indexer1Trigger.whileActiveContinuous(new IndexBall1Cmd(indexer));
+    //Trigger indexer1Trigger = new Trigger(() -> sonar.canRun1());
+    //indexer1Trigger.whileActiveContinuous(new IndexBall1Cmd(indexer));
 
-    Trigger indexer2Trigger = new Trigger(() -> sonar.canRun2());
-    indexer2Trigger.whileActiveContinuous(new IndexBall2Cmd(indexer));
+    //Trigger indexer2Trigger = new Trigger(() -> sonar.canRun2());
+    //indexer2Trigger.whileActiveContinuous(new IndexBall2Cmd(indexer));
+
+    //Indexer beam break triggers
+    //Each trigger represents an individual status, which determines which indexer should be ran
+    Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatus1());
+    beamBreakDetector1.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+    beamBreakDetector1.whileActiveContinuous(new IndexBallRightCmd(indexer));
+
+    Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatus2());
+    beamBreakDetector2.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+
+    Trigger beamBreakDetector3 = new Trigger(() -> indexer.getBreakStatus3());
+    //beamBreakDetector3.whileActiveContinuous();
+
+    Trigger beamBreakDetector4 = new Trigger(() -> indexer.getBreakStatus4());
+    beamBreakDetector4.whileActiveContinuous(new IndexBallRightCmd(indexer));
+
+    Trigger beamBreakDetector5 = new Trigger(() -> indexer.getBreakStatus5());
+    beamBreakDetector5.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+
+    Trigger beamBreakDetector6 = new Trigger(() -> indexer.getBreakStatus6());
+    beamBreakDetector6.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+    beamBreakDetector6.whileActiveContinuous(new IndexBallRightCmd(indexer));
+
 
     // Configure the button bindings
     configureButtonBindings();

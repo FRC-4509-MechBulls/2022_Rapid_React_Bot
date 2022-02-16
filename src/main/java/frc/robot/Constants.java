@@ -29,10 +29,10 @@ public final class Constants {
     public static final int HOOD_TALON = 0;
 
     //Indexer
-    public static final int INDEX_BELT_1_TALON = 0; //figure out later
-    public static final int INDEX_BELT_2_TALON = 0; //figure out later
-    public static final int INDEX_KICK_1_TALON = 0; //figure out later
-    public static final int INDEX_KICK_2_TALON = 0; //figure out later
+    public static final int INDEX_BELT_LEFT_TALON = 0; //figure out later
+    public static final int INDEX_BELT_RIGHT_TALON = 0; //figure out later
+    public static final int INDEX_KICK_LEFT_TALON = 0; //figure out later
+    public static final int INDEX_KICK_RIGHT_TALON = 0; //figure out later
 
     //Speeds
     public static final double DRIVETRAIN_SPEED = 0.5;
@@ -78,12 +78,12 @@ public final class Constants {
     public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
     public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
     
-    public static final int BB_BOTTOM_1_CHANNEL = 0;
-    public static final int BB_TOP_1_CHANNEL = 1;
-    public static final int BB_BOTTOM_2_CHANNEL = 2;
-    public static final int BB_TOP_2_CHANNEL = 3;
-    public static final int BB_BOTTOM_3_CHANNEL = 4;
-    public static final int BB_TOP_3_CHANNEL = 5;
+    public static final int BB_1_CHANNEL = 0;
+    //public static final int BB_TOP_1_CHANNEL = 1;
+    public static final int BB_2_CHANNEL = 2;
+    //public static final int BB_TOP_2_CHANNEL = 3;
+    public static final int BB_3_CHANNEL = 4;
+    //public static final int BB_TOP_3_CHANNEL = 5;
     
 }
 
