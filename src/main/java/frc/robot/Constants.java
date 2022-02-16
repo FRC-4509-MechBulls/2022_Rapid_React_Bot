@@ -65,8 +65,15 @@ public final class Constants {
     //Solenoid Channels
     public static final int SHIFTER_1_FORWARD_CHANNEL = 0;
     public static final int SHIFTER_2_REVERSE_CHANNEL = 1;
-    public static final int HOOK_FORWARD = 0;
-    public static final int HOOK_REVERSE = 0;
+
+    public static final int HOOK_FORWARD = 2;
+    public static final int HOOK_REVERSE = 3;
+
+    public static final int ENABLE_FORWARD = 4;
+    public static final int ENABLE_REVERSE = 5;
+
+    public static final int ACTUATION_FORWARD = 6;
+    public static final int ACTUATION_REVERSE = 7;
 
     //Climb Motors
     public static final int CLIMB_FALCON = 0;
@@ -79,6 +86,7 @@ public final class Constants {
     public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
     public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
     
+    //Digital Inputs
     public static final int BB_1_CHANNEL = 0;
     //public static final int BB_TOP_1_CHANNEL = 1;
     public static final int BB_2_CHANNEL = 2;

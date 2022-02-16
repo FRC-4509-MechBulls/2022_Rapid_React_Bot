@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.BangBangController;
@@ -15,34 +17,74 @@ import frc.robot.Constants;
 public class ClimbSub extends SubsystemBase {
   private WPI_TalonFX climb;
   private WPI_TalonFX climbInverted;
-  private DoubleSolenoid hook;
 
-  private BangBangController controller; //https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/bang-bang.html
+  private DoubleSolenoid hook;
+  private DoubleSolenoid enable;
+  private DoubleSolenoid actuation;
+
+  //private BangBangController controller; //https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/bang-bang.html
   
   /** Creates a new ClimbSub. */
   public ClimbSub() {
+
     climb = new WPI_TalonFX(Constants.CLIMB_FALCON);
     climb.setInverted(false);
     climbInverted = new WPI_TalonFX(Constants.CLIMB_FALCON_INVERTED);
     climbInverted.setInverted(true);
 
-    hook = new DoubleSolenoid(PneumaticsModuleType.REVPH,Constants.HOOK_FORWARD, Constants.HOOK_REVERSE);
+    hook = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.HOOK_FORWARD, Constants.HOOK_REVERSE);
 
-    controller = new BangBangController();
+    enable = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.ENABLE_FORWARD, Constants.ENABLE_REVERSE);
+    actuation = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.ACTUATION_FORWARD, Constants.ACTUATION_REVERSE);
+    
+    configPosLoop();
   }
 
-  public void activateClimb()
+
+  /*public void activateClimb()
   {
     climb.set(Constants.CLIMB_SPEED);
     climbInverted.set(Constants.CLIMB_SPEED);
     hook.set(DoubleSolenoid.Value.kForward);
   }
+  */
 
+  /*
   public void stopClimb()
   {
     climb.set(0);
     climbInverted.set(0);
     hook.set(DoubleSolenoid.Value.kReverse);
+  }
+  */
+
+  public void configPosLoop() {
+    /* shooterWheel and topWheel */
+    //configuring integrated encoders
+    climb.configFactoryDefault();
+    climb.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    climb.setSelectedSensorPosition(0, 0, 10);
+
+    /* newer config API */
+    TalonFXConfiguration configs = new TalonFXConfiguration();
+    configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+
+    /* config all the settings */
+    climb.configAllSettings(configs);
+    climbInverted.configAllSettings(configs);
+
+    /*config nominal outputs */
+    climb.configNominalOutputForward(0, Constants.kTimeoutMs);
+		climb.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		climb.configPeakOutputForward(1, Constants.kTimeoutMs);
+		climb.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+    /* Config the Velocity closed loop gains in slot0 */
+		climb.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
+		climb.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
+		climb.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
+		climb.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
+
   }
 
   @Override
