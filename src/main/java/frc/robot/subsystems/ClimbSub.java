@@ -34,7 +34,7 @@ public class ClimbSub extends SubsystemBase {
 
     hook = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.HOOK_FORWARD, Constants.HOOK_REVERSE);
 
-    enable = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.ENABLE_FORWARD, Constants.ENABLE_REVERSE);
+    //enable = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.ENABLE_FORWARD, Constants.ENABLE_REVERSE);
     actuation = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.ACTUATION_FORWARD, Constants.ACTUATION_REVERSE);
     
     configPosLoop();
@@ -89,10 +89,10 @@ public class ClimbSub extends SubsystemBase {
 		climb.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-		climb.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
-		climb.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
-		climb.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
-		climb.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
+		climb.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kF, Constants.kTimeoutMs);
+		climb.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kP, Constants.kTimeoutMs);
+		climb.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
+		climb.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kD, Constants.kTimeoutMs);
   }
 
   @Override

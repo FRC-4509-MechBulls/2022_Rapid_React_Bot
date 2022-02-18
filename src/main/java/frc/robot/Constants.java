@@ -85,16 +85,13 @@ public final class Constants {
     //kP kI kD kF Iz PeakOut -- FOR PID LOOP
     public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
     public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
-    public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0,  0.0,  1.00); //needs to be tuned
+    public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned
 
     //Digital Inputs
     public static final int BB_1_CHANNEL = 0;
-    //public static final int BB_TOP_1_CHANNEL = 1;
     public static final int BB_2_CHANNEL = 2;
-    //public static final int BB_TOP_2_CHANNEL = 3;
     public static final int BB_3_CHANNEL = 4;
-    //public static final int BB_TOP_3_CHANNEL = 5;
-   
+    public static final int LIMIT_SWITCH_DI = 6;
     
 }
 

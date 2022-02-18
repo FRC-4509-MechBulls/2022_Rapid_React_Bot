@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ClimbStage1;
+import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeLeftCmd;
 import frc.robot.commands.DeployIntakeRightCmd;
 import frc.robot.commands.IndexBallLeftCmd;
@@ -26,7 +28,7 @@ import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
 import frc.robot.commands.ShootTopCmd;
 import frc.robot.subsystems.LimelightSub;
-import frc.robot.subsystems.ShooterSub;
+import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.SonarSub;
 
 
@@ -42,10 +44,12 @@ public class RobotContainer {
   public static XboxController driverController;
   public static XboxController shooterController;
 
-  //Shooter
-  ShooterSub shooter;
+  //ShooterClimb
+  ShooterClimbSub shooterClimb;
   ShootShootersCmd shootShooters;
   ShootTopCmd shootTop;
+  ClimbStage1 climbStage1;
+  ClimbStage2 climbStage2;
 
   //DriveTrain
   ShiftInCmd shiftIn;
@@ -90,12 +94,19 @@ public class RobotContainer {
     intake = new IntakeSub();
 
     
-    //Intitializing all Shooter Components
-    shooter = new ShooterSub();
-    shootShooters = new ShootShootersCmd(shooter);
-    shootShooters.addRequirements(shooter);
-    shootTop = new ShootTopCmd(shooter);
-    shootTop.addRequirements(shooter);
+    //Intitializing all ShooterClimb Components
+    shooterClimb = new ShooterClimbSub();
+    shootShooters = new ShootShootersCmd(shooterClimb);
+    shootShooters.addRequirements(shooterClimb);
+    shootTop = new ShootTopCmd(shooterClimb);
+    shootTop.addRequirements(shooterClimb);
+
+    climbStage1 = new ClimbStage1(shooterClimb);
+    climbStage1.addRequirements(shooterClimb);
+    climbStage2 = new ClimbStage2(shooterClimb);
+    climbStage2.addRequirements(shooterClimb);
+
+
 
     //Initializing sonar sub
     sonar = new SonarSub();
@@ -159,7 +170,14 @@ public class RobotContainer {
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
-    shootShootersButton.whileHeld(new ShootShootersCmd(shooter));
+    shootShootersButton.whileHeld(new ShootShootersCmd(shooterClimb));
+
+    /* Climb */
+    JoystickButton climbStage1Button = new JoystickButton(driverController, XboxController.Button.kA.value);
+    climbStage1Button.whenPressed(new ClimbStage1(shooterClimb));
+
+    JoystickButton climbStage2Button = new JoystickButton(driverController, XboxController.Button.kB.value);
+    climbStage2Button.whenPressed(new ClimbStage2(shooterClimb));
 
     /* JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
     shootTopButton.whileHeld(new ShootTopCmd(shooter)); */

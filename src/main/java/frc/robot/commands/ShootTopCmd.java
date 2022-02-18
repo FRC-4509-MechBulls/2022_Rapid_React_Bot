@@ -6,12 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSub;
+import frc.robot.subsystems.ShooterClimbSub;
 
 public class ShootTopCmd extends CommandBase {
-  private ShooterSub shooter;
+  private ShooterClimbSub shooter;
   /** Creates a new Shoot2. */
-  public ShootTopCmd(ShooterSub s) {
+  public ShootTopCmd(ShooterClimbSub s) {
     shooter = s;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
