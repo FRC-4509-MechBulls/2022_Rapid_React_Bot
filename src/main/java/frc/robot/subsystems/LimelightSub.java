@@ -35,20 +35,15 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getSteer() {
-    if (tv == 0.0f)
-    {
-      // We don't see the target, seek for the target by spinning in place at a safe speed.
-      steer_cmd = 0.3f;
-    } else {
-      steer_cmd = 0f;
-      // We do see the target, execute aiming code
-      if (tx > 1.0) {
-        return steer_cmd = tx * STEER_K + min_cmd; //either + or -
-      } else if (tx < 1.0) {
-        return steer_cmd = tx * STEER_K - min_cmd; //either + or -
-      }
+    // We do see the target, execute aiming code
+    steer_cmd = 0;
+    if (tx > 1.0) {
+      return steer_cmd = tx * STEER_K - min_cmd; //either + or -
+    } else if (tx < -1.0) {
+      return steer_cmd = tx * STEER_K + min_cmd; //either + or -
     }
-    return steer_cmd;
+    //}
+    return steer_cmd; 
   }
 
   /* NEED TO UPDATE EQUATION */
@@ -75,6 +70,17 @@ public class LimelightSub extends SubsystemBase {
     return false;
   }
 
+  public void setPipeline(Integer pipeline) {
+    if(pipeline<0){
+        pipeline = 0;
+        throw new IllegalArgumentException("Pipeline can not be less than zero");
+    }else if(pipeline>9){
+        pipeline = 9;
+        throw new IllegalArgumentException("Pipeline can not be greater than nine");
+    }
+    limelight.getEntry("pipeline").setValue(pipeline);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -84,7 +90,7 @@ public class LimelightSub extends SubsystemBase {
     ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     current_distance = 37.0 / (Math.tan(20.474 + ty)); //NEED TO UPDATE EQUATION
 
-    SmartDashboard.putNumber("Current Distance: ", current_distance);
+    SmartDashboard.putNumber("Current Distance: ", getDistance());
     SmartDashboard.putBoolean("Is Target Valid", isTargetValid());
     SmartDashboard.putNumber("Horizonatal Error (tx): ", tx);
     SmartDashboard.putNumber("Vertical Error (ty): ", ty);

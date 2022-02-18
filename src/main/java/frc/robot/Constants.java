@@ -92,6 +92,7 @@ public final class Constants {
     public static final int BB_2_CHANNEL = 2;
     public static final int BB_3_CHANNEL = 4;
     public static final int LIMIT_SWITCH_DI = 6;
+    public static final int SERVO_CHANNEL = 8;
     
 }
 

@@ -30,11 +30,14 @@ public class JoystickDriveCmd extends CommandBase {
   public void execute() {
     if (RobotContainer.driverController.getAButton()) {
       if (limelight.isTargetValid()) {
+        // if target is detected, run aim command
         driveTrain.aimLimelight(0, -1*limelight.getSteer());
       } else {
-        driveTrain.stop();
+        // robot turns until target is detected
+        driveTrain.seekLimelight();
       }
     } else {
+      // if a button is not pressed, run drive command as usual
       driveTrain.joystickDrive(RobotContainer.driverController, Constants.DRIVETRAIN_SPEED);
     }
   }

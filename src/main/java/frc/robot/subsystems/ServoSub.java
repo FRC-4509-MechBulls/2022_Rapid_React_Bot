@@ -5,8 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ServoSub extends SubsystemBase {
   private double m_speed;
@@ -17,14 +19,14 @@ public class ServoSub extends SubsystemBase {
 
   private double lastTime = 0;
 
+  private Servo servo;
+
 
   /** Creates a new ServoSub. */
-  public ServoSub(int channel, double length, double speed) {
-    super(channel);
-    setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-    m_length = length;
-    m_speed = speed;
+  public ServoSub() {
+    servo = new Servo(Constants.SERVO_CHANNEL);
   }
+
 
   public void setPosition(double setPoint) {
     setPos = MathUtil.clamp(setPoint, 0, m_length);
@@ -62,6 +64,7 @@ public class ServoSub extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
     updateCurPos();
   }
 }

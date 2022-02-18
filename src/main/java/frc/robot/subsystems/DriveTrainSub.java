@@ -76,6 +76,10 @@ public class DriveTrainSub extends SubsystemBase {
     drive.arcadeDrive(driveCommand, steerCommand);
   }
 
+  public void seekLimelight() {
+    drive.arcadeDrive(0, 0.38);
+  }
+
   public void stop() {
     drive.stopMotor();
   }
