@@ -81,14 +81,15 @@ public class ShooterSub extends SubsystemBase {
   }
 
   // stops shooter1
-  public void stop1() {
+  public void stop() {
     shooterWheel.set(TalonFXControlMode.PercentOutput, 0);
-  }
-
-  // stops shooter2, shooter3, and shooter4
-  public void stop2() {
     topWheel.set(TalonFXControlMode.PercentOutput, 0);
   }
+
+  /*
+  public void stop2() {
+    topWheel.set(TalonFXControlMode.PercentOutput, 0);
+  } */
 
   public void configEncoders() {
     /* shooterWheel and topWheel */
