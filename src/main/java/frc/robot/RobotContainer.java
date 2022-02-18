@@ -162,10 +162,10 @@ public class RobotContainer {
     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
     retractIntakeLeftButton.whenPressed(new RetractIntakeLeftCmd(intake));
 
-    JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kRightBumper.value);
+    JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kStart.value);
     deployIntakeRightButton.whenPressed(new DeployIntakeRightCmd(intake));
 
-    JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kRightBumper.value);
+    JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kBack.value);
     retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
     
     /* Shooter */
