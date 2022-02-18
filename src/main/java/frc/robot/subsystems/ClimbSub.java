@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.controller.BangBangController;
+//import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -62,8 +62,10 @@ public class ClimbSub extends SubsystemBase {
     /* shooterWheel and topWheel */
     //configuring integrated encoders
     climb.configFactoryDefault();
-    climb.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    climb.setSelectedSensorPosition(0, 0, 10);
+    climb.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    //climb.setSelectedSensorPosition(0, 0, 10);
+    climb.setSensorPhase(false); //change maybe
+    climb.setInverted(false);
 
     /* newer config API */
     TalonFXConfiguration configs = new TalonFXConfiguration();
@@ -79,12 +81,18 @@ public class ClimbSub extends SubsystemBase {
 		climb.configPeakOutputForward(1, Constants.kTimeoutMs);
 		climb.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
+    /**
+		 * Config the allowable closed-loop error, Closed-Loop output will be
+		 * neutral within this range. See Table in Section 17.2.1 for native
+		 * units per rotation.
+		 */
+		climb.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+
     /* Config the Velocity closed loop gains in slot0 */
 		climb.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
 		climb.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
 		climb.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
 		climb.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
-
   }
 
   @Override

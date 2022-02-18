@@ -30,7 +30,7 @@ public class ShootTopCmd extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop2();
+    //shooter.stop2();
   }
 
   // Returns true when the command should end.
