@@ -45,32 +45,35 @@ public class RobotContainer {
   public static XboxController shooterController;
 
   //ShooterClimb
-  ShooterClimbSub shooterClimb;
-  ShootShootersCmd shootShooters;
-  ShootTopCmd shootTop;
-  ClimbStage1 climbStage1;
-  ClimbStage2 climbStage2;
+  private ShooterClimbSub shooterClimb;
+  private ShootShootersCmd shootShooters;
+  private ShootTopCmd shootTop;
+  private ClimbStage1 climbStage1;
+  private ClimbStage2 climbStage2;
 
   //DriveTrain
-  ShiftInCmd shiftIn;
-  ShiftOutCmd shiftOut;
-  DriveTrainSub driveTrain;
-  JoystickDriveCmd joystickDrive;
+  private ShiftInCmd shiftIn;
+  private ShiftOutCmd shiftOut;
+  private DriveTrainSub driveTrain;
+  private JoystickDriveCmd joystickDrive;
 
   //Intake
-  private final IntakeSub intake;
-  public static DeployIntakeLeftCmd deployIntake;
+  private IntakeSub intake;
+  private DeployIntakeLeftCmd deployIntakeLeft;
+  private DeployIntakeRightCmd deployIntakeRight;
+  private RetractIntakeLeftCmd retractIntakeLeft;
+  private RetractIntakeRightCmd retractIntakeRight;
 
   //Indexer
-  IndexerSub indexer;
-  IndexBallLeftCmd indexBall1;
-  IndexBallRightCmd indexBall2;
+  private IndexerSub indexer;
+  private IndexBallLeftCmd indexBall1;
+  private IndexBallRightCmd indexBall2;
   
   //Limelight
-  LimelightSub limelight;
+  private LimelightSub limelight;
   
   //Sonar
-  SonarSub sonar;
+  private SonarSub sonar;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -92,7 +95,7 @@ public class RobotContainer {
     
     //Initializing all Intake Components
     intake = new IntakeSub();
-
+    //commands are constructed in button bindings
     
     //Intitializing all ShooterClimb Components
     shooterClimb = new ShooterClimbSub();
@@ -107,12 +110,12 @@ public class RobotContainer {
     climbStage2.addRequirements(shooterClimb);
 
 
-
     //Initializing sonar sub
     sonar = new SonarSub();
 
     //Inititalizing all Indexer Components
     indexer = new IndexerSub();
+    //commands constructed in button bindings
 
     //runs indexer when sonar conditions are true
     //Trigger indexer1Trigger = new Trigger(() -> sonar.canRun1());
