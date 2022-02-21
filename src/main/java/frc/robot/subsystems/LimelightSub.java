@@ -15,7 +15,7 @@ public class LimelightSub extends SubsystemBase {
   private double steer_cmd;
   //private double DRIVE_K = 0.26;
   //private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
-  //private double MAX_DRIVE = 0.7;
+  private double MAX_DRIVE = 0.6;
 
   private double current_distance;
 
@@ -42,7 +42,12 @@ public class LimelightSub extends SubsystemBase {
     } else if (tx < -1.0) {
       return steer_cmd = tx * STEER_K + min_cmd; //either + or -
     }
-    //}
+    /*
+    if (steer_cmd > MAX_DRIVE)
+    {
+      steer_cmd = MAX_DRIVE;
+    }
+    */
     return steer_cmd; 
   }
 
