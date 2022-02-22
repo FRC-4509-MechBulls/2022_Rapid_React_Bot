@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.beans.beancontext.BeanContextMembershipEvent;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +18,7 @@ import frc.robot.commands.IndexBallRightCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RetractIntakeLeftCmd;
 import frc.robot.commands.RetractIntakeRightCmd;
+import frc.robot.commands.SetHoodToAngleCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -28,6 +27,7 @@ import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
 import frc.robot.commands.ShootTopCmd;
 import frc.robot.subsystems.LimelightSub;
+import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.SonarSub;
 
@@ -75,6 +75,10 @@ public class RobotContainer {
   //Sonar
   private SonarSub sonar;
 
+  //Servo
+  private ServoSub servo;
+  private SetHoodToAngleCmd setHoodToAngle;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -112,6 +116,10 @@ public class RobotContainer {
 
     //Initializing sonar sub
     sonar = new SonarSub();
+
+    //Initializing servo sub
+    servo = new ServoSub();
+    setHoodToAngle = new SetHoodToAngleCmd(servo); //don't know if this needs to be here
 
     //Inititalizing all Indexer Components
     indexer = new IndexerSub();
