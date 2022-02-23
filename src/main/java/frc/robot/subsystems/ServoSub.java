@@ -18,10 +18,10 @@ public class ServoSub extends SubsystemBase {
   private static double startTime;
 
   public static final double MIN_SERVO_ANGLE = 0.0; //degrees
-  public static final double MAX_SERVO_ANGLE = 360.0; //degrees
+  public final double MAX_SERVO_ANGLE = 360.0; //degrees
   private static final double TIME_TO_SERVO_FULL_EXTENSION = 3.48; // avg time to move form retract to extend
   private static final double PERCENT_PER_SEC = 1.00 / TIME_TO_SERVO_FULL_EXTENSION;
-  private static final double DEGREES_PER_SEC = (MAX_SERVO_ANGLE - MIN_SERVO_ANGLE) * PERCENT_PER_SEC;
+  private final double DEGREES_PER_SEC = (MAX_SERVO_ANGLE - MIN_SERVO_ANGLE) * PERCENT_PER_SEC;
 
   private static final double HOOD_MAX_POS = 1.0; //percent servo travel to max hood position
   private static final double HOOD_MIN_POS = 0.0; //percent servo travel to min hood position

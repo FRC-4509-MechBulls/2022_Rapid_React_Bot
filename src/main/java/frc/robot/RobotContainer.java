@@ -13,9 +13,11 @@ import frc.robot.commands.ClimbStage1;
 import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeLeftCmd;
 import frc.robot.commands.DeployIntakeRightCmd;
+import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallLeftCmd;
 import frc.robot.commands.IndexBallRightCmd;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractIntakeLeftCmd;
 import frc.robot.commands.RetractIntakeRightCmd;
 import frc.robot.commands.SetHoodToAngleCmd;
@@ -29,6 +31,7 @@ import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.SonarSub;
+import frc.robot.subsystems.VisionSub;
 
 
 /**
@@ -67,9 +70,9 @@ public class RobotContainer {
   private IndexBallLeftCmd indexBall1;
   private IndexBallRightCmd indexBall2;
   
-  //Limelight
+  //Limelight/Vision
   private LimelightSub limelight;
-  
+  private VisionSub camera;
   //Sonar
   private SonarSub sonar;
 
@@ -89,6 +92,9 @@ public class RobotContainer {
     limelight = new LimelightSub();
     shiftIn.addRequirements(driveTrain);
     shiftOut.addRequirements(driveTrain);
+
+    //Intializing USBcamera
+    camera = new VisionSub();
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight, servo);
     joystickDrive.addRequirements(driveTrain, limelight);
@@ -177,8 +183,14 @@ public class RobotContainer {
     retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
     
     /* Shooter */
-    JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
+    JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
     shootShootersButton.whileHeld(new ShootShootersCmd(shooterClimb));
+
+    JoystickButton fenderShotButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
+    fenderShotButton.whileHeld(new FenderShotCmd(shooterClimb));
+
+    JoystickButton rejectBallButton = new JoystickButton(shooterController, XboxController.Button.kX.value);
+    rejectBallButton.whileHeld(new RejectBallCmd(shooterClimb));
 
     /* Climb */
     JoystickButton climbStage1Button = new JoystickButton(driverController, XboxController.Button.kA.value);

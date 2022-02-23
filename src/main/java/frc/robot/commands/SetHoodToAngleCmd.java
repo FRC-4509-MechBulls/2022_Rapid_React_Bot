@@ -23,6 +23,12 @@ public class SetHoodToAngleCmd extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
+  public SetHoodToAngleCmd(ServoSub s, int ang) {
+    servo = s;
+    angle = ang;
+    addRequirements(servo);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

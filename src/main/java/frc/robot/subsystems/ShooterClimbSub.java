@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.SetHoodToAngleCmd;
 
 public class ShooterClimbSub extends SubsystemBase {
   private TalonFX shooterWheel;
@@ -32,7 +33,8 @@ public class ShooterClimbSub extends SubsystemBase {
   private DoubleSolenoid actuation;
 
   private DigitalInput limitSwitch;
-
+  private ServoSub servo;
+  
   // need to be found
   private final double position1 = 0;
   private final double position2 = 0;
@@ -48,7 +50,7 @@ public class ShooterClimbSub extends SubsystemBase {
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
     topWheel.setInverted(false);
    
-    hood = new WPI_TalonSRX(Constants.HOOD_TALON);
+    servo = new ServoSub();
     
     limitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_DI);
 
@@ -132,18 +134,23 @@ public class ShooterClimbSub extends SubsystemBase {
     topWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_topWheel);
   }
 
+  public void FenderShot() {
+    new SetHoodToAngleCmd(servo, 180); //or use empty constructor
+    shooterWheel.set(TalonFXControlMode.PercentOutput, 0.5); //change value
+    topWheel.set(TalonFXControlMode.PercentOutput, 0.5);
+  }
+
+  public void RejectBall(){
+    new SetHoodToAngleCmd(servo, servo.MAX_SERVO_ANGLE);
+    shooterWheel.set(TalonFXControlMode.PercentOutput, 0.2);
+    topWheel.set(TalonFXControlMode.PercentOutput, 0.2);
+  }
   /* spins top Wheel
   public void shootTop(double speed) {
     topWheel.set(TalonFXControlMode.PercentOutput, speed);
   } */
   //uncomment this in case we need a separate method for the topWheel
 
-  public void adjustHood() {
-    System.out.println("Sensor Vel:" + hood.getSelectedSensorVelocity());
-    System.out.println("Sensor Pos:" + hood.getSelectedSensorPosition());
-    System.out.println("Out %" + hood.getMotorOutputPercent());
-    hood.set(ControlMode.Velocity, 0.4); // ???
-  }
 
   // stops shooter1
   public void stop() {

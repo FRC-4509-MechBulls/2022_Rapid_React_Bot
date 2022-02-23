@@ -62,6 +62,14 @@ public class DriveTrainSub extends SubsystemBase {
     drive.arcadeDrive(xSpeed, zRotation);
   }
 
+  public void autoDrive(){
+     drive.tankDrive(-0.3, -0.3);
+  }
+
+  public void autoTurn(){
+    drive.tankDrive(-0.3, 0.3);
+  }
+
   //high gear?
   public void shiftIn() {
     shifter.set(DoubleSolenoid.Value.kReverse);
