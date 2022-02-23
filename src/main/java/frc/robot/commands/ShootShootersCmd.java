@@ -5,14 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterClimbSub;
 
 public class ShootShootersCmd extends CommandBase {
+  private LimelightSub limelight;
   private ShooterClimbSub shooter;
   /** Creates a new Shoot1. */
-  public ShootShootersCmd(ShooterClimbSub s) {
-    shooter = s;
+  public ShootShootersCmd(ShooterClimbSub sc) {
+    shooter = sc;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,7 +25,8 @@ public class ShootShootersCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.shootShooters(Constants.SHOOTER_SPEED_1);
+    //new SetHoodToAngleCmd(servo, limelight.getDistance()); //0 -> equation
+    shooter.shootShooters(limelight.getDistance());
   }
 
   // Called once the command ends or is interrupted.

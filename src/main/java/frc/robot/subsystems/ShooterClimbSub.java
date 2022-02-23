@@ -120,12 +120,12 @@ public class ShooterClimbSub extends SubsystemBase {
 
   // spins shooterWheels
   // might need to be separate from topWheel??
-  public void shootShooters(double variable) {
+  public void shootShooters(double distance) {
     configVelocLoop();
     /* shooterWheel and topWheel spin at different velocities,
     * but should spin at the same time, so they are in the same method */
-    double targetVelocity_UnitsPer100ms_shooterWheel = variable * 2000.0 * 2048.0 / 600.0; // changed with limelight equation
-    double targetVelocity_UnitsPer100ms_topWheel = variable * 2000.0 * 2048.0 / 600.0; // change the first number, not the rest!!
+    double targetVelocity_UnitsPer100ms_shooterWheel = distance * 1; // use polynomial regression line
+    double targetVelocity_UnitsPer100ms_topWheel = distance * 1; // use polynomial regression line
     // we'll figure out these equations later^^ (and changed "variable" to something passed throught by limelight)
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
     shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_shooterWheel);

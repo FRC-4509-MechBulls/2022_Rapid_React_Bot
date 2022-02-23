@@ -16,16 +16,17 @@ public class SetHoodToAngleCmd extends CommandBase {
     angle = 180;
     addRequirements(servo);
   }
-  public SetHoodToAngleCmd(ServoSub s, double inputAngle) {
+  public SetHoodToAngleCmd(ServoSub s, double dis) {
     servo = s;
-    angle = inputAngle;
+    angle = dis * 1; //add equation
     addRequirements(servo);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -40,7 +41,7 @@ public class SetHoodToAngleCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(servo.getServoAngle() == 25)
+    if(servo.getServoAngle() == angle)
       return true;
     else
       return false;

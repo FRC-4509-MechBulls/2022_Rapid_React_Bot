@@ -25,7 +25,6 @@ import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
-import frc.robot.commands.ShootTopCmd;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
@@ -47,7 +46,6 @@ public class RobotContainer {
   //ShooterClimb
   private ShooterClimbSub shooterClimb;
   private ShootShootersCmd shootShooters;
-  private ShootTopCmd shootTop;
   private ClimbStage1 climbStage1;
   private ClimbStage2 climbStage2;
 
@@ -92,7 +90,7 @@ public class RobotContainer {
     shiftIn.addRequirements(driveTrain);
     shiftOut.addRequirements(driveTrain);
 
-    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
+    joystickDrive = new JoystickDriveCmd(driveTrain, limelight, servo);
     joystickDrive.addRequirements(driveTrain, limelight);
     driveTrain.setDefaultCommand(joystickDrive);
 
@@ -105,8 +103,7 @@ public class RobotContainer {
     shooterClimb = new ShooterClimbSub();
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
-    shootTop = new ShootTopCmd(shooterClimb);
-    shootTop.addRequirements(shooterClimb);
+
 
     climbStage1 = new ClimbStage1(shooterClimb);
     climbStage1.addRequirements(shooterClimb);

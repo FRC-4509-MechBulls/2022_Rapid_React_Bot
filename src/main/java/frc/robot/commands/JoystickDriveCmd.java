@@ -9,15 +9,18 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
+import frc.robot.subsystems.ServoSub;
 
 public class JoystickDriveCmd extends CommandBase {
   private DriveTrainSub driveTrain;
   private LimelightSub limelight;
+  private ServoSub servo;
   /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
+  public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l, ServoSub s) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = dt;
     limelight = l;
+    servo = s;
     addRequirements(driveTrain, limelight);
   }
 
@@ -32,6 +35,8 @@ public class JoystickDriveCmd extends CommandBase {
       if (limelight.isTargetValid()) {
         // if target is detected, run aim command
         driveTrain.aimLimelight(0, -1*limelight.getSteer());
+        new SetHoodToAngleCmd(servo, limelight.getDistance());
+        
       } else {
         // robot turns until target is detected
         driveTrain.seekLimelight();
