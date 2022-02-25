@@ -145,7 +145,8 @@ public class RobotContainer {
     beamBreakDetector2.whileActiveContinuous(new IndexBallLeftCmd(indexer));
 
     Trigger beamBreakDetector3 = new Trigger(() -> indexer.getBreakStatus3());
-    //beamBreakDetector3.whileActiveContinuous();
+    beamBreakDetector3.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+    beamBreakDetector3.whileActiveContinuous(new IndexBallRightCmd(indexer));
 
     Trigger beamBreakDetector4 = new Trigger(() -> indexer.getBreakStatus4());
     beamBreakDetector4.whileActiveContinuous(new IndexBallRightCmd(indexer));
