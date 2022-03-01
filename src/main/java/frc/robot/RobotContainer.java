@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimbStage1;
 import frc.robot.commands.ClimbStage2;
-import frc.robot.commands.DeployIntakeLeftCmd;
-import frc.robot.commands.DeployIntakeRightCmd;
+import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallLeftCmd;
 import frc.robot.commands.IndexBallRightCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RejectBallCmd;
-import frc.robot.commands.RetractIntakeLeftCmd;
-import frc.robot.commands.RetractIntakeRightCmd;
+import frc.robot.commands.RetractIntakeCmd;
 import frc.robot.commands.SetHoodToAngleCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
@@ -60,10 +58,10 @@ public class RobotContainer {
 
   //Intake
   private IntakeSub intake;
-  private DeployIntakeLeftCmd deployIntakeLeft;
-  private DeployIntakeRightCmd deployIntakeRight;
-  private RetractIntakeLeftCmd retractIntakeLeft;
-  private RetractIntakeRightCmd retractIntakeRight;
+  private DeployIntakeCmd deployIntakeLeft;
+  private DeployIntakeCmd deployIntakeRight;
+  private RetractIntakeCmd retractIntakeLeft;
+  private RetractIntakeCmd retractIntakeRight;
 
   //Indexer
   private IndexerSub indexer;
@@ -172,16 +170,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Intake */
     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
-    deployIntakeLeftButton.whenPressed(new DeployIntakeLeftCmd(intake));
+    deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
    
     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
-    retractIntakeLeftButton.whenPressed(new RetractIntakeLeftCmd(intake));
+    retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
 
-    JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kStart.value);
+    /*JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kStart.value);
     deployIntakeRightButton.whenPressed(new DeployIntakeRightCmd(intake));
 
     JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kBack.value);
-    retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake));
+    retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake)); */
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
@@ -194,21 +192,21 @@ public class RobotContainer {
     rejectBallButton.whileHeld(new RejectBallCmd(shooterClimb));
 
     /* Climb */
-    JoystickButton climbStage1Button = new JoystickButton(driverController, XboxController.Button.kA.value);
-    climbStage1Button.whenPressed(new ClimbStage1(shooterClimb));
+    //JoystickButton climbStage1Button = new JoystickButton(driverController, XboxController.Button.kA.value);
+    //climbStage1Button.whenPressed(new ClimbStage1(shooterClimb));
 
-    JoystickButton climbStage2Button = new JoystickButton(driverController, XboxController.Button.kB.value);
-    climbStage2Button.whenPressed(new ClimbStage2(shooterClimb));
+    //JoystickButton climbStage2Button = new JoystickButton(driverController, XboxController.Button.kB.value);
+    //climbStage2Button.whenPressed(new ClimbStage2(shooterClimb));
 
     /* JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
     shootTopButton.whileHeld(new ShootTopCmd(shooter)); */
 
     /* Shifting */
     JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    shiftInButton.whileHeld(new ShiftInCmd(driveTrain));
+    shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
     JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    shiftOutButton.whileHeld(new ShiftOutCmd(driveTrain));
+    shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
   
   }
   

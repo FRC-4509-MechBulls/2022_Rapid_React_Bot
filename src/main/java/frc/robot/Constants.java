@@ -29,9 +29,9 @@ public final class Constants {
     public static final int HOOD_TALON = 0;
 
     //Indexer
-    public static final int INDEX_BELT_LEFT_TALON = 0; //figure out later
-    public static final int INDEX_BELT_RIGHT_TALON = 0; //figure out later
-    public static final int INDEX_KICK_TALON = 0;
+    public static final int INDEX_BELT_1_TALON = 21; //figure out later
+    public static final int INDEX_BELT_2_TALON = 22; //figure out later
+    public static final int INDEX_KICK_TALON = 23;
     
 
     //Speeds
@@ -52,8 +52,8 @@ public final class Constants {
     public static final int XBOX_LEFT_X_AXIS = 0;
     
     //Intake
-    public static final int INTAKE_LEFT_TALON = 11;
-    public static final int INTAKE_RIGHT_TALON = 12;
+    public static final int INTAKE_TALON = 11;
+    //public static final int INTAKE_RIGHT_TALON = 12;
     public static final int INTAKE_2_REVERSE = 0; // reverse pneumatics channel
     public static final int INTAKE_2_FORWARD = 1; // forward pneumatics channel
     public static final int INTAKE_1_REVERSE = 2; // reverse pneumatics channel
@@ -92,7 +92,10 @@ public final class Constants {
     public static final int BB_2_CHANNEL = 2;
     public static final int BB_3_CHANNEL = 4;
     public static final int LIMIT_SWITCH_DI = 6;
-    public static final int SERVO_CHANNEL = 8;
+
+    //PWM
+    public static final int SERVO_1_CHANNEL = 0;
+    public static final int SERVO_2_CHANNEL = 1;
     
 }
 

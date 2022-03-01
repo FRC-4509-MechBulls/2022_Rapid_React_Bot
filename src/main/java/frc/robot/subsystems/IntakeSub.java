@@ -14,36 +14,40 @@ import frc.robot.Constants;
 public class IntakeSub extends SubsystemBase {
   private DoubleSolenoid intakeSolenoidLeft;
   private DoubleSolenoid intakeSolenoidRight;
-  private WPI_TalonSRX intakeLeft;
-  private WPI_TalonSRX intakeRight;
+  private WPI_TalonSRX intake;
+  //private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
     intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
     intakeSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
-    intakeLeft = new WPI_TalonSRX(Constants.INTAKE_LEFT_TALON);
-    intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
+    intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
+    //intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
   }
 
   //temporary methods for actuating intake, might change later depending on logic
-  public void deployIntakeLeft() {
+  public void deployIntake() {
     intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-    intakeLeft.set(Constants.INTAKE_SPEED);
+    intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    intake.set(Constants.INTAKE_SPEED);
   }
 
+  /*
   public void deployIntakeRight() {
     intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
     intakeRight.set(Constants.INTAKE_SPEED);
-  }
+  } */
 
-  public void retractIntakeLeft() {
+  public void retractIntake() {
     intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-    intakeLeft.set(0);
+    intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+    intake.set(0);
   }
 
+  /*
   public void retractIntakeRight() {
     intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     intakeRight.set(0);
-  }
+  } */
 
 
 @Override

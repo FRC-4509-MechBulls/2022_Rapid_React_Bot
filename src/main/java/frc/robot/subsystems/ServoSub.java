@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,12 +39,16 @@ public class ServoSub extends SubsystemBase {
 
   private double lastTime = 0;
 
-  private Servo servo;
+  private Servo servo1;
+  private Servo servo2;
 
   /** Creates a new Servo. */
   public ServoSub() {
-    servo = new Servo(Constants.SERVO_CHANNEL);
-    servo.setBounds(HOOD_MAX_PWM, CENTER_SERVO_PWM + SERVO_DEADBAND, 
+    servo1 = new Servo(Constants.SERVO_1_CHANNEL);
+    servo1.setBounds(HOOD_MAX_PWM, CENTER_SERVO_PWM + SERVO_DEADBAND, 
+    			CENTER_SERVO_PWM, CENTER_SERVO_PWM - SERVO_DEADBAND, HOOD_MIN_PWM);
+    servo2 = new Servo(Constants.SERVO_2_CHANNEL);
+    servo1.setBounds(HOOD_MAX_PWM, CENTER_SERVO_PWM + SERVO_DEADBAND, 
     			CENTER_SERVO_PWM, CENTER_SERVO_PWM - SERVO_DEADBAND, HOOD_MIN_PWM);
   }
 
@@ -60,20 +63,21 @@ public class ServoSub extends SubsystemBase {
     if (degrees >= MAX_SERVO_ANGLE) {
       degrees = MAX_SERVO_ANGLE;
     }
-    startAngle = servo.getAngle();
+    startAngle = servo1.getAngle();
     startTime = Timer.getFPGATimestamp();
 
-    servo.setAngle(degrees);
+    servo1.setAngle(degrees);
+    servo2.set(degrees);
   }
 
   public double getServoAngle() {
-    return servo.getAngle();
+    return servo1.getAngle();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double angle = servo.getAngle();
+    double angle = servo1.getAngle();
     SmartDashboard.putNumber("Servo Angle: ", angle);
   }
 }

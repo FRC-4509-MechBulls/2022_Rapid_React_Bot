@@ -19,7 +19,7 @@ public class ClimbStage1 extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterClimb.climbStage1(); //initialize or execute??
+    //shooterClimb.climbStage1(); //initialize or execute??
   }
 
   // Called every time the scheduler runs while the command is scheduled.

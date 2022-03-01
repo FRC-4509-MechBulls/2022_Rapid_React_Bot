@@ -9,10 +9,10 @@ import frc.robot.subsystems.IntakeSub;
 
 
 
-public class DeployIntakeLeftCmd extends CommandBase {
+public class DeployIntakeCmd extends CommandBase {
 IntakeSub intake;
   
-public DeployIntakeLeftCmd(IntakeSub i) {
+public DeployIntakeCmd(IntakeSub i) {
   intake = i;
   addRequirements(intake);
   }
@@ -24,7 +24,7 @@ public DeployIntakeLeftCmd(IntakeSub i) {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.deployIntakeLeft();
+    intake.deployIntake();
 }
   // Called once the command ends or is interrupted.
   @Override

@@ -13,53 +13,68 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IndexerSub extends SubsystemBase {
-  private WPI_TalonSRX indexerBeltLeft;
-  private WPI_TalonSRX indexerBeltRight;
+  private WPI_TalonSRX indexerBelt1;
+  private WPI_TalonSRX indexerBelt2;
   private WPI_TalonFX indexerKick;
 
   private DigitalInput bb1;
   //private DigitalInput bbTop1;
   private DigitalInput bb2;
   //private DigitalInput bbTop2;
-  private DigitalInput bb3;
+  //private DigitalInput bb3;
   //private DigitalInput bbTop3;
  
   /** Creates a new IndexerSub. */
   public IndexerSub() {
-    indexerBeltLeft = new WPI_TalonSRX(Constants.INDEX_BELT_LEFT_TALON);
-    indexerBeltRight = new WPI_TalonSRX(Constants.INDEX_BELT_RIGHT_TALON);
+    indexerBelt1 = new WPI_TalonSRX(Constants.INDEX_BELT_1_TALON);
+    indexerBelt2 = new WPI_TalonSRX(Constants.INDEX_BELT_2_TALON);
     indexerKick = new WPI_TalonFX(Constants.INDEX_KICK_TALON);
 
     bb1 = new DigitalInput(Constants.BB_1_CHANNEL);
     //bbTop1 = new DigitalInput(Constants.BB_TOP_1_CHANNEL);
     bb2 = new DigitalInput(Constants.BB_2_CHANNEL);
     //bbTop2 = new DigitalInput(Constants.BB_TOP_2_CHANNEL);
-    bb3 = new DigitalInput(Constants.BB_3_CHANNEL);
+    //bb3 = new DigitalInput(Constants.BB_3_CHANNEL);
     //bbTop3 = new DigitalInput(Constants.BB_TOP_3_CHANNEL);
   }
 
-  public void indexBallLeft(double speed) {
-    indexerBeltLeft.set(speed);
+  
+  public void indexBall(double speed) {
+    indexerBelt1.set(speed);
+    indexerBelt2.set(speed);
   }
 
+  /*
   public void indexBallRight(double speed) {
     indexerBeltRight.set(speed);
-  }
+  } */
 
   public void runKick(double speed) {
     indexerKick.set(speed);
   }
 
-  public void indexStopLeft() {
-    indexerBeltLeft.set(0);
+  public void indexStop() {
+    indexerBelt1.set(0);
+    indexerBelt2.set(0);
+  }
+
+  public void kickStop() {
     indexerKick.set(0);
   }
 
+  /*
   public void indexStopRight() {
     indexerBeltRight.set(0);
     indexerKick.set(0);
-  }
+  } */
 
+  public boolean getBreakStatus() {
+    if (!bb1.get() || !bb2.get()) {
+      return true;
+    }
+    return false;
+  }
+  /*
   //if only beambreak 1 is brokekn
   public boolean getBreakStatus1() {
     if (!bb1.get() && bb2.get() && bb3.get()) {
@@ -103,13 +118,13 @@ public class IndexerSub extends SubsystemBase {
       return true;
     }
     return false;
-  }
+  } */
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("BeamBreak1", !bb1.get());
     SmartDashboard.putBoolean("BeamBreak2", !bb2.get());
-    SmartDashboard.putBoolean("BeamBreak3", !bb3.get());
+    //SmartDashboard.putBoolean("BeamBreak3", !bb3.get());
   }
 }
