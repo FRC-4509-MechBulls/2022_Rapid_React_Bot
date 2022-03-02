@@ -34,7 +34,7 @@ public class JoystickDriveCmd extends CommandBase {
     if (RobotContainer.driverController.getAButton()) {
       if (limelight.isTargetValid()) {
         // if target is detected, run aim command
-        driveTrain.aimLimelight(0, -1*limelight.getSteer());
+        driveTrain.aimLimelight(0, limelight.getSteer());
         new SetHoodToAngleCmd(servo, limelight.getDistance());
         
       } else {

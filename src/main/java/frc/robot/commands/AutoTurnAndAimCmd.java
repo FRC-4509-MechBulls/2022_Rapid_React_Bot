@@ -31,9 +31,9 @@ public class AutoTurnAndAimCmd extends CommandBase {
     }
     timer.reset();
     timer.start();
-    while (timer.get() < 3)
+    while (timer.get() < 5)
     {
-      drivetrain.aimLimelight(0, -1*limelight.getSteer());
+      drivetrain.aimLimelight(0, limelight.getSteer());
     }
     timer.stop();    
     finish = true;
