@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSub extends SubsystemBase {
-  private double STEER_K = -0.1f; // needs to be tuned
-  private double min_cmd = 0.03f;
+  private double STEER_K = -0.04; // needs to be tuned
+  private double min_cmd = 0.07;
   private double steer_cmd;
   //private double DRIVE_K = 0.26;
   //private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
-  private double MAX_DRIVE = 0.6;
+  //private double MAX_DRIVE = 0.6;
 
   private double current_distance;
 
@@ -35,8 +35,9 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getSteer() {
+    steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
     // We do see the target, execute aiming code
-    steer_cmd = 0;
+    //steer_cmd = 0;
     if (tx > 1.0) {
       return steer_cmd = tx * STEER_K - min_cmd; //either + or -
     } else if (tx < -1.0) {
@@ -93,7 +94,7 @@ public class LimelightSub extends SubsystemBase {
     tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-    current_distance = 37.0 / (Math.tan(20.474 + ty)); //NEED TO UPDATE EQUATION
+    current_distance = 96 + -4.12*ty + 0.0981*(Math.pow(ty, 2)) + -1.22*(Math.pow(10, -3))*(Math.pow(ty, 3));
 
     SmartDashboard.putNumber("Current Distance: ", getDistance());
     SmartDashboard.putBoolean("Is Target Valid", isTargetValid());

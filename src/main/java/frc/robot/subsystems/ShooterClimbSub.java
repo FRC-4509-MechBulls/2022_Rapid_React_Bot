@@ -199,7 +199,6 @@ public class ShooterClimbSub extends SubsystemBase {
 		shooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
 		shooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kD, Constants.kTimeoutMs);
   }
-
   /* not doing the fancy climb for now so commenting out all this stuff unless we need it later lol */
 
   /*

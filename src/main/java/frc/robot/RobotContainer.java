@@ -13,8 +13,7 @@ import frc.robot.commands.ClimbStage1;
 import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
-import frc.robot.commands.IndexBallLeftCmd;
-import frc.robot.commands.IndexBallRightCmd;
+import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractIntakeCmd;
@@ -58,15 +57,12 @@ public class RobotContainer {
 
   //Intake
   private IntakeSub intake;
-  private DeployIntakeCmd deployIntakeLeft;
-  private DeployIntakeCmd deployIntakeRight;
-  private RetractIntakeCmd retractIntakeLeft;
-  private RetractIntakeCmd retractIntakeRight;
+  private DeployIntakeCmd deployIntake;
+  private RetractIntakeCmd retractIntake;
 
   //Indexer
   private IndexerSub indexer;
-  private IndexBallLeftCmd indexBall1;
-  private IndexBallRightCmd indexBall2;
+  private IndexBallCmd indexBall1;
   
   //Limelight/Vision
   private LimelightSub limelight;
