@@ -22,8 +22,7 @@ public final class Constants {
     
     //Shooter
     public static final int SHOOTER_FALCON = 5;
-    public static final int SHOOTER_FALCON_INVERTED = 6;
-    //public static final int SHOOTER_TALON = 7;
+    public static final int KICKER_FALCON = 3   ;
     public static final int SHOOTER_FALCON_TOP = 0;
     
     public static final int HOOD_TALON = 0;
@@ -42,7 +41,7 @@ public final class Constants {
     public static final double INDEXER_SPEED = 0;
     public static final double INTAKE_SPEED = 0.5;
     public static final double CLIMB_SPEED = 0;
-    public static final double KICK_SPEED = 0;
+    public static final double KICK_SPEED = 0.1;
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;

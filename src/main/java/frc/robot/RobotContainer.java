@@ -131,6 +131,9 @@ public class RobotContainer {
 
     //Indexer beam break triggers
     //Each trigger represents an individual status, which determines which indexer should be ran
+
+    //BEAMBREAKS:
+    /*
     Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatus1());
     beamBreakDetector1.whileActiveContinuous(new IndexBallLeftCmd(indexer));
     beamBreakDetector1.whileActiveContinuous(new IndexBallRightCmd(indexer));
@@ -151,8 +154,7 @@ public class RobotContainer {
     Trigger beamBreakDetector6 = new Trigger(() -> indexer.getBreakStatus6());
     beamBreakDetector6.whileActiveContinuous(new IndexBallLeftCmd(indexer));
     beamBreakDetector6.whileActiveContinuous(new IndexBallRightCmd(indexer));
-
-
+    */
     // Configure the button bindings
     configureButtonBindings();
   }

@@ -17,13 +17,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 //import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 //import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.SetHoodToAngleCmd;
 
 public class ShooterClimbSub extends SubsystemBase {
   private TalonFX shooterWheel;
-  //private TalonFX shooterWheelInverted;
+  private TalonFX kickWheel;
   private TalonFX topWheel;
  
   //private WPI_TalonSRX hood;
@@ -44,6 +45,7 @@ public class ShooterClimbSub extends SubsystemBase {
   public ShooterClimbSub() {
     shooterWheel = new TalonFX(Constants.SHOOTER_FALCON);
     shooterWheel.setInverted(false);
+    kickWheel = new TalonFX(Constants.KICKER_FALCON);
     /* shooterWheelInverted = new TalonFX(Constants.SHOOTER_FALCON_INVERTED); --> only one shooterWheel now
     shooterWheelInverted.setInverted(true); */
 
@@ -77,6 +79,8 @@ public class ShooterClimbSub extends SubsystemBase {
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
     shooterWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_shooterWheel);
     topWheel.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms_topWheel);
+    new WaitCommand(2);
+    kickWheel.set(TalonFXControlMode.Velocity, Constants.KICK_SPEED);
   }
 
   public void FenderShot() {
