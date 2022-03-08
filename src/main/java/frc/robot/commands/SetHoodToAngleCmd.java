@@ -11,22 +11,10 @@ public class SetHoodToAngleCmd extends CommandBase {
   private ServoSub servo;
   private double angle;
   /** Creates a new SetHoodToAngle. */
-  public SetHoodToAngleCmd(ServoSub s) {
-    servo = s;
-    angle = 180;
-    addRequirements(servo);
-  }
-  public SetHoodToAngleCmd(ServoSub s, double dis) {
-    servo = s;
-    angle = dis * 1; //add equation
-    addRequirements(servo);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  public SetHoodToAngleCmd(ServoSub s, int ang) {
+  public SetHoodToAngleCmd(ServoSub s, double ang) {
     servo = s;
     angle = ang;
-    addRequirements(servo);
+    addRequirements();
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +25,7 @@ public class SetHoodToAngleCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    servo.setAngle(angle);
+    servo.setAngleManual();
   }
 
   // Called once the command ends or is interrupted.

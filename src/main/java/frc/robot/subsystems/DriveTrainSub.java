@@ -6,8 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+ import edu.wpi.first.wpilibj.DoubleSolenoid;
+ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -30,7 +30,7 @@ public class DriveTrainSub extends SubsystemBase {
 
   private DoubleSolenoid shifter;
 
-  private PneumaticsModuleType REVPH;
+ // private PneumaticsModuleType REVPH;
 
   //private XboxController driverJoystick;
 
@@ -52,13 +52,13 @@ public class DriveTrainSub extends SubsystemBase {
 
     drive = new DifferentialDrive(left, right);
 
-    shifter = new DoubleSolenoid(REVPH, Constants.SHIFTER_1_FORWARD_CHANNEL, Constants.SHIFTER_2_REVERSE_CHANNEL);
+    //shifter = new DoubleSolenoid(REVPH, Constants.SHIFTER_1_FORWARD_CHANNEL, Constants.SHIFTER_2_REVERSE_CHANNEL);
   }
 
   //Creating a Command to drive and steer with the controller
   public void joystickDrive(XboxController controller, double speed) {
     double zRotation;
-    double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*speed;
+    double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*-speed;
     if (Math.abs(controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)) > 0.05) {
       zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
     } else {
@@ -76,14 +76,14 @@ public class DriveTrainSub extends SubsystemBase {
   }
 
   //high gear?
-  public void shiftIn() {
-    shifter.set(DoubleSolenoid.Value.kReverse);
-  }
+  //  public void shiftIn() {
+  //   shifter.set(DoubleSolenoid.Value.kReverse);
+  //  }
 
   //low gear?
-  public void shiftOut() {
-    shifter.set(DoubleSolenoid.Value.kForward);
-  }
+  //  public void shiftOut() {
+  //   shifter.set(DoubleSolenoid.Value.kForward);
+  //  }
 
   public void aimLimelight(double driveCommand, double steerCommand) {
     drive.arcadeDrive(driveCommand, steerCommand);

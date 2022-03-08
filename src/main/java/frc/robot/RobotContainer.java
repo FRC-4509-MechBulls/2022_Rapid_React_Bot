@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+//import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimbStage1;
 import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeCmd;
@@ -27,7 +28,6 @@ import frc.robot.commands.ShootShootersCmd;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
-import frc.robot.subsystems.SonarSub;
 import frc.robot.subsystems.VisionSub;
 
 
@@ -68,7 +68,6 @@ public class RobotContainer {
   private LimelightSub limelight;
   private VisionSub camera;
   //Sonar
-  private SonarSub sonar;
 
   //Servo
   private ServoSub servo;
@@ -84,13 +83,13 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-    shiftIn.addRequirements(driveTrain);
-    shiftOut.addRequirements(driveTrain);
+    //shiftIn.addRequirements(driveTrain);
+    //shiftOut.addRequirements(driveTrain);
 
     //Intializing USBcamera
     camera = new VisionSub();
 
-    joystickDrive = new JoystickDriveCmd(driveTrain, limelight, servo);
+    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain, limelight);
     driveTrain.setDefaultCommand(joystickDrive);
 
@@ -100,7 +99,7 @@ public class RobotContainer {
     //commands are constructed in button bindings
     
     //Intitializing all ShooterClimb Components
-    shooterClimb = new ShooterClimbSub();
+    shooterClimb = new ShooterClimbSub();    // MRNOTE Servo conflict
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
 
@@ -112,49 +111,23 @@ public class RobotContainer {
 
 
     //Initializing sonar sub
-    sonar = new SonarSub();
 
     //Initializing servo sub
-    servo = new ServoSub();
-    setHoodToAngle = new SetHoodToAngleCmd(servo); //don't know if this needs to be here
+    //servo = new ServoSub();  // MRNOTE Servo conflict
+    //setHoodToAngle = new SetHoodToAngleCmd(servo); //don't know if this needs to be here
 
     //Inititalizing all Indexer Components
     indexer = new IndexerSub();
     //commands constructed in button bindings
 
-    //runs indexer when sonar conditions are true
-    //Trigger indexer1Trigger = new Trigger(() -> sonar.canRun1());
-    //indexer1Trigger.whileActiveContinuous(new IndexBall1Cmd(indexer));
-
-    //Trigger indexer2Trigger = new Trigger(() -> sonar.canRun2());
-    //indexer2Trigger.whileActiveContinuous(new IndexBall2Cmd(indexer));
-
     //Indexer beam break triggers
     //Each trigger represents an individual status, which determines which indexer should be ran
 
     //BEAMBREAKS:
-    /*
-    Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatus1());
-    beamBreakDetector1.whileActiveContinuous(new IndexBallLeftCmd(indexer));
-    beamBreakDetector1.whileActiveContinuous(new IndexBallRightCmd(indexer));
 
-    Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatus2());
-    beamBreakDetector2.whileActiveContinuous(new IndexBallLeftCmd(indexer));
+    Trigger beamBreakDetector = new Trigger(() -> indexer.getBreakStatus());
+    beamBreakDetector.whileActiveContinuous(new IndexBallCmd(indexer));
 
-    Trigger beamBreakDetector3 = new Trigger(() -> indexer.getBreakStatus3());
-    beamBreakDetector3.whileActiveContinuous(new IndexBallLeftCmd(indexer));
-    beamBreakDetector3.whileActiveContinuous(new IndexBallRightCmd(indexer));
-
-    Trigger beamBreakDetector4 = new Trigger(() -> indexer.getBreakStatus4());
-    beamBreakDetector4.whileActiveContinuous(new IndexBallRightCmd(indexer));
-
-    Trigger beamBreakDetector5 = new Trigger(() -> indexer.getBreakStatus5());
-    beamBreakDetector5.whileActiveContinuous(new IndexBallLeftCmd(indexer));
-
-    Trigger beamBreakDetector6 = new Trigger(() -> indexer.getBreakStatus6());
-    beamBreakDetector6.whileActiveContinuous(new IndexBallLeftCmd(indexer));
-    beamBreakDetector6.whileActiveContinuous(new IndexBallRightCmd(indexer));
-    */
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -172,12 +145,6 @@ public class RobotContainer {
    
     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
     retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
-
-    /*JoystickButton deployIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kStart.value);
-    deployIntakeRightButton.whenPressed(new DeployIntakeRightCmd(intake));
-
-    JoystickButton retractIntakeRightButton = new JoystickButton(shooterController,XboxController.Button.kBack.value);
-    retractIntakeRightButton.whenPressed(new RetractIntakeRightCmd(intake)); */
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
@@ -189,15 +156,11 @@ public class RobotContainer {
     JoystickButton rejectBallButton = new JoystickButton(shooterController, XboxController.Button.kX.value);
     rejectBallButton.whileHeld(new RejectBallCmd(shooterClimb));
 
-    /* Climb */
-    //JoystickButton climbStage1Button = new JoystickButton(driverController, XboxController.Button.kA.value);
-    //climbStage1Button.whenPressed(new ClimbStage1(shooterClimb));
+    JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
+    indexButton.whileHeld(new IndexBallCmd(indexer));
 
-    //JoystickButton climbStage2Button = new JoystickButton(driverController, XboxController.Button.kB.value);
-    //climbStage2Button.whenPressed(new ClimbStage2(shooterClimb));
-
-    /* JoystickButton shootTopButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootTopButton.whileHeld(new ShootTopCmd(shooter)); */
+    JoystickButton servoButton = new JoystickButton(shooterController, XboxController.Button.kStart.value);
+    servoButton.whenPressed(new SetHoodToAngleCmd(servo, 0));
 
     /* Shifting */
     JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);

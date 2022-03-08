@@ -26,8 +26,8 @@ public class IntakeSub extends SubsystemBase {
 
   //temporary methods for actuating intake, might change later depending on logic
   public void deployIntake() {
-    intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    //intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+    //intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
     intake.set(Constants.INTAKE_SPEED);
   }
 
@@ -38,8 +38,8 @@ public class IntakeSub extends SubsystemBase {
   } */
 
   public void retractIntake() {
-    intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+    //intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+    //intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     intake.set(0);
   }
 

@@ -15,33 +15,34 @@ package frc.robot;
  */
 public final class Constants {
     //DriveTrain
-    public static final int LEFT_FRONT_TALON = 1;
-    public static final int LEFT_BACK_TALON = 2;
-    public static final int RIGHT_FRONT_TALON = 3;
-    public static final int RIGHT_BACK_TALON = 4;
+    // LEFT and RIGHT are robot's view/perspective
+    public static final int LEFT_FRONT_TALON = 4;
+    public static final int LEFT_BACK_TALON = 3;
+    public static final int RIGHT_FRONT_TALON = 2;
+    public static final int RIGHT_BACK_TALON = 1;
     
     //Shooter
-    public static final int SHOOTER_FALCON = 5;
-    public static final int KICKER_FALCON = 3   ;
-    public static final int SHOOTER_FALCON_TOP = 0;
+    public static final int SHOOTER_FALCON_TOP = 20;
+    public static final int LEFT_SHOOTER_FALCON = 21;
+    public static final int RIGHT_SHOOTER_FALCON = 22;    
+    public static final int KICKER_FALCON = 23;
     
-    public static final int HOOD_TALON = 0;
+    public static final int HOOD_TALON = 0; //fx // servo control?
 
     //Indexer
-    public static final int INDEX_BELT_1_TALON = 21; //figure out later
-    public static final int INDEX_BELT_2_TALON = 22; //figure out later
-    public static final int INDEX_KICK_TALON = 23;
+    public static final int INDEX_BELT_LEFT= 31; //figure out later  srx
+    public static final int INDEX_BELT_RIGHT= 32; //figure out later   srx
+    public static final int INDEX_KICK_TALON = 23;   //  srx
     
 
     //Speeds
     public static final double DRIVETRAIN_SPEED = 0.5;
-    public static final double SHOOTER_SPEED_1 = 0.7;
-    public static final double SHOOTER_SPEED_2 = 0.7;
+    public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
-    public static final double INDEXER_SPEED = 0;
+    public static final double INDEXER_SPEED = 0.4;
     public static final double INTAKE_SPEED = 0.5;
     public static final double CLIMB_SPEED = 0;
-    public static final double KICK_SPEED = 0.1;
+    public static final double KICK_SPEED = 0.5;
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;
@@ -51,7 +52,7 @@ public final class Constants {
     public static final int XBOX_LEFT_X_AXIS = 0;
     
     //Intake
-    public static final int INTAKE_TALON = 11;
+    public static final int INTAKE_TALON = 40;
     //public static final int INTAKE_RIGHT_TALON = 12;
     public static final int INTAKE_2_REVERSE = 0; // reverse pneumatics channel
     public static final int INTAKE_2_FORWARD = 1; // forward pneumatics channel
@@ -94,7 +95,7 @@ public final class Constants {
 
     //PWM
     public static final int SERVO_1_CHANNEL = 0;
-    public static final int SERVO_2_CHANNEL = 1;
+    public static final int SERVO_2_CHANNEL = 9;
     
 }
 

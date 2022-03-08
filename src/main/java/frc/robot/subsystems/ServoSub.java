@@ -67,9 +67,13 @@ public class ServoSub extends SubsystemBase {
     startTime = Timer.getFPGATimestamp();
 
     servo1.setAngle(degrees);
-    servo2.set(degrees);
+    servo2.setAngle(degrees);
   }
-
+  public void setAngleManual()
+  {
+    servo1.set(0);
+    servo2.set(0);
+  }
   public double getServoAngle() {
     return servo1.getAngle();
   }

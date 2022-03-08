@@ -21,10 +21,10 @@ public class ShiftOutCmd extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    driveTrain.shiftOut();
-  }
+  // @Override
+  // public void execute() {
+  //   driveTrain.shiftOut();
+  // }
 
   // Called once the command ends or is interrupted.
   @Override

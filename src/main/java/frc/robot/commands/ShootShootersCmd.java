@@ -26,7 +26,7 @@ public class ShootShootersCmd extends CommandBase {
   @Override
   public void execute() {
     //new SetHoodToAngleCmd(servo, limelight.getDistance()); //0 -> equation
-    shooter.shootShooters(limelight.getDistance());
+    shooter.shootShooters();
   }
 
   // Called once the command ends or is interrupted.
