@@ -63,9 +63,9 @@ public class ShooterClimbSub extends SubsystemBase {
 
   public void FenderShot() {
     //new SetHoodToAngleCmd(servo, 180); //or use empty constructor
-    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.5); //change value
-    //rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.5); //change value
-    topWheel.set(TalonFXControlMode.PercentOutput, 0.5);
+    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.6); //change value
+    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.6); //change value
+    topWheel.set(TalonFXControlMode.PercentOutput, -0.7);
     new WaitCommand(1);
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
     

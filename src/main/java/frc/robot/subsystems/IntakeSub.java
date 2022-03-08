@@ -21,6 +21,7 @@ public class IntakeSub extends SubsystemBase {
     intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
     intakeSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
     intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
+    //intake.setInverted(true);
     //intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
   }
 

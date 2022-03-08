@@ -40,7 +40,7 @@ public final class Constants {
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
     public static final double INDEXER_SPEED = 0.4;
-    public static final double INTAKE_SPEED = -1.0;
+    public static final double INTAKE_SPEED = -0.6;
     public static final double CLIMB_SPEED = 0;
     public static final double KICK_SPEED = 0.5;
 
