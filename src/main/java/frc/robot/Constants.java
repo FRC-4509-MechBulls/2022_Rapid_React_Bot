@@ -95,7 +95,7 @@ public final class Constants {
 
     //PWM
     public static final int SERVO_1_CHANNEL = 0;
-    public static final int SERVO_2_CHANNEL = 9;
+    public static final int SERVO_2_CHANNEL = 10;
     
 }
 
