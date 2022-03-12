@@ -22,8 +22,10 @@ public class IndexerSub extends SubsystemBase {
   /** Creates a new IndexerSub. */
   public IndexerSub() {
     indexerBeltLeft = new WPI_TalonSRX(Constants.INDEX_BELT_LEFT);
+    indexerBeltLeft.setInverted(true);
     indexerBeltLeft.setNeutralMode(NeutralMode.Coast);
     indexerBeltRight = new WPI_TalonSRX(Constants.INDEX_BELT_RIGHT);
+    indexerBeltRight.setInverted(true);
     indexerBeltRight.setNeutralMode(NeutralMode.Coast);
 
     bbFirst = new DigitalInput(Constants.BB_1_CHANNEL);
@@ -33,7 +35,7 @@ public class IndexerSub extends SubsystemBase {
 
   
   public void indexBall(double speed) {
-    indexerBeltRight.set(-speed);
+    indexerBeltRight.set(speed);
     indexerBeltLeft.set(speed);
   }
 

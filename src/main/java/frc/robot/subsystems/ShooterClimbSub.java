@@ -20,17 +20,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 //import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.SetHoodToAngleCmd;
+import frc.robot.LinearServo;
+//import frc.robot.commands.SetHoodToAngleCmd;
 
 public class ShooterClimbSub extends SubsystemBase {
   private TalonFX leftShooterWheel;
   private TalonFX rightShooterWheel;
   private TalonFX topWheel;
   private TalonFX kickWheel;
-  private ServoSub servo;
+  //private ServoSub servo;
+
+  private static LinearServo leftHoodServo;
+  private static LinearServo rightHoodServo;
 
 
   public ShooterClimbSub() {
+
+    leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
+    rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
+
     leftShooterWheel = new TalonFX(Constants.LEFT_SHOOTER_FALCON);
     leftShooterWheel.setInverted(true);   // MRNOTE This has been tested, true is good
     rightShooterWheel = new TalonFX(Constants.RIGHT_SHOOTER_FALCON);
@@ -40,43 +48,58 @@ public class ShooterClimbSub extends SubsystemBase {
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
     topWheel.setInverted(false);
    
-    servo = new ServoSub();
   }
 
 
   // spins shooterWheels
   // might need to be separate from topWheel??
+  public void SetServoFender(){
+    leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+  }
+  public void SetServoReject(){
+    leftHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
+  }
+  public void SetServoFarShot(){
+    leftHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
+  }
   public void shootShooters() {
+
     /* shooterWheel and topWheel spin at different velocities,
     * but should spin at the same time, so they are in the same method */
     //double targetVelocity_UnitsPer100ms_shooterWheel = distance * 1; // use polynomial regression line
     //double targetVelocity_UnitsPer100ms_topWheel = distance * 1; // use polynomial regression line
     // we'll figure out these equations later^^ (and changed "variable" to something passed throught by limelight)
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
-    leftShooterWheel.set(TalonFXControlMode.PercentOutput, Constants.SHOOTER_SPEED);
-    rightShooterWheel.set(TalonFXControlMode.PercentOutput, Constants.SHOOTER_SPEED);
-    topWheel.set(TalonFXControlMode.PercentOutput, -0.40);
-    new WaitCommand(2);
+
+    
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 8000);
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 8000);
+    topWheel.set(TalonFXControlMode.Velocity, -8500);
+    
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
 
   }
 
-  public void FenderShot() {
-    //new SetHoodToAngleCmd(servo, 180); //or use empty constructor
-    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.6); //change value
-    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.6); //change value
-    topWheel.set(TalonFXControlMode.PercentOutput, -0.7);
-    new WaitCommand(1);
+  public void fenderShot() {
+    
+
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6680); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6680); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
     
   }
 
-  public void RejectBall(){
-    new SetHoodToAngleCmd(servo, servo.MIN_SERVO_ANGLE);
-    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.2);  // robot barf
-    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.2);
-    topWheel.set(TalonFXControlMode.PercentOutput, 0.2);
-    new WaitCommand(1);
+  public void rejectBall(){
+    
+
+    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);  // robot barf
+    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);
+    topWheel.set(TalonFXControlMode.PercentOutput, -0.35);
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
   }
 
@@ -288,6 +311,7 @@ public class ShooterClimbSub extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    // This method will be called once per scheduler run
   }
 }
 

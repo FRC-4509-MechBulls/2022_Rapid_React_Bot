@@ -1,20 +1,35 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX[1]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveTrainSub": "Subsystem",
+      "/LiveWindow/IndexerSub": "Subsystem",
+      "/LiveWindow/IntakeSub": "Subsystem",
+      "/LiveWindow/LimelightSub": "Subsystem",
+      "/LiveWindow/ServoSub": "Subsystem",
+      "/LiveWindow/ShooterClimbSub": "Subsystem",
       "/LiveWindow/ShooterSub": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [20]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [31]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [32]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [40]": "Motor Controller"
+    }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "ShooterClimbSub": {
+        "open": true
+      },
+      "Ungrouped": {
+        "open": true
+      }
+    },
+    "SmartDashboard": {
+      "open": true
     }
   }
 }

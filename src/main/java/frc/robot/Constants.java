@@ -36,13 +36,24 @@ public final class Constants {
     
 
     //Speeds
-    public static final double DRIVETRAIN_SPEED = 0.5;
+    public static final double DRIVETRAIN_SPEED = 1;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
     public static final double INDEXER_SPEED = 0.4;
-    public static final double INTAKE_SPEED = -0.1;
+    public static final double INTAKE_SPEED = 1;
     public static final double CLIMB_SPEED = 0;
     public static final double KICK_SPEED = 0.4;
+    public static final double AUTO_SPEED = -0.3;
+
+    //Servo settings
+    public static final int SERVO_SPEED = 16;
+    public static final int SERVO_LENGTH = 140;
+    public static final int LEFT_SERVO_CHANNEL = 0;
+    public static final int RIGHT_SERVO_CHANNEL = 9;
+
+    public static final double SERVO_FAR_SHOT_LENGTH = 140;  //this is the length of the servo in mm
+    public static final double SERVO_FENDER_SHOT_LENGTH = 70;  //this is half of the length in mm
+    public static final double SERVO_REJECT_SHOT_LENGTH = 0;  // this is the number 0, it's even, and round
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;
@@ -96,6 +107,7 @@ public final class Constants {
     //PWM
     public static final int SERVO_1_CHANNEL = 0;
     public static final int SERVO_2_CHANNEL = 9;
+
     
 }
 

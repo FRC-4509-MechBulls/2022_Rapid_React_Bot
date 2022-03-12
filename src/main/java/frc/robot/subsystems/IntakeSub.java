@@ -8,19 +8,22 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSub extends SubsystemBase {
-  private DoubleSolenoid intakeSolenoidLeft;
-  private DoubleSolenoid intakeSolenoidRight;
+  private DoubleSolenoid intakeSolenoid;
   private WPI_TalonSRX intake;
+  private String IntakeStatus;
   //private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
-    intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
-    intakeSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
+    //only one solenoid, control both sides
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
     intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
+    IntakeStatus = "None";
     //intake.setInverted(true);
     //intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
   }
@@ -30,6 +33,8 @@ public class IntakeSub extends SubsystemBase {
     //intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
     //intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
     intake.set(Constants.INTAKE_SPEED);
+    IntakeStatus = "Enabled";
+    
   }
 
   /*
@@ -42,6 +47,7 @@ public class IntakeSub extends SubsystemBase {
     //intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
     //intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     intake.set(0);
+    IntakeStatus = "Disabled";
   }
 
   /*
@@ -53,6 +59,7 @@ public class IntakeSub extends SubsystemBase {
 
 @Override
   public void periodic() {
+    SmartDashboard.putString("Intake Status", IntakeStatus);
     // This method will be called once per scheduler run
   }
 

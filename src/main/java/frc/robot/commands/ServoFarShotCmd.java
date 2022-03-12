@@ -5,28 +5,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ServoSub;
+import frc.robot.subsystems.ShooterClimbSub;
 
-public class SetHoodToAngleCmd extends CommandBase {
-  private ServoSub servo;
-  private double angle;
-  /** Creates a new SetHoodToAngle. */
-  public SetHoodToAngleCmd(ServoSub s, double ang) {
-    servo = s;
-    angle = ang;
-    addRequirements();
+public class ServoFarShotCmd extends CommandBase {
+  /** Creates a new ServoFarShotCmd. */
+  ShooterClimbSub shooter;
+  public ServoFarShotCmd(ShooterClimbSub sc) {
+    shooter = sc;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.SetServoFarShot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    servo.setAngleManual();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -35,9 +33,6 @@ public class SetHoodToAngleCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(servo.getServoAngle() == angle)
-      return true;
-    else
-      return false;
+    return false;
   }
 }

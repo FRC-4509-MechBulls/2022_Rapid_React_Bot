@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveTrainSub extends SubsystemBase {
-  //Declaring all MotorControllers, MotorControllerGroups, and XboxController
+  //#region Declarations!
+  // Declaring all MotorControllers, MotorControllerGroups, and XboxController
   private MotorController mc_leftFront;
   private MotorController mc_leftBack;
 
@@ -29,10 +31,13 @@ public class DriveTrainSub extends SubsystemBase {
   private DifferentialDrive drive;
 
   private DoubleSolenoid shifter;
+  private String shiftStatus; 
+  double speed;
 
  // private PneumaticsModuleType REVPH;
 
   //private XboxController driverJoystick;
+  //#endregion
 
   /** Creates a new DriveTrain. */
   public DriveTrainSub() {
@@ -65,29 +70,31 @@ public class DriveTrainSub extends SubsystemBase {
       zRotation = 0.0;
     }
     drive.arcadeDrive(xSpeed, zRotation);
+    drive.feed();
   }
-
+  
   public void autoDrive(){
-     drive.tankDrive(-0.3, -0.3);
+     drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED);
   }
 
   public void autoTurn(){
-    drive.tankDrive(-0.3, 0.3);
+    drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED * -1);
   }
 
-  //high gear?
+ // high gear?
   //  public void shiftIn() {
-  //   shifter.set(DoubleSolenoid.Value.kReverse);
+  //   shifter.set(DoubleSolenoid.Value.kReverse);  
+  //   shiftStatus = "Low Gear";
   //  }
 
   //low gear?
   //  public void shiftOut() {
   //   shifter.set(DoubleSolenoid.Value.kForward);
+  //   shiftStatus = "High Gear";
   //  }
 
   public void aimLimelight(double driveCommand, double steerCommand) {
     drive.arcadeDrive(driveCommand, steerCommand);
-    
   }
 
   public void seekLimelight() {
@@ -100,6 +107,7 @@ public class DriveTrainSub extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //SmartDashboard.putString("Drivetrain Status", shiftStatus);
     // This method will be called once per scheduler run
   }
 }

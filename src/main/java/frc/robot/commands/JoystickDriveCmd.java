@@ -9,12 +9,11 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
-import frc.robot.subsystems.ServoSub;
 
 public class JoystickDriveCmd extends CommandBase {
   private DriveTrainSub driveTrain;
   private LimelightSub limelight;
-  private ServoSub servo;
+
   /** Creates a new joystickDrive. */
   public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,7 +30,7 @@ public class JoystickDriveCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.driverController.getAButton()) {
+    if (RobotContainer.driverController.getYButton()) {
       if (limelight.isTargetValid()) {
         // if target is detected, run aim command
         driveTrain.aimLimelight(0, limelight.getSteer());
