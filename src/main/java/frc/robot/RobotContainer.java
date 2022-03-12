@@ -10,15 +10,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ClimbStage1;
-import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractIntakeCmd;
-import frc.robot.commands.SetHoodToAngleCmd;
+import frc.robot.commands.ServoFarShotCmd;
+import frc.robot.commands.ServoFenderCmd;
+import frc.robot.commands.ServoRejectBallCmd;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -26,7 +26,6 @@ import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
 import frc.robot.subsystems.LimelightSub;
-import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.VisionSub;
 
@@ -46,8 +45,6 @@ public class RobotContainer {
   //ShooterClimb
   private ShooterClimbSub shooterClimb;
   private ShootShootersCmd shootShooters;
-  private ClimbStage1 climbStage1;
-  private ClimbStage2 climbStage2;
 
   //DriveTrain
   private ShiftInCmd shiftIn;
@@ -67,11 +64,7 @@ public class RobotContainer {
   //Limelight/Vision
   private LimelightSub limelight;
   private VisionSub camera;
-  //Sonar
 
-  //Servo
-  private ServoSub servo;
-  private SetHoodToAngleCmd setHoodToAngle;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -87,7 +80,7 @@ public class RobotContainer {
     //shiftOut.addRequirements(driveTrain);
 
     //Intializing USBcamera
-    camera = new VisionSub();
+     camera = new VisionSub();  //MRNOTE caused simulation to crash
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain, limelight);
@@ -103,11 +96,6 @@ public class RobotContainer {
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
 
-
-    climbStage1 = new ClimbStage1(shooterClimb);
-    climbStage1.addRequirements(shooterClimb);
-    climbStage2 = new ClimbStage2(shooterClimb);
-    climbStage2.addRequirements(shooterClimb);
 
 
     //Initializing sonar sub
@@ -140,35 +128,41 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Intake */
-    JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
-    deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
+     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
+     deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
    
-    JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
-    retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
+     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
+     retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootShootersButton.whileHeld(new ShootShootersCmd(shooterClimb));
+    shootShootersButton.whenPressed(new ShootShootersCmd(shooterClimb));
 
     JoystickButton fenderShotButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
-    fenderShotButton.whileHeld(new FenderShotCmd(shooterClimb));
+    fenderShotButton.whenPressed(new FenderShotCmd(shooterClimb));
 
     JoystickButton rejectBallButton = new JoystickButton(shooterController, XboxController.Button.kX.value);
-    rejectBallButton.whileHeld(new RejectBallCmd(shooterClimb));
+    rejectBallButton.whenPressed(new RejectBallCmd(shooterClimb));
 
     JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
     indexButton.whileHeld(new IndexBallCmd(indexer));
 
-    JoystickButton servoButton = new JoystickButton(shooterController, XboxController.Button.kStart.value);
-    servoButton.whenPressed(new SetHoodToAngleCmd(servo, 0));
 
-    /* Shifting */
+    /* Driver */
     JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
     shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
     JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
     shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
-  
+
+    JoystickButton servoFender = new JoystickButton(driverController, XboxController.Button.kA.value);
+    servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
+    
+    JoystickButton servoReject = new JoystickButton(driverController, XboxController.Button.kX.value);
+    servoReject.whenPressed(new ServoRejectBallCmd(shooterClimb));
+
+    JoystickButton servoFarShot = new JoystickButton(driverController, XboxController.Button.kB.value);
+    servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
   }
   
 
