@@ -6,9 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Autonomous;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
@@ -25,6 +28,7 @@ import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
+import frc.robot.commands.StopIndexCmd;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.VisionSub;
@@ -65,10 +69,12 @@ public class RobotContainer {
   private LimelightSub limelight;
   private VisionSub camera;
 
-
-
+  //auto
+  private Autonomous auto;
+  SendableChooser<Command> chooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
     //Controllers
     driverController = new XboxController(Constants.DRIVER_CONTROLLER);
     shooterController = new XboxController(Constants.SHOOTER_CONTROLLER);
@@ -98,7 +104,10 @@ public class RobotContainer {
 
 
 
-    //Initializing sonar sub
+    //Initializing auto
+    auto = new Autonomous(driveTrain, limelight, intake, indexer, shooterClimb);
+    chooser.addOption("Autonomous", auto);
+    SmartDashboard.putData("Auto Chooser", chooser);
 
     //Initializing servo sub
     //servo = new ServoSub();  // MRNOTE Servo conflict
@@ -113,8 +122,11 @@ public class RobotContainer {
 
     //BEAMBREAKS:
 
-    Trigger beamBreakDetector = new Trigger(() -> indexer.getBreakStatus());
-    beamBreakDetector.whileActiveContinuous(new IndexBallCmd(indexer));
+    Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
+    beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
+
+    Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
+    beamBreakDetector2.whileActiveContinuous(new StopIndexCmd(indexer));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -136,13 +148,13 @@ public class RobotContainer {
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootShootersButton.whenPressed(new ShootShootersCmd(shooterClimb));
+    shootShootersButton.whileHeld(new ShootShootersCmd(shooterClimb));
 
     JoystickButton fenderShotButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
-    fenderShotButton.whenPressed(new FenderShotCmd(shooterClimb));
+    fenderShotButton.whileHeld(new FenderShotCmd(shooterClimb));
 
     JoystickButton rejectBallButton = new JoystickButton(shooterController, XboxController.Button.kX.value);
-    rejectBallButton.whenPressed(new RejectBallCmd(shooterClimb));
+    rejectBallButton.whileHeld(new RejectBallCmd(shooterClimb));
 
     JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
     indexButton.whileHeld(new IndexBallCmd(indexer));
@@ -173,6 +185,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand all run in autonomous
-    return null;
+    return chooser.getSelected();
   }
 }

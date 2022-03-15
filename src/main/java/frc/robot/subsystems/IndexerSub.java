@@ -44,13 +44,19 @@ public class IndexerSub extends SubsystemBase {
     indexerBeltRight.set(0);
   }
 
-  public boolean getBreakStatus() {
-    if (!bbFirst.get() || !bbSecond.get()) {
+  public boolean getBreakStatusRun() {
+    if (!bbFirst.get()) {
       return true;
     }
     return false;
   }
 
+  public boolean getBreakStatusStop() {
+    if (!bbSecond.get()) {
+      return true;
+    }
+    return false;
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -17,7 +17,7 @@ public class AutoTurnAndAimCmd extends CommandBase {
   public AutoTurnAndAimCmd(DriveTrainSub dt, LimelightSub l) {
     drivetrain = dt;
     limelight = l;
-    addRequirements(drivetrain);
+    addRequirements(drivetrain, limelight);
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,13 +25,9 @@ public class AutoTurnAndAimCmd extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    while (!limelight.isTargetValid())
-    {
-      drivetrain.seekLimelight();
-    }
     timer.reset();
     timer.start();
-    while (timer.get() < 5)
+    while (timer.get() < 3)
     {
       drivetrain.aimLimelight(0, limelight.getSteer());
     }

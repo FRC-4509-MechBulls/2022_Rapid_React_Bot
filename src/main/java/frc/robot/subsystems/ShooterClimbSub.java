@@ -6,22 +6,17 @@ package frc.robot.subsystems;
 
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-//import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-//import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.LinearServo;
-//import frc.robot.commands.SetHoodToAngleCmd;
 
 public class ShooterClimbSub extends SubsystemBase {
   private TalonFX leftShooterWheel;
@@ -29,7 +24,7 @@ public class ShooterClimbSub extends SubsystemBase {
   private TalonFX topWheel;
   private TalonFX kickWheel;
   //private ServoSub servo;
-
+  Timer timer;
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
 
@@ -40,8 +35,10 @@ public class ShooterClimbSub extends SubsystemBase {
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
 
     leftShooterWheel = new TalonFX(Constants.LEFT_SHOOTER_FALCON);
+    leftShooterWheel.setNeutralMode(NeutralMode.Coast);
     leftShooterWheel.setInverted(true);   // MRNOTE This has been tested, true is good
     rightShooterWheel = new TalonFX(Constants.RIGHT_SHOOTER_FALCON);
+    rightShooterWheel.setNeutralMode(NeutralMode.Coast);
     rightShooterWheel.setInverted(false);  // MRNOTE This has been tested, false is good
 
     kickWheel = new TalonFX(Constants.KICKER_FALCON);
@@ -78,20 +75,20 @@ public class ShooterClimbSub extends SubsystemBase {
     leftShooterWheel.set(TalonFXControlMode.Velocity, 8000);
     rightShooterWheel.set(TalonFXControlMode.Velocity, 8000);
     topWheel.set(TalonFXControlMode.Velocity, -8500);
-    
+    // timer.reset();
+    // timer.start();
+    // while (timer.get() > 0.5 && timer.get() < 2)
+    // {
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-
+    // }
+    // timer.stop();
   }
 
   public void fenderShot() {
-    
-
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 6680); 
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 6680); 
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     topWheel.set(TalonFXControlMode.Velocity, -7300);
-    
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-    
   }
 
   public void rejectBall(){
@@ -100,7 +97,13 @@ public class ShooterClimbSub extends SubsystemBase {
     leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);  // robot barf
     rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);
     topWheel.set(TalonFXControlMode.PercentOutput, -0.35);
+    // timer.reset();
+    // timer.start();
+    // while (timer.get() > 0.5 && timer.get() < 2)
+    // {
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    // }
+    // timer.stop();
   }
 
 

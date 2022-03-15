@@ -4,32 +4,23 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSub;
-import frc.robot.subsystems.IntakeSub;
+import frc.robot.Constants;
+import frc.robot.subsystems.IndexerSub;
 
-public class AutoDriveCmd extends CommandBase {
-  /** Creates a new AutoDrive. */
-  IntakeSub intake;
-  DriveTrainSub drivetrain;
-  Timer timer;
-  private boolean finish = false;
-
-  public AutoDriveCmd(DriveTrainSub dt, IntakeSub i) {
-    drivetrain = dt;
-    intake = i;
-    addRequirements(drivetrain, intake);
-    timer = new Timer();
+public class AutoIndexCmd extends CommandBase {
+  IndexerSub indexer;
+  /** Creates a new AutoIntake. */
+  public AutoIndexCmd(IndexerSub idx) {
+    indexer = idx;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.deployIntake();
-    drivetrain.autoDrive();
-    finish = true;
+    indexer.indexBall(Constants.INDEXER_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,13 +29,11 @@ public class AutoDriveCmd extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    drivetrain.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finish;
+    return false;
   }
 }

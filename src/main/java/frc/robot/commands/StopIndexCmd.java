@@ -6,29 +6,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSub;
-import frc.robot.subsystems.IntakeSub;
 
-public class AutoIntakeAndIndexCmd extends CommandBase {
-  IntakeSub intake;
+public class StopIndexCmd extends CommandBase {
   IndexerSub indexer;
-  /** Creates a new AutoIntake. */
-  public AutoIntakeAndIndexCmd(IntakeSub i, IndexerSub idx) {
-    intake = i;
-    indexer = idx;
+  /** Creates a new StopIndexCmd. */
+  public StopIndexCmd(IndexerSub i) {
+    indexer = i;
+    addRequirements(indexer);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake, indexer);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    intake.deployIntake();
-   // indexer logic goes here
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    indexer.indexStop();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

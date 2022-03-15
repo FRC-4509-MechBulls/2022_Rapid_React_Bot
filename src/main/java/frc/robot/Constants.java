@@ -39,7 +39,7 @@ public final class Constants {
     public static final double DRIVETRAIN_SPEED = 1;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
-    public static final double INDEXER_SPEED = 0.4;
+    public static final double INDEXER_SPEED = 0.6;
     public static final double INTAKE_SPEED = 1;
     public static final double CLIMB_SPEED = 0;
     public static final double KICK_SPEED = 0.4;
@@ -52,7 +52,7 @@ public final class Constants {
     public static final int RIGHT_SERVO_CHANNEL = 9;
 
     public static final double SERVO_FAR_SHOT_LENGTH = 140;  //this is the length of the servo in mm
-    public static final double SERVO_FENDER_SHOT_LENGTH = 70;  //this is half of the length in mm
+    public static final double SERVO_FENDER_SHOT_LENGTH = 45;  //this is half of the length in mm
     public static final double SERVO_REJECT_SHOT_LENGTH = 0;  // this is the number 0, it's even, and round
 
     //Controller Inputs
@@ -99,8 +99,8 @@ public final class Constants {
     public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned
 
     //Digital Inputs
-    public static final int BB_1_CHANNEL = 0;
-    public static final int BB_2_CHANNEL = 2;
+    public static final int BB_1_CHANNEL = 4;
+    public static final int BB_2_CHANNEL = 9;
     public static final int BB_3_CHANNEL = 4;
     public static final int LIMIT_SWITCH_DI = 6;
 

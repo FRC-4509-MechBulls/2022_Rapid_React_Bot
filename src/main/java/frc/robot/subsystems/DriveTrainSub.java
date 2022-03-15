@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
  import edu.wpi.first.wpilibj.DoubleSolenoid;
  import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -32,6 +33,7 @@ public class DriveTrainSub extends SubsystemBase {
 
   private DoubleSolenoid shifter;
   private String shiftStatus; 
+  Timer timer;
   double speed;
 
  // private PneumaticsModuleType REVPH;
@@ -74,8 +76,14 @@ public class DriveTrainSub extends SubsystemBase {
   }
   
   public void autoDrive(){
+    timer.reset();
+    timer.start();
+    while (timer.get() < 2){
      drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED);
+    }
+    timer.stop();
   }
+  
 
   public void autoTurn(){
     drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED * -1);
