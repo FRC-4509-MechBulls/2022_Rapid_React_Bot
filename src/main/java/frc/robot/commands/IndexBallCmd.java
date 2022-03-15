@@ -14,7 +14,7 @@ public class IndexBallCmd extends CommandBase {
   public IndexBallCmd(IndexerSub i) {
     indexer = i;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexer);
+    addRequirements();
   }
 
   // Called when the command is initially scheduled.

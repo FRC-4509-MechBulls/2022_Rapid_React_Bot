@@ -36,7 +36,7 @@ public final class Constants {
     
 
     //Speeds
-    public static final double DRIVETRAIN_SPEED = 1;//set to low for demo with kids
+    public static final double DRIVETRAIN_SPEED = 0.6;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
     public static final double INDEXER_SPEED = 0.6;

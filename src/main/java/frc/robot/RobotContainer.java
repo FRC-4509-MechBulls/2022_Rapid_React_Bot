@@ -11,12 +11,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Autonomous;
+import frc.robot.commands.TwoBallAuto;
+import frc.robot.commands.AutoDriveCmd;
+import frc.robot.commands.AutoDriveTwo;
+import frc.robot.commands.AutoIndexCmd;
+import frc.robot.commands.AutoShoot;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractIntakeCmd;
 import frc.robot.commands.ServoFarShotCmd;
@@ -28,7 +33,7 @@ import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
-import frc.robot.commands.StopIndexCmd;
+import frc.robot.commands.StopIndexAndShootCmd;
 import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.VisionSub;
@@ -70,7 +75,12 @@ public class RobotContainer {
   private VisionSub camera;
 
   //auto
-  private Autonomous auto;
+  private TwoBallAuto autoTwoBall;
+  private OneBallAuto autoOneBall;
+  private AutoShoot autoShoot;
+  private AutoDriveCmd autoDriveOne;
+  private AutoDriveTwo autoDriveTwo;
+  private AutoIndexCmd autoIndex;
   SendableChooser<Command> chooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -95,18 +105,27 @@ public class RobotContainer {
     
     //Initializing all Intake Components
     intake = new IntakeSub();
+    deployIntake = new DeployIntakeCmd(intake);
+    retractIntake = new RetractIntakeCmd(intake);
     //commands are constructed in button bindings
     
     //Intitializing all ShooterClimb Components
     shooterClimb = new ShooterClimbSub();    // MRNOTE Servo conflict
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
+  
 
 
 
     //Initializing auto
-    auto = new Autonomous(driveTrain, limelight, intake, indexer, shooterClimb);
-    chooser.addOption("Autonomous", auto);
+    autoShoot = new AutoShoot(shooterClimb);
+    autoDriveOne = new AutoDriveCmd(driveTrain, intake);
+    autoDriveTwo = new AutoDriveTwo(driveTrain, intake);
+    autoIndex = new AutoIndexCmd(indexer);
+    autoTwoBall = new TwoBallAuto(driveTrain, limelight, intake, indexer, shooterClimb);
+    autoOneBall = new OneBallAuto(shooterClimb, indexer);
+    chooser.addOption("TwoBall", autoTwoBall);
+    chooser.addOption("OneBall", autoOneBall);
     SmartDashboard.putData("Auto Chooser", chooser);
 
     //Initializing servo sub
@@ -126,7 +145,7 @@ public class RobotContainer {
     beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
 
     Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
-    beamBreakDetector2.whileActiveContinuous(new StopIndexCmd(indexer));
+    beamBreakDetector2.whileActiveContinuous(new StopIndexAndShootCmd(indexer, shooterClimb));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -140,10 +159,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Intake */
-     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
+     JoystickButton deployIntakeLeftButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
      deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
    
-     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
+     JoystickButton retractIntakeLeftButton = new JoystickButton(driverController,XboxController.Button.kLeftBumper.value);
      retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
     
     /* Shooter */
@@ -161,11 +180,11 @@ public class RobotContainer {
 
 
     /* Driver */
-    JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
+    // JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    // shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
-    JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
+    // JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    // shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
 
     JoystickButton servoFender = new JoystickButton(driverController, XboxController.Button.kA.value);
     servoFender.whenPressed(new ServoFenderCmd(shooterClimb));

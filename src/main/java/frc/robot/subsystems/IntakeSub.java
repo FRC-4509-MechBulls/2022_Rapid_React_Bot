@@ -14,18 +14,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSub extends SubsystemBase {
-  private DoubleSolenoid intakeSolenoid;
+  //private DoubleSolenoid intakeSolenoid;
   private WPI_TalonSRX intake;
   private String IntakeStatus;
   //private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
     //only one solenoid, control both sides
-    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
+    //intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
     intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
     IntakeStatus = "None";
-    //intake.setInverted(true);
-    //intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
   }
 
   //temporary methods for actuating intake, might change later depending on logic
@@ -37,12 +35,6 @@ public class IntakeSub extends SubsystemBase {
     
   }
 
-  /*
-  public void deployIntakeRight() {
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
-    intakeRight.set(Constants.INTAKE_SPEED);
-  } */
-
   public void retractIntake() {
     //intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
     //intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
@@ -50,11 +42,6 @@ public class IntakeSub extends SubsystemBase {
     IntakeStatus = "Disabled";
   }
 
-  /*
-  public void retractIntakeRight() {
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
-    intakeRight.set(0);
-  } */
 
 
 @Override

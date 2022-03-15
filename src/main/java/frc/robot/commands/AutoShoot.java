@@ -5,29 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterClimbSub;
 
 public class AutoShoot extends CommandBase {
   ShooterClimbSub shoot;
-  LimelightSub limelight;
   /** Creates a new AutoShoot. */
-  public AutoShoot(ShooterClimbSub scs, LimelightSub l) {
+  public AutoShoot(ShooterClimbSub scs) {
     shoot = scs;
-    limelight = l;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shoot, limelight);
+    addRequirements(shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shoot.shootShooters();
+    shoot.fenderShot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override

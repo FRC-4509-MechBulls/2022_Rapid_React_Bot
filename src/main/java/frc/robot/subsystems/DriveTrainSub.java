@@ -84,6 +84,14 @@ public class DriveTrainSub extends SubsystemBase {
     timer.stop();
   }
   
+  public void autoDriveTwo(){
+    timer.reset();
+    timer.start();
+    while (timer.get() < 2){
+     drive.tankDrive(Constants.AUTO_SPEED*-1, Constants.AUTO_SPEED*-1);
+    }
+    timer.stop();
+  }
 
   public void autoTurn(){
     drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED * -1);
