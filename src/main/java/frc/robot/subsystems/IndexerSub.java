@@ -23,20 +23,18 @@ public class IndexerSub extends SubsystemBase {
   public IndexerSub() {
     indexerBeltLeft = new WPI_TalonSRX(Constants.INDEX_BELT_LEFT);
     indexerBeltLeft.setInverted(true);
-    indexerBeltLeft.setNeutralMode(NeutralMode.Coast);
+    indexerBeltLeft.setNeutralMode(NeutralMode.Brake);
     indexerBeltRight = new WPI_TalonSRX(Constants.INDEX_BELT_RIGHT);
     indexerBeltRight.setInverted(true);
-    indexerBeltRight.setNeutralMode(NeutralMode.Coast);
+    indexerBeltRight.setNeutralMode(NeutralMode.Brake);
 
-    bbFirst = new DigitalInput(Constants.BB_1_CHANNEL);
-    
-    bbSecond = new DigitalInput(Constants.BB_2_CHANNEL);
+    bbFirst = new DigitalInput(Constants.BB_1_CHANNEL); //maybe 4
   }
 
   
-  public void indexBall(double speed) {
-    indexerBeltRight.set(speed);
-    indexerBeltLeft.set(speed);
+  public void indexBall() {
+    indexerBeltRight.set(Constants.INDEXER_SPEED);
+    indexerBeltLeft.set(Constants.INDEXER_SPEED);
   }
 
   public void indexStop() {
@@ -51,16 +49,10 @@ public class IndexerSub extends SubsystemBase {
     return false;
   }
 
-  public boolean getBreakStatusStop() {
-    if (!bbSecond.get()) {
-      return true;
-    }
-    return false;
-  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("BeamBreak1", !bbFirst.get());
-    SmartDashboard.putBoolean("BeamBreak2", !bbSecond.get());
+    //SmartDashboard.putBoolean("BeamBreak2", !bbSecond.get());
   }
 }

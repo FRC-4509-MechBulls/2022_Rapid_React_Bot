@@ -28,7 +28,12 @@ public class AutoDriveCmd extends CommandBase {
   @Override
   public void initialize() {
     intake.deployIntake();
-    drivetrain.autoDrive();
+    timer.start();
+    while (timer.get() < 2)
+    {
+      drivetrain.autoDrive();
+    }
+    timer.stop();
     finish = true;
   }
 

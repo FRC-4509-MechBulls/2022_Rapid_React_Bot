@@ -96,7 +96,7 @@ public class RobotContainer {
     //shiftOut.addRequirements(driveTrain);
 
     //Intializing USBcamera
-     camera = new VisionSub();  //MRNOTE caused simulation to crash
+    // camera = new VisionSub();  //MRNOTE caused simulation to crash
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain, limelight);
@@ -119,11 +119,15 @@ public class RobotContainer {
 
     //Initializing auto
     autoShoot = new AutoShoot(shooterClimb);
+    autoShoot.addRequirements(shooterClimb);
     autoDriveOne = new AutoDriveCmd(driveTrain, intake);
+    autoDriveOne.addRequirements(driveTrain, intake);
     autoDriveTwo = new AutoDriveTwo(driveTrain, intake);
+    autoDriveTwo.addRequirements(driveTrain, intake);
     autoIndex = new AutoIndexCmd(indexer);
     autoTwoBall = new TwoBallAuto(driveTrain, limelight, intake, indexer, shooterClimb);
     autoOneBall = new OneBallAuto(shooterClimb, indexer);
+    
     chooser.addOption("TwoBall", autoTwoBall);
     chooser.addOption("OneBall", autoOneBall);
     SmartDashboard.putData("Auto Chooser", chooser);
@@ -144,8 +148,9 @@ public class RobotContainer {
     Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
     beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
 
-    Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
-    beamBreakDetector2.whileActiveContinuous(new StopIndexAndShootCmd(indexer, shooterClimb));
+    // MORGAN
+    // Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
+    // beamBreakDetector2.whileActiveContinuous(new StopIndexAndShootCmd(indexer, shooterClimb));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -180,11 +185,11 @@ public class RobotContainer {
 
 
     /* Driver */
-    // JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    // shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
+    JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
+    shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
-    // JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    // shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
+    JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kBack.value);
+    shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
 
     JoystickButton servoFender = new JoystickButton(driverController, XboxController.Button.kA.value);
     servoFender.whenPressed(new ServoFenderCmd(shooterClimb));

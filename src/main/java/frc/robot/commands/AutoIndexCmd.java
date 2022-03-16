@@ -14,24 +14,27 @@ public class AutoIndexCmd extends CommandBase {
   public AutoIndexCmd(IndexerSub idx) {
     indexer = idx;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements();
+    addRequirements(/*indexer*/);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    indexer.indexBall();
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexBall(Constants.INDEXER_SPEED);
+    //indexer.indexBall();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    indexer.indexStop();
+  }
 
   // Returns true when the command should end.
   @Override

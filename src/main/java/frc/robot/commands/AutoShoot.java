@@ -9,6 +9,7 @@ import frc.robot.subsystems.ShooterClimbSub;
 
 public class AutoShoot extends CommandBase {
   ShooterClimbSub shoot;
+  private boolean finish = false;
   /** Creates a new AutoShoot. */
   public AutoShoot(ShooterClimbSub scs) {
     shoot = scs;
@@ -19,7 +20,7 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shoot.fenderShot();
+    shoot.rejectBall();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,7 +31,9 @@ public class AutoShoot extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shoot.stop();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
  import edu.wpi.first.wpilibj.DoubleSolenoid;
  import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -23,6 +25,12 @@ public class DriveTrainSub extends SubsystemBase {
   private MotorController mc_leftFront;
   private MotorController mc_leftBack;
 
+  // private WPI_TalonFX leftFront;
+  // private WPI_TalonFX leftBack;
+
+  // private WPI_TalonFX rightFront;
+  // private WPI_TalonFX rightBack;
+
   private MotorController mc_rightFront;
   private MotorController mc_rightBack;
 
@@ -31,7 +39,7 @@ public class DriveTrainSub extends SubsystemBase {
 
   private DifferentialDrive drive;
 
-  private DoubleSolenoid shifter;
+  private Solenoid shifter;
   private String shiftStatus; 
   Timer timer;
   double speed;
@@ -49,17 +57,35 @@ public class DriveTrainSub extends SubsystemBase {
     mc_leftBack = new WPI_TalonFX(Constants.LEFT_BACK_TALON);
     mc_leftBack.setInverted(false);
 
+    // leftFront = new WPI_TalonFX(Constants.LEFT_FRONT_TALON);
+    // leftFront.setInverted(false);
+    // leftBack = new WPI_TalonFX(Constants.LEFT_BACK_TALON);
+    // leftBack.setInverted(false);
+
     mc_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_TALON);
     mc_rightFront.setInverted(true);
     mc_rightBack = new WPI_TalonFX(Constants.RIGHT_BACK_TALON);
     mc_rightBack.setInverted(true);
+
+    // rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_TALON);
+    // rightFront.setInverted(true);
+    // rightBack = new WPI_TalonFX(Constants.RIGHT_BACK_TALON);
+    // rightBack.setInverted(true);
+
+    // leftBack.follow(leftFront);
+    // rightBack.follow(rightFront);
+
+    // leftFront.configOpenloopRamp(2);
+    // rightFront.configOpenloopRamp(2);
     
     left = new MotorControllerGroup(mc_leftFront, mc_leftBack);
     right = new MotorControllerGroup(mc_rightFront, mc_rightBack);
 
     drive = new DifferentialDrive(left, right);
 
-    //shifter = new DoubleSolenoid(REVPH, Constants.SHIFTER_1_FORWARD_CHANNEL, Constants.SHIFTER_2_REVERSE_CHANNEL);
+    //drive = new DifferentialDrive(leftFront, rightFront);
+
+    shifter = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL);
   }
 
   //Creating a Command to drive and steer with the controller
@@ -75,46 +101,36 @@ public class DriveTrainSub extends SubsystemBase {
     drive.feed();
   }
   
-  public void autoDrive(){
-    timer.reset();
-    timer.start();
-    while (timer.get() < 2){
-     drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED);
-    }
-    timer.stop();
+  public void autoDriveTwo(){
+    drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED);
   }
   
-  public void autoDriveTwo(){
-    timer.reset();
-    timer.start();
-    while (timer.get() < 2){
+  public void autoDrive(){
      drive.tankDrive(Constants.AUTO_SPEED*-1, Constants.AUTO_SPEED*-1);
-    }
-    timer.stop();
   }
 
   public void autoTurn(){
     drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED * -1);
   }
 
- // high gear?
-  //  public void shiftIn() {
-  //   shifter.set(DoubleSolenoid.Value.kReverse);  
-  //   shiftStatus = "Low Gear";
-  //  }
+  // high gear?
+  public void shiftIn() {
+    shifter.set(false);  
+    shiftStatus = "Low Gear";
+  }
 
   //low gear?
-  //  public void shiftOut() {
-  //   shifter.set(DoubleSolenoid.Value.kForward);
-  //   shiftStatus = "High Gear";
-  //  }
+  public void shiftOut() {
+    shifter.set(true);
+    shiftStatus = "High Gear";
+  }
 
   public void aimLimelight(double driveCommand, double steerCommand) {
     drive.arcadeDrive(driveCommand, steerCommand);
   }
 
   public void seekLimelight() {
-    drive.arcadeDrive(0, 0.38);
+    drive.arcadeDrive(0, 0.45);
   }
 
   public void stop() {

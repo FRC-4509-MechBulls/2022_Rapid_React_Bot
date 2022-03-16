@@ -14,7 +14,7 @@ public class IndexBallCmd extends CommandBase {
   public IndexBallCmd(IndexerSub i) {
     indexer = i;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements();
+    addRequirements(/*indexer*/);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +24,7 @@ public class IndexBallCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexBall(Constants.INDEXER_SPEED);
+    indexer.indexBall();
   }
 
   // Called once the command ends or is interrupted.

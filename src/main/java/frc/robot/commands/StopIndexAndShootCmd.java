@@ -16,6 +16,7 @@ public class StopIndexAndShootCmd extends CommandBase {
     indexer = idx;
     shooter = scs;
     addRequirements(shooter);
+    //addRequirements(indexer);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
