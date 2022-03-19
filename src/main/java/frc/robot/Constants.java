@@ -40,10 +40,10 @@ public final class Constants {
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
     public static final double INDEXER_SPEED = 0.6;
-    public static final double INTAKE_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.65;
     public static final double CLIMB_SPEED = 0;
     public static final double KICK_SPEED = 0.4;
-    public static final double AUTO_SPEED = -0.3;
+    public static final double AUTO_SPEED = -0.5;
 
     //Servo settings
     public static final int SERVO_SPEED = 16;
@@ -95,8 +95,8 @@ public final class Constants {
     public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned
 
     //Digital Inputs
-    public static final int BB_1_CHANNEL = 4; //9?
-    //public static final int BB_2_CHANNEL = 4;
+    public static final int BB_1_CHANNEL = 9; //9?
+    public static final int BB_2_CHANNEL = 4;
     //public static final int BB_3_CHANNEL = 4;
     public static final int LIMIT_SWITCH_DI = 6;
 

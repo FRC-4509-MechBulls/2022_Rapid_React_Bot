@@ -4,18 +4,16 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
- import edu.wpi.first.wpilibj.DoubleSolenoid;
- import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -43,6 +41,7 @@ public class DriveTrainSub extends SubsystemBase {
   private String shiftStatus; 
   Timer timer;
   double speed;
+  SlewRateLimiter filter = new SlewRateLimiter(0.9);
 
  // private PneumaticsModuleType REVPH;
 
@@ -92,7 +91,19 @@ public class DriveTrainSub extends SubsystemBase {
   public void joystickDrive(XboxController controller, double speed) {
     double zRotation;
     double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*-speed;
-    if (Math.abs(controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)) > 0.05) {
+    if (Math.abs(controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)) > 0.12) {
+      zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
+    } else {
+      zRotation = 0.0;
+    }
+    drive.arcadeDrive(xSpeed, zRotation);
+    drive.feed();
+  }
+
+  public void joystickDriveInverted(XboxController controller, double speed) {
+    double zRotation;
+    double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*speed;
+    if (Math.abs(controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)) > 0.12) {
       zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
     } else {
       zRotation = 0.0;

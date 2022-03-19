@@ -21,6 +21,7 @@ import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.JoystickDriveInvertedCmd;
 import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractIntakeCmd;
@@ -114,7 +115,8 @@ public class RobotContainer {
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
   
-
+    indexer = new IndexerSub();
+    indexBall1 = new IndexBallCmd(indexer);
 
 
     //Initializing auto
@@ -126,7 +128,7 @@ public class RobotContainer {
     autoDriveTwo.addRequirements(driveTrain, intake);
     autoIndex = new AutoIndexCmd(indexer);
     autoTwoBall = new TwoBallAuto(driveTrain, limelight, intake, indexer, shooterClimb);
-    autoOneBall = new OneBallAuto(shooterClimb, indexer);
+    autoOneBall = new OneBallAuto(shooterClimb, indexer, driveTrain, intake);
     
     chooser.addOption("TwoBall", autoTwoBall);
     chooser.addOption("OneBall", autoOneBall);
@@ -137,7 +139,7 @@ public class RobotContainer {
     //setHoodToAngle = new SetHoodToAngleCmd(servo); //don't know if this needs to be here
 
     //Inititalizing all Indexer Components
-    indexer = new IndexerSub();
+    
     //commands constructed in button bindings
 
     //Indexer beam break triggers
@@ -145,8 +147,8 @@ public class RobotContainer {
 
     //BEAMBREAKS:
 
-    Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
-    beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
+    //Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
+    //beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
 
     // MORGAN
     // Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
@@ -164,10 +166,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Intake */
-     JoystickButton deployIntakeLeftButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
      deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
    
-     JoystickButton retractIntakeLeftButton = new JoystickButton(driverController,XboxController.Button.kLeftBumper.value);
+     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
      retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
     
     /* Shooter */
@@ -185,11 +187,11 @@ public class RobotContainer {
 
 
     /* Driver */
-    JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
-    shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
+    // JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    // shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
-    JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kBack.value);
-    shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
+    // JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    // shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
 
     JoystickButton servoFender = new JoystickButton(driverController, XboxController.Button.kA.value);
     servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
@@ -199,6 +201,9 @@ public class RobotContainer {
 
     JoystickButton servoFarShot = new JoystickButton(driverController, XboxController.Button.kB.value);
     servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
+
+    //JoystickButton changeHeadButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    //changeHeadButton.toggleWhenPressed(new JoystickDriveInvertedCmd(driveTrain, limelight));
   }
   
 

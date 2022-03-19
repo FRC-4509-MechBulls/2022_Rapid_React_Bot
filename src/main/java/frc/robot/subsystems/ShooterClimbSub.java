@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,10 +28,11 @@ public class ShooterClimbSub extends SubsystemBase {
   Timer timer;
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
+  private Compressor compressor;
 
 
   public ShooterClimbSub() {
-
+   // compressor = new Compressor(module, moduleType)
     leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
 
@@ -85,6 +87,15 @@ public class ShooterClimbSub extends SubsystemBase {
   }
 
   public void fenderShot() {
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+  }
+
+  public void autoFender(){
+    leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
     leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     topWheel.set(TalonFXControlMode.Velocity, -7300);

@@ -19,6 +19,6 @@ public class TwoBallAuto extends SequentialCommandGroup {
   public TwoBallAuto(DriveTrainSub dt, LimelightSub l, IntakeSub i, IndexerSub idx, ShooterClimbSub scs) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    //addCommands(new OneBallAuto(scs, idx), new StopIndexAndShootCmd(idx, scs), new AutoDriveCmd(dt, i), new StopDriveCmd(dt), new AutoDriveTwo(dt, i), new OneBallAuto(scs, idx), new StopIndexAndShootCmd(idx, scs));
+    //addCommands(new OneBallAuto(scs, idx), new AutoDriveCmd(dt, i), new StopDriveCmd(dt), new AutoDriveTwo(dt, i), new OneBallAuto(scs, idx), new StopIndexAndShootCmd(idx, scs));
   }
 }

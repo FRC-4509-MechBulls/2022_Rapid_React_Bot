@@ -11,6 +11,7 @@ import frc.robot.subsystems.ShooterClimbSub;
 public class StopIndexAndShootCmd extends CommandBase {
   IndexerSub indexer;
   ShooterClimbSub shooter;
+  private boolean finish = false;
   /** Creates a new StopIndexCmd. */
   public StopIndexAndShootCmd(IndexerSub idx, ShooterClimbSub scs) {
     indexer = idx;
@@ -22,13 +23,16 @@ public class StopIndexAndShootCmd extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    indexer.indexStop();
+    shooter.stop();
+    finish = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexStop();
-    shooter.stop();
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +42,6 @@ public class StopIndexAndShootCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finish;
   }
 }
