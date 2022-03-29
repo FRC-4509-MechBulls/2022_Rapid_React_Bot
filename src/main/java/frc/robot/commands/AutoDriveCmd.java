@@ -27,9 +27,10 @@ public class AutoDriveCmd extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //intake.deployIntake();
+    intake.deployIntake();
+    timer.reset();
     timer.start();
-    while (timer.get() < 4)
+    while (timer.get() < 2)
     {
       drivetrain.autoDrive();
     }

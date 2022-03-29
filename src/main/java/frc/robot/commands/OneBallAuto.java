@@ -19,7 +19,7 @@ public class OneBallAuto extends SequentialCommandGroup {
   public OneBallAuto(ShooterClimbSub scs, IndexerSub idx, DriveTrainSub dt, IntakeSub i) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoShoot(scs), new WaitCommand(1), new AutoIndexCmd(idx), new StopIndexAndShootCmd(idx, scs), new AutoDriveCmd(dt, i));
+    addCommands(new AutoShoot(scs), new AutoIndexCmd(idx), new StopIndexAndShootCmd(idx, scs) /*new AutoDriveCmd(dt, i)*/);
     //addCommands(new AutoDriveCmd(dt, i));
   }
 }

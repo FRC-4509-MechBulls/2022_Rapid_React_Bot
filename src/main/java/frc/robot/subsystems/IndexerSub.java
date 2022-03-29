@@ -27,6 +27,7 @@ public class IndexerSub extends SubsystemBase {
     indexerBeltRight.setInverted(true);
 
     bbFirst = new DigitalInput(Constants.BB_1_CHANNEL); //maybe 4
+    bbSecond = new DigitalInput(Constants.BB_2_CHANNEL);
   }
 
   
@@ -40,17 +41,48 @@ public class IndexerSub extends SubsystemBase {
     indexerBeltRight.set(0);
   }
 
+  public void BBindexBall(){
+    if (!bbFirst.get()){
+        indexBall();
+        if (!bbSecond.get()){
+          indexStop();
+        }
+      }
+     if (!bbFirst.get() && !bbSecond.get()){
+      indexBall();
+      if (bbFirst.get() && !bbSecond.get()){
+        indexStop();
+      }
+    }
+
+  }
+
+  public void BBindexBallMR(){
+
+  }
+
+  
+
   public boolean getBreakStatusRun() {
     if (!bbFirst.get()) {
+      return true;
+    } 
+    return false;
+  }
+
+  public boolean getBreakStatusRun2(){
+    if (!bbSecond.get()){
       return true;
     }
     return false;
   }
 
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("BeamBreak1", !bbFirst.get());
+    SmartDashboard.putBoolean("BeamBreak2", !bbSecond.get());
     //SmartDashboard.putBoolean("BeamBreak2", !bbSecond.get());
   }
 }

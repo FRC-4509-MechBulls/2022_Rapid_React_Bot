@@ -74,8 +74,8 @@ public class ShooterClimbSub extends SubsystemBase {
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
 
     
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 8000);
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 8000);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6500);
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6500);
     topWheel.set(TalonFXControlMode.Velocity, -8500);
     // timer.reset();
     // timer.start();

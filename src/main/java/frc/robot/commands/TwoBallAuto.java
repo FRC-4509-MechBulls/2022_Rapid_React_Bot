@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -19,6 +20,6 @@ public class TwoBallAuto extends SequentialCommandGroup {
   public TwoBallAuto(DriveTrainSub dt, LimelightSub l, IntakeSub i, IndexerSub idx, ShooterClimbSub scs) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    //addCommands(new OneBallAuto(scs, idx), new AutoDriveCmd(dt, i), new StopDriveCmd(dt), new AutoDriveTwo(dt, i), new OneBallAuto(scs, idx), new StopIndexAndShootCmd(idx, scs));
+    addCommands(new OneBallAuto(scs, idx, dt, i), new AutoDriveCmd(dt, i), new AutoIndexCmd(idx), new AutoDriveTwo(dt, i), new WaitCommand(1), new OneBallAuto(scs, idx, dt, i), new StopIndexAndShootCmd(idx, scs));
   }
 }

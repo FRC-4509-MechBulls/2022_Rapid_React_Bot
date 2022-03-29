@@ -41,7 +41,7 @@ public class DriveTrainSub extends SubsystemBase {
   private String shiftStatus; 
   Timer timer;
   double speed;
-  SlewRateLimiter filter = new SlewRateLimiter(0.9);
+  SlewRateLimiter filter = new SlewRateLimiter(0.96);
 
  // private PneumaticsModuleType REVPH;
 
@@ -92,11 +92,11 @@ public class DriveTrainSub extends SubsystemBase {
     double zRotation;
     double xSpeed = ((controller.getRightTriggerAxis())-(controller.getLeftTriggerAxis()))*-speed;
     if (Math.abs(controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)) > 0.12) {
-      zRotation = controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed;
+      zRotation = (controller.getRawAxis(Constants.XBOX_LEFT_X_AXIS)*-speed) * 0.7;
     } else {
       zRotation = 0.0;
     }
-    drive.arcadeDrive(xSpeed, zRotation);
+    drive.arcadeDrive(filter.calculate(xSpeed), zRotation);
     drive.feed();
   }
 
@@ -141,7 +141,7 @@ public class DriveTrainSub extends SubsystemBase {
   }
 
   public void seekLimelight() {
-    drive.arcadeDrive(0, 0.45);
+    drive.arcadeDrive(0, 0.35);
   }
 
   public void stop() {

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -51,7 +52,7 @@ public final class Constants {
     public static final int LEFT_SERVO_CHANNEL = 0;
     public static final int RIGHT_SERVO_CHANNEL = 9;
 
-    public static final double SERVO_FAR_SHOT_LENGTH = 140;  //this is the length of the servo in mm
+    public static final double SERVO_FAR_SHOT_LENGTH = 100;  //this is the length of the servo in mm
     public static final double SERVO_FENDER_SHOT_LENGTH = 45;  //this is half of the length in mm
     public static final double SERVO_REJECT_SHOT_LENGTH = 0;  // this is the number 0, it's even, and round
 
@@ -73,6 +74,8 @@ public final class Constants {
     //Solenoid Channels
     public static final int SHIFTER_CHANNEL = 1;
 
+    public static final int CLIMB_PORT = 2;
+    
     public static final int HOOK_FORWARD = 2;
     public static final int HOOK_REVERSE = 3;
 
@@ -103,6 +106,7 @@ public final class Constants {
     //PWM
     public static final int SERVO_1_CHANNEL = 0;
     public static final int SERVO_2_CHANNEL = 9;
+    
 
     
 }

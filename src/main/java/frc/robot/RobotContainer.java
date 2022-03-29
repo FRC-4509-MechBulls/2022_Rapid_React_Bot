@@ -16,18 +16,22 @@ import frc.robot.commands.AutoDriveCmd;
 import frc.robot.commands.AutoDriveTwo;
 import frc.robot.commands.AutoIndexCmd;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.BBIndexBallCmd;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeCmd;
+import frc.robot.commands.ExtendClimbCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.JoystickDriveInvertedCmd;
 import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.RejectBallCmd;
+import frc.robot.commands.RetractClimbCmd;
 import frc.robot.commands.RetractIntakeCmd;
 import frc.robot.commands.ServoFarShotCmd;
 import frc.robot.commands.ServoFenderCmd;
 import frc.robot.commands.ServoRejectBallCmd;
+import frc.robot.subsystems.ClimbSub;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -55,6 +59,7 @@ public class RobotContainer {
   //ShooterClimb
   private ShooterClimbSub shooterClimb;
   private ShootShootersCmd shootShooters;
+  private ClimbSub climb;
 
   //DriveTrain
   private ShiftInCmd shiftIn;
@@ -93,11 +98,9 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-    //shiftIn.addRequirements(driveTrain);
-    //shiftOut.addRequirements(driveTrain);
 
     //Intializing USBcamera
-    // camera = new VisionSub();  //MRNOTE caused simulation to crash
+    camera = new VisionSub();  //MRNOTE caused simulation to crash
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain, limelight);
@@ -114,7 +117,9 @@ public class RobotContainer {
     shooterClimb = new ShooterClimbSub();    // MRNOTE Servo conflict
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
-  
+    
+    climb = new ClimbSub();
+
     indexer = new IndexerSub();
     indexBall1 = new IndexBallCmd(indexer);
 
@@ -145,14 +150,12 @@ public class RobotContainer {
     //Indexer beam break triggers
     //Each trigger represents an individual status, which determines which indexer should be ran
 
-    //BEAMBREAKS:
+    // //BEAMBREAKS:
 
-    //Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
-    //beamBreakDetector1.whileActiveContinuous(new IndexBallCmd(indexer));
-
-    // MORGAN
-    // Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusStop());
-    // beamBreakDetector2.whileActiveContinuous(new StopIndexAndShootCmd(indexer, shooterClimb));
+    //  Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
+    //  beamBreakDetector1.whileActiveContinuous(new BBIndexBallCmd(indexer));
+    //  Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusRun2());
+    //  beamBreakDetector2.whileActiveOnce(new StopIndexAndShootCmd(indexer, shooterClimb));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -185,25 +188,19 @@ public class RobotContainer {
     JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
     indexButton.whileHeld(new IndexBallCmd(indexer));
 
-
-    /* Driver */
-    // JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    // shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
-
-    // JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    // shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
-
-    JoystickButton servoFender = new JoystickButton(driverController, XboxController.Button.kA.value);
+    JoystickButton servoFender = new JoystickButton(shooterController, XboxController.Button.kBack.value);
     servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
     
-    JoystickButton servoReject = new JoystickButton(driverController, XboxController.Button.kX.value);
-    servoReject.whenPressed(new ServoRejectBallCmd(shooterClimb));
-
-    JoystickButton servoFarShot = new JoystickButton(driverController, XboxController.Button.kB.value);
+    JoystickButton servoFarShot = new JoystickButton(shooterController, XboxController.Button.kStart.value);
     servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
 
-    //JoystickButton changeHeadButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    //changeHeadButton.toggleWhenPressed(new JoystickDriveInvertedCmd(driveTrain, limelight));
+
+    /* Driver */
+     JoystickButton extendClimbButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+     extendClimbButton.whenPressed(new ExtendClimbCmd(climb));
+
+     JoystickButton retractClimbButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+     retractClimbButton.whenPressed(new RetractClimbCmd(climb));
   }
   
 
