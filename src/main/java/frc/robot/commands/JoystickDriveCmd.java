@@ -33,7 +33,7 @@ public class JoystickDriveCmd extends CommandBase {
     if (RobotContainer.driverController.getYButton()) {
       if (limelight.isTargetValid()) {
         // if target is detected, run aim command
-        driveTrain.aimLimelight(0, limelight.getSteer());
+        driveTrain.aimLimelight(limelight.getDistanceAdjust(), limelight.getSteer());
         
       } else {
         // robot turns until target is detected

@@ -21,6 +21,7 @@ import frc.robot.commands.BBIndexBallCmd;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.ExtendClimbCmd;
 import frc.robot.commands.FenderShotCmd;
+import frc.robot.commands.IndexBackwardsCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.JoystickDriveInvertedCmd;
@@ -37,10 +38,10 @@ import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
-import frc.robot.commands.ShootShootersCmd;
+import frc.robot.commands.FarShotCmd;
 import frc.robot.commands.StopIndexAndShootCmd;
 import frc.robot.subsystems.LimelightSub;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ShooterSub;
 import frc.robot.subsystems.VisionSub;
 
 
@@ -57,8 +58,8 @@ public class RobotContainer {
   public static XboxController shooterController;
 
   //ShooterClimb
-  private ShooterClimbSub shooterClimb;
-  private ShootShootersCmd shootShooters;
+  private ShooterSub shooterClimb;
+  private FarShotCmd shootShooters;
   private ClimbSub climb;
 
   //DriveTrain
@@ -114,8 +115,8 @@ public class RobotContainer {
     //commands are constructed in button bindings
     
     //Intitializing all ShooterClimb Components
-    shooterClimb = new ShooterClimbSub();    // MRNOTE Servo conflict
-    shootShooters = new ShootShootersCmd(shooterClimb);
+    shooterClimb = new ShooterSub();    // MRNOTE Servo conflict
+    shootShooters = new FarShotCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
     
     climb = new ClimbSub();
@@ -177,7 +178,7 @@ public class RobotContainer {
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
-    shootShootersButton.whileHeld(new ShootShootersCmd(shooterClimb));
+    shootShootersButton.whileHeld(new FarShotCmd(shooterClimb));
 
     JoystickButton fenderShotButton = new JoystickButton(shooterController, XboxController.Button.kA.value);
     fenderShotButton.whileHeld(new FenderShotCmd(shooterClimb));
@@ -188,11 +189,15 @@ public class RobotContainer {
     JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
     indexButton.whileHeld(new IndexBallCmd(indexer));
 
-    JoystickButton servoFender = new JoystickButton(shooterController, XboxController.Button.kBack.value);
-    servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
+    JoystickButton indexBackwardsButton = new JoystickButton(shooterController, XboxController.Button.kStart.value);
+    indexBackwardsButton.whileHeld(new IndexBackwardsCmd(indexer));
+
+    // JoystickButton servoFender = new JoystickButton(shooterController, XboxController.Button.kBack.value);
+    // servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
     
-    JoystickButton servoFarShot = new JoystickButton(shooterController, XboxController.Button.kStart.value);
-    servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
+    // JoystickButton servoFarShot = new JoystickButton(shooterController, XboxController.Button.kStart.value);
+    // servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
+
 
 
     /* Driver */

@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ShooterSub;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OneBallAuto extends SequentialCommandGroup {
   /** Creates a new OneBallAuto. */
-  public OneBallAuto(ShooterClimbSub scs, IndexerSub idx, DriveTrainSub dt, IntakeSub i) {
+  public OneBallAuto(ShooterSub scs, IndexerSub idx, DriveTrainSub dt, IntakeSub i) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AutoShoot(scs), new AutoIndexCmd(idx), new StopIndexAndShootCmd(idx, scs) /*new AutoDriveCmd(dt, i)*/);
