@@ -104,9 +104,9 @@ public class ShooterSub extends SubsystemBase {
     topWheel.set(TalonFXControlMode.PercentOutput, 0);
     kickWheel.set(TalonFXControlMode.PercentOutput, 0);
   }
-
+/*
   public void configVelocLoop() {
-    /* shooterWheel and topWheel */
+    /* shooterWheel and topWheel 
     //configuring integrated encoders
     leftShooterWheel.configFactoryDefault();
     leftShooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -120,18 +120,18 @@ public class ShooterSub extends SubsystemBase {
     topWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     topWheel.setSelectedSensorPosition(0, 0, 10);
 
-    /* newer config API */
+    /* newer config API 
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
-    /* config all the settings */
+    /* config all the settings 
     leftShooterWheel.configAllSettings(configs);
     rightShooterWheel.configAllSettings(configs);
     //shooterWheelInverted.configAllSettings(configs);
 
     topWheel.configAllSettings(configs);
 
-    /*config nominal outputs */
+    /*config nominal outputs 
     leftShooterWheel.configNominalOutputForward(0, Constants.kTimeoutMs);
 		leftShooterWheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		leftShooterWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
@@ -146,7 +146,7 @@ public class ShooterSub extends SubsystemBase {
 		topWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
 		topWheel.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 */
+    /* Config the Velocity closed loop gains in slot0 
 		leftShooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
 		leftShooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
 		leftShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
@@ -157,7 +157,7 @@ public class ShooterSub extends SubsystemBase {
     rightShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
     rightShooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 */
+    /* Config the Velocity closed loop gains in slot0 
 		topWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kF, Constants.kTimeoutMs);
 		topWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kP, Constants.kTimeoutMs);
 		topWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kI, Constants.kTimeoutMs);
@@ -165,8 +165,9 @@ public class ShooterSub extends SubsystemBase {
   }
 
   // configures loop for position for climb
+  /*
   public void configPosLoop() {
-    /* shooterWheel and topWheel */
+    /* shooterWheel and topWheel 
     //configuring integrated encoders
     leftShooterWheel.configFactoryDefault();
     leftShooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
@@ -174,22 +175,22 @@ public class ShooterSub extends SubsystemBase {
     rightShooterWheel.configFactoryDefault();
     rightShooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     
-    /* newer config API */
+    /* newer config API 
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
-    /* config all the settings */
+    /* config all the settings 
     leftShooterWheel.configAllSettings(configs);
     rightShooterWheel.configAllSettings(configs);
     //shooterWheelInverted.configAllSettings(configs);
 
-    /*config nominal outputs */
+    /*config nominal outputs 
     leftShooterWheel.configNominalOutputForward(0, Constants.kTimeoutMs);
 		leftShooterWheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		leftShooterWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
 		leftShooterWheel.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-    /*config nominal outputs */
+    /*config nominal outputs 
     rightShooterWheel.configNominalOutputForward(0, Constants.kTimeoutMs);
     rightShooterWheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
     rightShooterWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
@@ -199,17 +200,17 @@ public class ShooterSub extends SubsystemBase {
 		 * Config the allowable closed-loop error, Closed-Loop output will be
 		 * neutral within this range. See Table in Section 17.2.1 for native
 		 * units per rotation.
-		 */
+		 
 		leftShooterWheel.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     rightShooterWheel.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 */
+    /* Config the Velocity closed loop gains in slot0
 		leftShooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kF, Constants.kTimeoutMs);
 		leftShooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kP, Constants.kTimeoutMs);
 		leftShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
 		leftShooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kD, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 */
+    /* Config the Velocity closed loop gains in slot0 
 		rightShooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kF, Constants.kTimeoutMs);
 		rightShooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kP, Constants.kTimeoutMs);
 		rightShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
