@@ -31,8 +31,9 @@ public class AutoIndexCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.get() < 2){
-      indexer.indexBall();
+    if (timer.get() < 1.5){
+      indexer.indexBall(0.4); // this was the speed before I changed the speed in the method in the subsystem
+      //indexer.indexBall(Constants.INDEXER_SPEED);
     }
     else{
       finish = true;

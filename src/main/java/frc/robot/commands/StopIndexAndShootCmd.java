@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSub;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ShooterSub;
 
 public class StopIndexAndShootCmd extends CommandBase {
   IndexerSub indexer;
-  ShooterClimbSub shooter;
+  ShooterSub shooter;
   private boolean finish = false;
   /** Creates a new StopIndexCmd. */
-  public StopIndexAndShootCmd(IndexerSub idx, ShooterClimbSub scs) {
+  public StopIndexAndShootCmd(IndexerSub idx, ShooterSub scs) {
     indexer = idx;
     shooter = scs;
     addRequirements(shooter);

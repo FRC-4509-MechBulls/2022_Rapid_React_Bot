@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ShooterSub;
 
 public class AutoShoot extends CommandBase {
-  ShooterClimbSub shoot;
+  ShooterSub shoot;
   private boolean finish = false;
   Timer timer;
   /** Creates a new AutoShoot. */
-  public AutoShoot(ShooterClimbSub scs) {
+  public AutoShoot(ShooterSub scs) {
     shoot = scs;
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.

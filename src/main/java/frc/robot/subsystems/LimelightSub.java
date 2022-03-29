@@ -11,11 +11,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSub extends SubsystemBase {
   private double STEER_K = -0.04; // needs to be tuned
+  private double DRIVE_K = -0.1; // needs to be tuned
   private double min_cmd = 0.07;
   private double steer_cmd;
+  private double drive_cmd;
   //private double DRIVE_K = 0.26;
   //private double DESIRED_TARGET_AREA = 10.0; //percent of the screen
   //private double MAX_DRIVE = 0.6;
+
+  private double distance_error;
 
   private double current_distance;
 
@@ -45,6 +49,12 @@ public class LimelightSub extends SubsystemBase {
     }
     
     return steer_cmd; 
+  }
+
+  public double getDistanceAdjust() {
+    distance_error = ty - 15; // figure out actual error
+    drive_cmd = DRIVE_K * distance_error;
+    return drive_cmd;
   }
 
   /* NEED TO UPDATE EQUATION */

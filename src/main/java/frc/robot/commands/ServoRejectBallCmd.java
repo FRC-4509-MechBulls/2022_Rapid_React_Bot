@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ShooterSub;
 
 public class ServoRejectBallCmd extends CommandBase {
   /** Creates a new ServoRejectBallCmd. */
-  ShooterClimbSub shooter;
-  public ServoRejectBallCmd(ShooterClimbSub sc) {
+  ShooterSub shooter;
+  public ServoRejectBallCmd(ShooterSub sc) {
     shooter = sc;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);

@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class DriveTrainSub extends SubsystemBase {
   //#region Declarations!
@@ -41,7 +43,7 @@ public class DriveTrainSub extends SubsystemBase {
   private String shiftStatus; 
   Timer timer;
   double speed;
-  SlewRateLimiter filter = new SlewRateLimiter(0.96);
+  SlewRateLimiter filter = new SlewRateLimiter(1.5);
 
  // private PneumaticsModuleType REVPH;
 
@@ -144,6 +146,13 @@ public class DriveTrainSub extends SubsystemBase {
     drive.arcadeDrive(0, 0.35);
   }
 
+  public boolean readyToShoot() {
+    if (RobotContainer.driverController.getAButton()) {
+      return true;
+    }
+    return false;
+  }
+
   public void stop() {
     drive.stopMotor();
   }
@@ -151,6 +160,7 @@ public class DriveTrainSub extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putString("Drivetrain Status", shiftStatus);
+    SmartDashboard.putBoolean("Ready To Shoot!!", readyToShoot());
     // This method will be called once per scheduler run
   }
 }

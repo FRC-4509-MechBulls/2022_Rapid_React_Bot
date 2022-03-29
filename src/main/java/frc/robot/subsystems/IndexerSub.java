@@ -23,17 +23,24 @@ public class IndexerSub extends SubsystemBase {
   public IndexerSub() {
     indexerBeltLeft = new WPI_TalonSRX(Constants.INDEX_BELT_LEFT);
     indexerBeltLeft.setInverted(true);
+    indexerBeltLeft.configFactoryDefault();
     indexerBeltRight = new WPI_TalonSRX(Constants.INDEX_BELT_RIGHT);
     indexerBeltRight.setInverted(true);
+    indexerBeltRight.configFactoryDefault();
 
     bbFirst = new DigitalInput(Constants.BB_1_CHANNEL); //maybe 4
     bbSecond = new DigitalInput(Constants.BB_2_CHANNEL);
   }
 
   
-  public void indexBall() {
-    indexerBeltRight.set(0.4);
-    indexerBeltLeft.set(0.4);
+  public void indexBall(double speed) {
+    indexerBeltRight.set(speed);
+    indexerBeltLeft.set(speed);
+  }
+
+  public void indexBackwards(double speed) {
+    indexerBeltRight.set(-speed);
+    indexerBeltLeft.set(-speed);
   }
 
   public void indexStop() {
@@ -43,13 +50,13 @@ public class IndexerSub extends SubsystemBase {
 
   public void BBindexBall(){
     if (!bbFirst.get()){
-        indexBall();
+        indexBall(Constants.INDEXER_SPEED);
         if (!bbSecond.get()){
           indexStop();
         }
       }
      if (!bbFirst.get() && !bbSecond.get()){
-      indexBall();
+      indexBall(Constants.INDEXER_SPEED);
       if (bbFirst.get() && !bbSecond.get()){
         indexStop();
       }

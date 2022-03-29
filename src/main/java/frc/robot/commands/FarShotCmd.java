@@ -5,34 +5,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.IndexerSub;
+import frc.robot.subsystems.ShooterSub;
 
-public class IndexBallCmd extends CommandBase {
-  /** Creates a new IndexBallCmd. */
-  IndexerSub indexer;
-  public IndexBallCmd(IndexerSub idx) {
-    indexer = idx;
+public class FarShotCmd extends CommandBase {
+  
+  private ShooterSub shooter;
+
+  /** Creates a new Shoot1. */
+  public FarShotCmd(ShooterSub sc) {
+    shooter = sc;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    shooter.SetServoFarShot();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    indexer.indexBall(Constants.INDEXER_SPEED);
+  public void execute(){
+    shooter.farShot();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexer.indexStop();
+    shooter.stop();
   }
 
   // Returns true when the command should end.

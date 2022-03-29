@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.LinearServo;
 
-public class ShooterClimbSub extends SubsystemBase {
+public class ShooterSub extends SubsystemBase {
   private TalonFX leftShooterWheel;
   private TalonFX rightShooterWheel;
   private TalonFX topWheel;
@@ -29,9 +30,10 @@ public class ShooterClimbSub extends SubsystemBase {
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
   private Compressor compressor;
+  SlewRateLimiter filter = new SlewRateLimiter(1.0); //change
 
 
-  public ShooterClimbSub() {
+  public ShooterSub() {
    // compressor = new Compressor(module, moduleType)
     leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
@@ -64,57 +66,34 @@ public class ShooterClimbSub extends SubsystemBase {
     leftHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
   }
-  public void shootShooters() {
-
-    /* shooterWheel and topWheel spin at different velocities,
-    * but should spin at the same time, so they are in the same method */
-    //double targetVelocity_UnitsPer100ms_shooterWheel = distance * 1; // use polynomial regression line
-    //double targetVelocity_UnitsPer100ms_topWheel = distance * 1; // use polynomial regression line
-    // we'll figure out these equations later^^ (and changed "variable" to something passed throught by limelight)
-    //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
-
-    
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 6500);
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 6500);
-    topWheel.set(TalonFXControlMode.Velocity, -8500);
-    // timer.reset();
-    // timer.start();
-    // while (timer.get() > 0.5 && timer.get() < 2)
-    // {
+  public void farShot() {    
+    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6500));
+    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6500));
+    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-8500));
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-    // }
-    // timer.stop();
   }
 
   public void fenderShot() {
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
-    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
+    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-7300));
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
   }
 
   public void autoFender(){
     leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
-    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
+    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-7300));
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
   }
 
   public void rejectBall(){
-    
-
     leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);  // robot barf
     rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);
     topWheel.set(TalonFXControlMode.PercentOutput, -0.35);
-    // timer.reset();
-    // timer.start();
-    // while (timer.get() > 0.5 && timer.get() < 2)
-    // {
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-    // }
-    // timer.stop();
   }
 
 
@@ -183,17 +162,6 @@ public class ShooterClimbSub extends SubsystemBase {
 		topWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kP, Constants.kTimeoutMs);
 		topWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kI, Constants.kTimeoutMs);
 		topWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kD, Constants.kTimeoutMs);
-
-    /* hood */
-    /*
-    // configuring which encoder is being used - ctre mag encoder, relative
-    hood.configFactoryDefault();
-    hood.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 10);
-    hood.setSensorPhase(false); // decides which direction is positive
- 
-    // reset encoders to zero
-    hood.setSelectedSensorPosition(0, 0, 10);
-    */
   }
 
   // configures loop for position for climb
@@ -247,66 +215,6 @@ public class ShooterClimbSub extends SubsystemBase {
 		rightShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
 		rightShooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kD, Constants.kTimeoutMs);
   }
-  /* not doing the fancy climb for now so commenting out all this stuff unless we need it later lol */
-
-  /*
-  public void climbStage1() {
-    /* parameters of wait commands will be changed later 
-    configPosLoop(); //configures position closed loop
-    enable.set(DoubleSolenoid.Value.kForward); //forward or reverse? do we need to initialize a direction?
-    new WaitCommand(1);
-    while (!limitSwitch.get()) { //rotate down until limit switch is toggled
-      shooterWheel.set(TalonFXControlMode.PercentOutput, 0.1); //need to be set to negative?
-    }
-    shooterWheel.set(TalonFXControlMode.PercentOutput, 0); //stops motor
-    shooterWheel.setSelectedSensorPosition(0, 0, 10); //resets encoder position
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position1); //moves to position1
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kForward); //extends pneumatics
-  } */
-
-  /* 
-  public void climbStage2() {
-    /* parameters of wait commands will be changed later
-    configPosLoop(); //configures position closed loop
-    shooterWheel.set(TalonFXControlMode.Position, position2); //moves to position 2
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position3); //moves to position 3
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kReverse); //retracts pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position4); //moves to position 4
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kForward); //extends pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position2); //moves to position 2
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position3); //moves to position 3
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kReverse); //retracts pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position4); //moves to position 4
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kForward); //extends pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position2); //moves to position 2
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position3); //moves to position 3
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kReverse); //retracts pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position4); //moves to position 4
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kForward); //extends pneumatics
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position2); //moves to position 2
-    new WaitCommand(1);
-    shooterWheel.set(TalonFXControlMode.Position, position3); //moves to position 3
-    new WaitCommand(1);
-    actuation.set(DoubleSolenoid.Value.kReverse); //retracts pneumatics
-  } */
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
