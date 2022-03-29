@@ -8,51 +8,44 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSub extends SubsystemBase {
-  private DoubleSolenoid intakeSolenoidLeft;
-  private DoubleSolenoid intakeSolenoidRight;
+  private Solenoid intakeSolenoid;
   private WPI_TalonSRX intake;
+  private String IntakeStatus;
   //private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
-    intakeSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_1_FORWARD, Constants.INTAKE_1_REVERSE);
-    intakeSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_2_FORWARD, Constants.INTAKE_2_REVERSE);
+    //only one solenoid, control both sides
+    intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_CHANNEL);
     intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
-    //intake.setInverted(true);
-    //intakeRight = new WPI_TalonSRX(Constants.INTAKE_RIGHT_TALON);
+    IntakeStatus = "None";
   }
 
   //temporary methods for actuating intake, might change later depending on logic
   public void deployIntake() {
-    //intakeSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-    //intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    intakeSolenoid.set(true);
     intake.set(Constants.INTAKE_SPEED);
+    IntakeStatus = "Enabled";
+    
   }
-
-  /*
-  public void deployIntakeRight() {
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kForward);
-    intakeRight.set(Constants.INTAKE_SPEED);
-  } */
 
   public void retractIntake() {
-    //intakeSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-    //intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+    intakeSolenoid.set(false);
     intake.set(0);
+    IntakeStatus = "Disabled";
   }
 
-  /*
-  public void retractIntakeRight() {
-    intakeSolenoidRight.set(DoubleSolenoid.Value.kReverse);
-    intakeRight.set(0);
-  } */
 
 
 @Override
   public void periodic() {
+    SmartDashboard.putString("Intake Status", IntakeStatus);
     // This method will be called once per scheduler run
   }
 

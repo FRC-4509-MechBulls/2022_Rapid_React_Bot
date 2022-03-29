@@ -5,26 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSub;
 
 public class IndexBallCmd extends CommandBase {
-  IndexerSub indexer;
   /** Creates a new IndexBallCmd. */
-  public IndexBallCmd(IndexerSub i) {
-    indexer = i;
+  IndexerSub indexer;
+  public IndexBallCmd(IndexerSub idx) {
+    indexer = idx;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexer);
+    addRequirements();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.indexBall(Constants.INDEXER_SPEED);
+    indexer.indexBall();
   }
 
   // Called once the command ends or is interrupted.

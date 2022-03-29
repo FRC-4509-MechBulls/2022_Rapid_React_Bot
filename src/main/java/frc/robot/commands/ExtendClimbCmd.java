@@ -5,26 +5,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ClimbSub;
 
-public class ClimbStage2 extends CommandBase {
-  private ShooterClimbSub shooterClimb;
-  /** Creates a new ClimbStage2. */
-  public ClimbStage2(ShooterClimbSub sc) {
-    shooterClimb = sc;
-    addRequirements(shooterClimb);
+public class ExtendClimbCmd extends CommandBase {
+  ClimbSub climb;
+  /** Creates a new ExtendClimbCmd. */
+  public ExtendClimbCmd(ClimbSub c) {
+    climb = c;
+    addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //shooterClimb.climbStage2(); //intialize or execute??
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climb.extendClimb();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

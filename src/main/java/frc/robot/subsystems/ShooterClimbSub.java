@@ -6,90 +6,114 @@ package frc.robot.subsystems;
 
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-//import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.IndexBallCmd;
-import frc.robot.commands.SetHoodToAngleCmd;
+import frc.robot.LinearServo;
 
 public class ShooterClimbSub extends SubsystemBase {
   private TalonFX leftShooterWheel;
   private TalonFX rightShooterWheel;
   private TalonFX topWheel;
   private TalonFX kickWheel;
-  private ServoSub servo;
-
-  private Timer timer;
+  //private ServoSub servo;
+  Timer timer;
+  private static LinearServo leftHoodServo;
+  private static LinearServo rightHoodServo;
+  private Compressor compressor;
   private IndexerSub indexer;
 
 
   public ShooterClimbSub() {
+   // compressor = new Compressor(module, moduleType)
+    leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
+    rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
+
     leftShooterWheel = new TalonFX(Constants.LEFT_SHOOTER_FALCON);
+    leftShooterWheel.setNeutralMode(NeutralMode.Coast);
     leftShooterWheel.setInverted(true);   // MRNOTE This has been tested, true is good
     rightShooterWheel = new TalonFX(Constants.RIGHT_SHOOTER_FALCON);
+    rightShooterWheel.setNeutralMode(NeutralMode.Coast);
     rightShooterWheel.setInverted(false);  // MRNOTE This has been tested, false is good
 
     kickWheel = new TalonFX(Constants.KICKER_FALCON);
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
     topWheel.setInverted(false);
-
-    //configVelocLoop();
+   
   }
 
 
   // spins shooterWheels
   // might need to be separate from topWheel??
+  public void SetServoFender(){
+    leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+  }
+  public void SetServoReject(){
+    leftHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
+  }
+  public void SetServoFarShot(){
+    leftHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
+  }
   public void shootShooters() {
+
     /* shooterWheel and topWheel spin at different velocities,
     * but should spin at the same time, so they are in the same method */
     //double targetVelocity_UnitsPer100ms_shooterWheel = distance * 1; // use polynomial regression line
     //double targetVelocity_UnitsPer100ms_topWheel = distance * 1; // use polynomial regression line
     // we'll figure out these equations later^^ (and changed "variable" to something passed throught by limelight)
     //shooterWheel.set(TalonFXControlMode.PercentOutput, speed);
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 8000);
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 8000);
+
+    
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6500);
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6500);
     topWheel.set(TalonFXControlMode.Velocity, -8500);
-    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-  }
-
-  public void FenderShot() {
-   // new SetHoodToAngleCmd(servo, 1000000); //or use empty constructor
-    leftShooterWheel.set(TalonFXControlMode.Velocity, 6680); //change value
-    rightShooterWheel.set(TalonFXControlMode.Velocity, 6680); //change value
-    topWheel.set(TalonFXControlMode.Velocity, -7300);
-    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
-
     // timer.reset();
     // timer.start();
-    // while (timer.get() > 1) {
-    //   new IndexBallCmd(indexer);
-    //   
+    // while (timer.get() > 0.5 && timer.get() < 2)
+    // {
+    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    // }
     // timer.stop();
   }
 
-  public void RejectBall(){
-    new SetHoodToAngleCmd(servo, 9999);
-    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.2);  // robot barf
-    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.2);
-    topWheel.set(TalonFXControlMode.PercentOutput, 0.2);
+  public void fenderShot() {
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+  }
+
+  public void autoFender(){
+    leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+    rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+  }
+
+  public void rejectBall(){
     
+
+    leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);  // robot barf
+    rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0.25);
+    topWheel.set(TalonFXControlMode.PercentOutput, -0.35);
     // timer.reset();
     // timer.start();
-    // while (timer.get() > 1) {
-    //   new IndexBallCmd(indexer);
-    // kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    // while (timer.get() > 0.5 && timer.get() < 2)
+    // {
+    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
     // }
     // timer.stop();
   }
@@ -303,6 +327,7 @@ public class ShooterClimbSub extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    // This method will be called once per scheduler run
   }
 }
 

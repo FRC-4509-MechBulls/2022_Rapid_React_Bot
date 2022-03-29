@@ -4,35 +4,38 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.IndexerSub;
 
-public class ShootShootersCmd extends CommandBase {
-  
-  private ShooterClimbSub shooter;
-
-  /** Creates a new Shoot1. */
-  public ShootShootersCmd(ShooterClimbSub sc) {
-    shooter = sc;
-    addRequirements(shooter);
+public class BBIndexBallCmd extends CommandBase {
+  IndexerSub indexer;
+  Timer timerStart;
+  Timer timerStop;
+  /** Creates a new AutoIndexBallCmd. */
+  public BBIndexBallCmd(IndexerSub i) {
+    indexer = i;
+    addRequirements(indexer);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    indexer.BBindexBall();
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(){
-    shooter.shootShooters();
+  public void execute()
+    {
+      
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+
   }
 
   // Returns true when the command should end.

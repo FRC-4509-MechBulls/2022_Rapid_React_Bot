@@ -10,17 +10,15 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
 
-public class JoystickDriveCmd extends CommandBase {
+public class JoystickDriveInvertedCmd extends CommandBase {
   private DriveTrainSub driveTrain;
   private LimelightSub limelight;
-
-  /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new JoystickDriveInvertedCmd. */
+  public JoystickDriveInvertedCmd(DriveTrainSub dt, LimelightSub l) {
     driveTrain = dt;
     limelight = l;
-
     addRequirements(driveTrain, limelight);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +39,7 @@ public class JoystickDriveCmd extends CommandBase {
       }
     } else {
       // if a button is not pressed, run drive command as usual
-      driveTrain.joystickDrive(RobotContainer.driverController, Constants.DRIVETRAIN_SPEED);
+      driveTrain.joystickDriveInverted(RobotContainer.driverController, Constants.DRIVETRAIN_SPEED);
     }
   }
 

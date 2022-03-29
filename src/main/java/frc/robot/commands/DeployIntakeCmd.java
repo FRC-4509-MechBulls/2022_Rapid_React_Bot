@@ -19,13 +19,15 @@ public DeployIntakeCmd(IntakeSub i) {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.deployIntake();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.deployIntake();
-}
+    //intake.deployIntake();
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

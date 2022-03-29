@@ -7,16 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSub;
+import frc.robot.subsystems.IntakeSub;
 
 public class AutoDriveCmd extends CommandBase {
   /** Creates a new AutoDrive. */
+  IntakeSub intake;
   DriveTrainSub drivetrain;
   Timer timer;
   private boolean finish = false;
 
-  public AutoDriveCmd(DriveTrainSub dt) {
+  public AutoDriveCmd(DriveTrainSub dt, IntakeSub i) {
     drivetrain = dt;
-    addRequirements(drivetrain);
+    intake = i;
+    addRequirements(drivetrain, intake);
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,13 +27,14 @@ public class AutoDriveCmd extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intake.deployIntake();
     timer.reset();
     timer.start();
-    while (timer.get() < 2) {
+    while (timer.get() < 2)
+    {
       drivetrain.autoDrive();
     }
     timer.stop();
-    
     finish = true;
   }
 

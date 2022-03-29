@@ -5,25 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IndexerSub;
-import frc.robot.subsystems.IntakeSub;
+import frc.robot.subsystems.ShooterClimbSub;
 
-public class AutoIntakeAndIndexCmd extends CommandBase {
-  IntakeSub intake;
-  IndexerSub indexer;
-  /** Creates a new AutoIntake. */
-  public AutoIntakeAndIndexCmd(IntakeSub i, IndexerSub idx) {
-    intake = i;
-    indexer = idx;
+public class ServoFenderCmd extends CommandBase {
+  /** Creates a new ServoFenderCmd. */
+  ShooterClimbSub shooter;
+  public ServoFenderCmd(ShooterClimbSub sc) {
+    shooter = sc;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake, indexer);
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.deployIntake();
-   // indexer logic goes here
+    shooter.SetServoFender();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

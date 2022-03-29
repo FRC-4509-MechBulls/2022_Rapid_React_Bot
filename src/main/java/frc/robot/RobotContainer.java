@@ -6,27 +6,40 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.TwoBallAuto;
+import frc.robot.commands.AutoDriveCmd;
+import frc.robot.commands.AutoDriveTwo;
+import frc.robot.commands.AutoIndexCmd;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.BBIndexBallCmd;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ClimbStage1;
-import frc.robot.commands.ClimbStage2;
 import frc.robot.commands.DeployIntakeCmd;
+import frc.robot.commands.ExtendClimbCmd;
 import frc.robot.commands.FenderShotCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
+import frc.robot.commands.JoystickDriveInvertedCmd;
+import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.RejectBallCmd;
+import frc.robot.commands.RetractClimbCmd;
 import frc.robot.commands.RetractIntakeCmd;
-import frc.robot.commands.SetHoodToAngleCmd;
+import frc.robot.commands.ServoFarShotCmd;
+import frc.robot.commands.ServoFenderCmd;
+import frc.robot.commands.ServoRejectBallCmd;
+import frc.robot.subsystems.ClimbSub;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.commands.ShiftInCmd;
 import frc.robot.commands.ShiftOutCmd;
 import frc.robot.commands.ShootShootersCmd;
+import frc.robot.commands.StopIndexAndShootCmd;
 import frc.robot.subsystems.LimelightSub;
-import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.ShooterClimbSub;
 import frc.robot.subsystems.VisionSub;
 
@@ -46,8 +59,7 @@ public class RobotContainer {
   //ShooterClimb
   private ShooterClimbSub shooterClimb;
   private ShootShootersCmd shootShooters;
-  private ClimbStage1 climbStage1;
-  private ClimbStage2 climbStage2;
+  private ClimbSub climb;
 
   //DriveTrain
   private ShiftInCmd shiftIn;
@@ -67,15 +79,18 @@ public class RobotContainer {
   //Limelight/Vision
   private LimelightSub limelight;
   private VisionSub camera;
-  //Sonar
 
-  //Servo
-  private ServoSub servo;
-  private SetHoodToAngleCmd setHoodToAngle;
-
-
+  //auto
+  private TwoBallAuto autoTwoBall;
+  private OneBallAuto autoOneBall;
+  private AutoShoot autoShoot;
+  private AutoDriveCmd autoDriveOne;
+  private AutoDriveTwo autoDriveTwo;
+  private AutoIndexCmd autoIndex;
+  SendableChooser<Command> chooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
     //Controllers
     driverController = new XboxController(Constants.DRIVER_CONTROLLER);
     shooterController = new XboxController(Constants.SHOOTER_CONTROLLER);
@@ -83,11 +98,9 @@ public class RobotContainer {
     //Initializing all DriveTrain Components
     driveTrain = new DriveTrainSub();
     limelight = new LimelightSub();
-    //shiftIn.addRequirements(driveTrain);
-    //shiftOut.addRequirements(driveTrain);
 
     //Intializing USBcamera
-    camera = new VisionSub();
+    camera = new VisionSub();  //MRNOTE caused simulation to crash
 
     joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
     joystickDrive.addRequirements(driveTrain, limelight);
@@ -96,37 +109,53 @@ public class RobotContainer {
     
     //Initializing all Intake Components
     intake = new IntakeSub();
+    deployIntake = new DeployIntakeCmd(intake);
+    retractIntake = new RetractIntakeCmd(intake);
     //commands are constructed in button bindings
     
     //Intitializing all ShooterClimb Components
     shooterClimb = new ShooterClimbSub();    // MRNOTE Servo conflict
     shootShooters = new ShootShootersCmd(shooterClimb);
     shootShooters.addRequirements(shooterClimb);
+    
+    climb = new ClimbSub();
+
+    indexer = new IndexerSub();
+    indexBall1 = new IndexBallCmd(indexer);
 
 
-    climbStage1 = new ClimbStage1(shooterClimb);
-    climbStage1.addRequirements(shooterClimb);
-    climbStage2 = new ClimbStage2(shooterClimb);
-    climbStage2.addRequirements(shooterClimb);
-
-
-    //Initializing sonar sub
+    //Initializing auto
+    autoShoot = new AutoShoot(shooterClimb);
+    autoShoot.addRequirements(shooterClimb);
+    autoDriveOne = new AutoDriveCmd(driveTrain, intake);
+    autoDriveOne.addRequirements(driveTrain, intake);
+    autoDriveTwo = new AutoDriveTwo(driveTrain, intake);
+    autoDriveTwo.addRequirements(driveTrain, intake);
+    autoIndex = new AutoIndexCmd(indexer);
+    autoTwoBall = new TwoBallAuto(driveTrain, limelight, intake, indexer, shooterClimb);
+    autoOneBall = new OneBallAuto(shooterClimb, indexer, driveTrain, intake);
+    
+    chooser.addOption("TwoBall", autoTwoBall);
+    chooser.addOption("OneBall", autoOneBall);
+    SmartDashboard.putData("Auto Chooser", chooser);
 
     //Initializing servo sub
     //servo = new ServoSub();  // MRNOTE Servo conflict
     //setHoodToAngle = new SetHoodToAngleCmd(servo); //don't know if this needs to be here
 
     //Inititalizing all Indexer Components
-    indexer = new IndexerSub();
+    
     //commands constructed in button bindings
 
     //Indexer beam break triggers
     //Each trigger represents an individual status, which determines which indexer should be ran
 
-    //BEAMBREAKS:
+    // //BEAMBREAKS:
 
-    Trigger beamBreakDetector = new Trigger(() -> indexer.getBreakStatus());
-    beamBreakDetector.whileActiveContinuous(new IndexBallCmd(indexer));
+    //  Trigger beamBreakDetector1 = new Trigger(() -> indexer.getBreakStatusRun());
+    //  beamBreakDetector1.whileActiveContinuous(new BBIndexBallCmd(indexer));
+    //  Trigger beamBreakDetector2 = new Trigger(() -> indexer.getBreakStatusRun2());
+    //  beamBreakDetector2.whileActiveOnce(new StopIndexAndShootCmd(indexer, shooterClimb));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -140,11 +169,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Intake */
-    JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
-    deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
+     JoystickButton deployIntakeLeftButton = new JoystickButton(shooterController, XboxController.Button.kRightBumper.value);
+     deployIntakeLeftButton.whenPressed(new DeployIntakeCmd(intake));
    
-    JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
-    retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
+     JoystickButton retractIntakeLeftButton = new JoystickButton(shooterController,XboxController.Button.kLeftBumper.value);
+     retractIntakeLeftButton.whenPressed(new RetractIntakeCmd(intake));
     
     /* Shooter */
     JoystickButton shootShootersButton = new JoystickButton(shooterController, XboxController.Button.kB.value);
@@ -159,16 +188,19 @@ public class RobotContainer {
     JoystickButton indexButton = new JoystickButton(shooterController, XboxController.Button.kY.value);
     indexButton.whileHeld(new IndexBallCmd(indexer));
 
-    JoystickButton servoButton = new JoystickButton(shooterController, XboxController.Button.kStart.value);
-    servoButton.whenPressed(new SetHoodToAngleCmd(servo, 0));
+    JoystickButton servoFender = new JoystickButton(shooterController, XboxController.Button.kBack.value);
+    servoFender.whenPressed(new ServoFenderCmd(shooterClimb));
+    
+    JoystickButton servoFarShot = new JoystickButton(shooterController, XboxController.Button.kStart.value);
+    servoFarShot.whenPressed(new ServoFarShotCmd(shooterClimb));
 
-    /* Shifting */
-    JoystickButton shiftInButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    shiftInButton.whenPressed(new ShiftInCmd(driveTrain));
 
-    JoystickButton shiftOutButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    shiftOutButton.whenPressed(new ShiftOutCmd(driveTrain));
-  
+    /* Driver */
+     JoystickButton extendClimbButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+     extendClimbButton.whenPressed(new ExtendClimbCmd(climb));
+
+     JoystickButton retractClimbButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+     retractClimbButton.whenPressed(new RetractClimbCmd(climb));
   }
   
 
@@ -179,6 +211,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand all run in autonomous
-    return null;
+    return chooser.getSelected();
   }
 }

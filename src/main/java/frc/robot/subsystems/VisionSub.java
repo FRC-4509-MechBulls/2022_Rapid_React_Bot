@@ -9,12 +9,17 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSub extends SubsystemBase {
-  UsbCamera camera4509;
+  UsbCamera camera4509back;
+  UsbCamera camera4509front;
   /** Creates a new VisionSub. */
   public VisionSub() {
-    camera4509 = CameraServer.startAutomaticCapture();
-    camera4509.setResolution(320, 240);
-    camera4509.setFPS(20);
+    camera4509back = CameraServer.startAutomaticCapture();
+    camera4509back.setResolution(320, 240);
+    camera4509back.setFPS(20);
+
+    camera4509front = CameraServer.startAutomaticCapture();
+    camera4509front.setResolution(320, 240);
+    camera4509front.setFPS(20);
   }
 
   @Override

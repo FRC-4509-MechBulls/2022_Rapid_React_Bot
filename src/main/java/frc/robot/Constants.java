@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -36,13 +37,24 @@ public final class Constants {
     
 
     //Speeds
-    public static final double DRIVETRAIN_SPEED = 0.5;
+    public static final double DRIVETRAIN_SPEED = 1.0;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
-    public static final double INDEXER_SPEED = 0.4;
-    public static final double INTAKE_SPEED = -0.6;
+    public static final double INDEXER_SPEED = 0.6;
+    public static final double INTAKE_SPEED = 0.65;
     public static final double CLIMB_SPEED = 0;
-    public static final double KICK_SPEED = 0.5;
+    public static final double KICK_SPEED = 0.4;
+    public static final double AUTO_SPEED = -0.5;
+
+    //Servo settings
+    public static final int SERVO_SPEED = 16;
+    public static final int SERVO_LENGTH = 140;
+    public static final int LEFT_SERVO_CHANNEL = 0;
+    public static final int RIGHT_SERVO_CHANNEL = 9;
+
+    public static final double SERVO_FAR_SHOT_LENGTH = 100;  //this is the length of the servo in mm
+    public static final double SERVO_FENDER_SHOT_LENGTH = 45;  //this is half of the length in mm
+    public static final double SERVO_REJECT_SHOT_LENGTH = 0;  // this is the number 0, it's even, and round
 
     //Controller Inputs
     public static final int DRIVER_CONTROLLER = 0;
@@ -54,18 +66,16 @@ public final class Constants {
     //Intake
     public static final int INTAKE_TALON = 40;
     //public static final int INTAKE_RIGHT_TALON = 12;
-    public static final int INTAKE_2_REVERSE = 0; // reverse pneumatics channel
-    public static final int INTAKE_2_FORWARD = 1; // forward pneumatics channel
-    public static final int INTAKE_1_REVERSE = 2; // reverse pneumatics channel
-    public static final int INTAKE_1_FORWARD = 3; // forward pneumatics channel
+    public static final int INTAKE_CHANNEL = 0;
    
     //Sonar
     public static final int SONAR_CHANNEL = 0;
 
     //Solenoid Channels
-    public static final int SHIFTER_1_FORWARD_CHANNEL = 0;
-    public static final int SHIFTER_2_REVERSE_CHANNEL = 1;
+    public static final int SHIFTER_CHANNEL = 1;
 
+    public static final int CLIMB_PORT = 2;
+    
     public static final int HOOK_FORWARD = 2;
     public static final int HOOK_REVERSE = 3;
 
@@ -88,14 +98,16 @@ public final class Constants {
     public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned
 
     //Digital Inputs
-    public static final int BB_1_CHANNEL = 0;
-    public static final int BB_2_CHANNEL = 2;
-    public static final int BB_3_CHANNEL = 4;
+    public static final int BB_1_CHANNEL = 9; //9?
+    public static final int BB_2_CHANNEL = 4;
+    //public static final int BB_3_CHANNEL = 4;
     public static final int LIMIT_SWITCH_DI = 6;
 
     //PWM
     public static final int SERVO_1_CHANNEL = 0;
-    public static final int SERVO_2_CHANNEL = 10;
+    public static final int SERVO_2_CHANNEL = 9;
+    
+
     
 }
 

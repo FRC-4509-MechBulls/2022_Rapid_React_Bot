@@ -5,35 +5,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterClimbSub;
+import frc.robot.subsystems.ClimbSub;
 
-public class ShootShootersCmd extends CommandBase {
-  
-  private ShooterClimbSub shooter;
-
-  /** Creates a new Shoot1. */
-  public ShootShootersCmd(ShooterClimbSub sc) {
-    shooter = sc;
-    addRequirements(shooter);
+public class RetractClimbCmd extends CommandBase {
+  ClimbSub climb;
+  /** Creates a new retractClimb. */
+  public RetractClimbCmd(ClimbSub c) {
+    climb = c;
+    addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(){
-    shooter.shootShooters();
+  public void execute() {
+    climb.retractClimb();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooter.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

@@ -7,19 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterClimbSub;
 
-public class ClimbStage1 extends CommandBase {
-  private ShooterClimbSub shooterClimb;
-  /** Creates a new ClimbStage1. */
-  public ClimbStage1(ShooterClimbSub sc) {
-    shooterClimb = sc;
-    addRequirements(shooterClimb);
+public class ServoRejectBallCmd extends CommandBase {
+  /** Creates a new ServoRejectBallCmd. */
+  ShooterClimbSub shooter;
+  public ServoRejectBallCmd(ShooterClimbSub sc) {
+    shooter = sc;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //shooterClimb.climbStage1(); //initialize or execute??
+    shooter.SetServoReject();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
