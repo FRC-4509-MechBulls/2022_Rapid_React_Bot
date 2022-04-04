@@ -15,8 +15,8 @@ public class ClimbSub extends SubsystemBase {
   Solenoid climbSolenoid;
   /** Creates a new ClimbSub. */
   public ClimbSub() {
-    climbSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PORT);
-    climbServo = new LinearServo(Constants.CLIMB_SERVO, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
+    //climbSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PORT);
+    //climbServo = new LinearServo(Constants.CLIMB_SERVO, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
   }
 
   public void extendClimb()

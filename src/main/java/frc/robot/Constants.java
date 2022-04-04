@@ -37,7 +37,7 @@ public final class Constants {
     
 
     //Speeds
-    public static final double DRIVETRAIN_SPEED = 0.6;//set to low for demo with kids
+    public static final double DRIVETRAIN_SPEED = 1.0;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
     public static final double INDEXER_SPEED = 1.0;
@@ -55,7 +55,7 @@ public final class Constants {
     public static final int CLIMB_SERVO = 0;
 
     public static final double SERVO_FAR_SHOT_LENGTH = 100;  //this is the length of the servo in mm
-    public static final double SERVO_FENDER_SHOT_LENGTH = 45;  //this is half of the length in mm
+    public static final double SERVO_FENDER_SHOT_LENGTH = 35;  //this is half of the length in mm
     public static final double SERVO_CLIMB_LENGTH = 0;  // this is the number 0, it's even, and round
 
     //Controller Inputs
@@ -96,8 +96,8 @@ public final class Constants {
     public static final int kPIDLoopIdx = 0;
 
     //kP kI kD kF Iz PeakOut -- FOR PID LOOP
-    public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.0,  0,  767.25/17207,  300,  1.00);
-    public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.0,  0,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
+    public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
+    public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
     public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned
 
     //Digital Inputs

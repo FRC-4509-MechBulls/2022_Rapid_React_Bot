@@ -13,8 +13,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -29,10 +32,15 @@ public class ShooterSub extends SubsystemBase {
   Timer timer;
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
-  private Compressor compressor;
-   //change
+  
+  private ShuffleboardTab shooter_tune = Shuffleboard.getTab("Shooter Speeds");
+  private NetworkTableEntry treadWheel_speed = shooter_tune.add("Tread Wheel RPM Speed", 6000).getEntry();
+  private NetworkTableEntry servoSettings = shooter_tune.add("Servo Length", 70).getEntry();
+  private NetworkTableEntry topWheel_speed = shooter_tune.add("Top Wheel RPM Speed", -8500).getEntry();
+
 
   public ShooterSub() {
+  
    // compressor = new Compressor(module, moduleType)
     leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
@@ -80,14 +88,26 @@ public class ShooterSub extends SubsystemBase {
     leftShooterWheel.set(TalonFXControlMode.Velocity, 6500);
     rightShooterWheel.set(TalonFXControlMode.Velocity, 6500);
     topWheel.set(TalonFXControlMode.Velocity, -8500);
-    kickWheel.set(TalonFXControlMode.Velocity, 6500);
+    kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
+  }
+
+  public void LLShot(){
+    leftShooterWheel.set(TalonFXControlMode.Velocity, treadWheel_speed.getDouble(6000));
+    rightShooterWheel.set(TalonFXControlMode.Velocity, treadWheel_speed.getDouble(6000));
+    topWheel.set(TalonFXControlMode.Velocity, topWheel_speed.getDouble(-8500));
+    kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
+  }
+
+  public void LLShotServo(){
+    leftHoodServo.setPosition(servoSettings.getDouble(70));
+    rightHoodServo.setPosition(servoSettings.getDouble(70));
   }
 
   public void fenderShot() {
     leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     topWheel.set(TalonFXControlMode.Velocity, -7300);
-    kickWheel.set(TalonFXControlMode.Velocity, 6000);
+    kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
   public void autoFender(){

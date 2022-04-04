@@ -16,7 +16,6 @@ import frc.robot.commands.AutoDriveCmd;
 import frc.robot.commands.AutoDriveTwo;
 import frc.robot.commands.AutoIndexCmd;
 import frc.robot.commands.AutoShoot;
-import frc.robot.commands.BBIndexBallCmd;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.ExtendClimbCmd;
@@ -25,7 +24,7 @@ import frc.robot.commands.HighBarClimbCmd;
 import frc.robot.commands.IndexBackwardsCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
-import frc.robot.commands.JoystickDriveInvertedCmd;
+import frc.robot.commands.LLShotCmd;
 import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.OneBallAutoShot;
 import frc.robot.commands.RejectBallCmd;
@@ -193,6 +192,9 @@ public class RobotContainer {
 
     JoystickButton indexBackwardsButton = new JoystickButton(shooterController, XboxController.Button.kStart.value);
     indexBackwardsButton.whileHeld(new IndexBackwardsCmd(indexer));
+
+    JoystickButton llShotButton = new JoystickButton(shooterController, XboxController.Button.kBack.value);
+    llShotButton.whileHeld(new LLShotCmd(shooterClimb));
 
     // JoystickButton servoFender = new JoystickButton(shooterController, XboxController.Button.kBack.value);
     // servoFender.whenPressed(new ServoFenderCmd(shooterClimb));

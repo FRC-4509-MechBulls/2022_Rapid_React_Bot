@@ -39,16 +39,25 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getSteer() {
-    steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
-    // We do see the target, execute aiming code
-    //steer_cmd = 0;
-    if (tx > 1.0) {
-      return steer_cmd = tx * STEER_K - min_cmd; //either + or -
-    } else if (tx < -1.0) {
-      return steer_cmd = tx * STEER_K + min_cmd; //either + or -
-    }
+    // steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
+    // // We do see the target, execute aiming code
+    // //steer_cmd = 0;
+    // if (tx > 1.0) {
+    //   return steer_cmd = tx * STEER_K - min_cmd; //either + or -
+    // } else if (tx < -1.0) {
+    //   return steer_cmd = tx * STEER_K + min_cmd; //either + or -
+    // }
     
-    return steer_cmd; 
+    // return steer_cmd; 
+    if (tx > 3.0) {
+      steer_cmd = -0.35;
+    } else if (tx < -3.0) {
+      steer_cmd = 0.35;
+    } else {
+      steer_cmd = 0.0;
+    }
+    return steer_cmd;
+
   }
 
   public double getDistanceAdjust() {

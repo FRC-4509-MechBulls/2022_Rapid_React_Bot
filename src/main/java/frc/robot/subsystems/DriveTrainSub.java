@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -47,6 +50,8 @@ public class DriveTrainSub extends SubsystemBase {
   double speed;
   private SlewRateLimiter filter = new SlewRateLimiter(1.5);
   private SlewRateLimiter filter1 = new SlewRateLimiter(1.5);
+  private ShuffleboardTab ll_turn = Shuffleboard.getTab("LL Tuning");
+  private NetworkTableEntry turn = ll_turn.add("LL Turn", 0).getEntry();
 
  // private PneumaticsModuleType REVPH;
 
@@ -75,10 +80,11 @@ public class DriveTrainSub extends SubsystemBase {
 
     drive = new DifferentialDrive(left, right);
 
-    shifterRight = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_RIGHT);
-    shifterLeft = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_LEFT);
+    //shifterRight = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_RIGHT);
+    //shifterLeft = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_LEFT);
 
   }
+
 
   //Creating a Command to drive and steer with the controller
   public void joystickDrive(XboxController controller, double speed) {
@@ -156,13 +162,13 @@ public class DriveTrainSub extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putString("Drivetrain Status", shiftStatus);
-    if (shifterLeft.get()) {
-      shiftStatus = "High Gear";
-    } else {
-      shiftStatus = "Low Gear";
-    }
+    // if (shifterLeft.get()) {
+    //   shiftStatus = "High Gear";
+    // } else {
+    //   shiftStatus = "Low Gear";
+    // }
     SmartDashboard.putBoolean("Ready To Shoot!!", readyToShoot());
-    SmartDashboard.putString("Drivetrain Gear: ", shiftStatus);
+    // SmartDashboard.putString("Drivetrain Gear: ", shiftStatus);
     // This method will be called once per scheduler run
   }
 }
