@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSub extends SubsystemBase {
-  private double STEER_K = -0.04; // needs to be tuned
-  private double DRIVE_K = -0.1; // needs to be tuned
+  private double STEER_K = -0.045; // needs to be tuned
+  private double DRIVE_K = 0.123; // needs to be tuned
   private double min_cmd = 0.07;
   private double steer_cmd;
   private double drive_cmd;
@@ -52,7 +52,8 @@ public class LimelightSub extends SubsystemBase {
   }
 
   public double getDistanceAdjust() {
-    distance_error = ty - 15; // figure out actual error
+    distance_error = ty + 12.83;
+    //distance_error = ty - 12.83; // figure out actual error
     drive_cmd = DRIVE_K * distance_error;
     return drive_cmd;
   }

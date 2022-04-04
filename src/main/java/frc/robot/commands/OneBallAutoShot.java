@@ -9,17 +9,16 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.LimelightSub;
 import frc.robot.subsystems.ShooterSub;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoBallAuto extends SequentialCommandGroup {
-  /** Creates a new Autonomous. */
-  public TwoBallAuto(DriveTrainSub dt, LimelightSub l, IntakeSub i, IndexerSub idx, ShooterSub scs) {
+public class OneBallAutoShot extends SequentialCommandGroup {
+  /** Creates a new OneBallAuto. */
+  public OneBallAutoShot(ShooterSub scs, IndexerSub idx, DriveTrainSub dt, IntakeSub i) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new OneBallAutoShot(scs, idx, dt, i), new AutoDriveCmd(dt, i), new WaitCommand(0.5), new AutoIndexCmd(idx), new WaitCommand(1), new AutoDriveTwo(dt, i), new OneBallAutoShot(scs, idx, dt, i), new StopIndexAndShootCmd(idx, scs));
+    addCommands(new AutoShoot(scs), new AutoIndexCmd(idx), new StopIndexAndShootCmd(idx, scs) /*new AutoDriveCmd(dt, i)*/);
   }
 }

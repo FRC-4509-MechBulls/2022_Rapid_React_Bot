@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.LinearServo;
 
 public class ClimbSub extends SubsystemBase {
+  LinearServo climbServo;
   Solenoid climbSolenoid;
   /** Creates a new ClimbSub. */
   public ClimbSub() {
     climbSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PORT);
+    climbServo = new LinearServo(Constants.CLIMB_SERVO, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
   }
 
   public void extendClimb()
@@ -24,6 +27,10 @@ public class ClimbSub extends SubsystemBase {
   public void retractClimb()
   {
     climbSolenoid.set(false);
+  }
+
+  public void highBarServo(){
+    climbServo.setPosition(Constants.SERVO_CLIMB_LENGTH);
   }
 
   @Override

@@ -17,35 +17,36 @@ import frc.robot.Constants;
 public class IntakeSub extends SubsystemBase {
   private Solenoid intakeSolenoid;
   private WPI_TalonSRX intake;
-  private String IntakeStatus;
+  private boolean intakeStatus;
   //private WPI_TalonSRX intakeRight;
   /** Creates a new IntakeSub. */
   public IntakeSub() {
     //only one solenoid, control both sides
     intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_CHANNEL);
     intake = new WPI_TalonSRX(Constants.INTAKE_TALON);
-    IntakeStatus = "None";
+    intake.configFactoryDefault();
+    intakeStatus = false;
   }
 
   //temporary methods for actuating intake, might change later depending on logic
   public void deployIntake() {
     intakeSolenoid.set(true);
     intake.set(Constants.INTAKE_SPEED);
-    IntakeStatus = "Enabled";
+    intakeStatus = true;
     
   }
 
   public void retractIntake() {
     intakeSolenoid.set(false);
     intake.set(0);
-    IntakeStatus = "Disabled";
+    intakeStatus = false;
   }
 
 
 
 @Override
   public void periodic() {
-    SmartDashboard.putString("Intake Status", IntakeStatus);
+    SmartDashboard.putBoolean("Intake Status", intakeStatus);
     // This method will be called once per scheduler run
   }
 

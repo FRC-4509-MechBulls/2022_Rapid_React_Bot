@@ -21,34 +21,48 @@ import frc.robot.Constants;
 import frc.robot.LinearServo;
 
 public class ShooterSub extends SubsystemBase {
-  private TalonFX leftShooterWheel;
-  private TalonFX rightShooterWheel;
-  private TalonFX topWheel;
-  private TalonFX kickWheel;
+  private WPI_TalonFX leftShooterWheel;
+  private WPI_TalonFX rightShooterWheel;
+  private WPI_TalonFX topWheel;
+  private WPI_TalonFX kickWheel;
   //private ServoSub servo;
   Timer timer;
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
   private Compressor compressor;
-  SlewRateLimiter filter = new SlewRateLimiter(1.0); //change
-
+   //change
 
   public ShooterSub() {
    // compressor = new Compressor(module, moduleType)
     leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
 
-    leftShooterWheel = new TalonFX(Constants.LEFT_SHOOTER_FALCON);
+    leftShooterWheel = new WPI_TalonFX(Constants.LEFT_SHOOTER_FALCON);
     leftShooterWheel.setNeutralMode(NeutralMode.Coast);
     leftShooterWheel.setInverted(true);   // MRNOTE This has been tested, true is good
-    rightShooterWheel = new TalonFX(Constants.RIGHT_SHOOTER_FALCON);
+    //leftShooterWheel.configClosedloopRamp(10);
+    //leftShooterWheel.configOpenloopRamp(1);
+    //leftShooterWheel.configFactoryDefault();
+
+    rightShooterWheel = new WPI_TalonFX(Constants.RIGHT_SHOOTER_FALCON);
     rightShooterWheel.setNeutralMode(NeutralMode.Coast);
     rightShooterWheel.setInverted(false);  // MRNOTE This has been tested, false is good
+    rightShooterWheel.configClosedloopRamp(10);
+    //rightShooterWheel.configOpenloopRamp(1);
+    //rightShooterWheel.configFactoryDefault();
 
-    kickWheel = new TalonFX(Constants.KICKER_FALCON);
-    topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);
+    kickWheel = new WPI_TalonFX(Constants.KICKER_FALCON);
+    //kickWheel.configClosedloopRamp(1);
+    //kickWheel.configOpenloopRamp(1);
+    //kickWheel.configFactoryDefault();
+
+    topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);  //MRNOTE - why WPI for this one?
     topWheel.setInverted(false);
+    //topWheel.configClosedloopRamp(1);
+    //topWheel.configOpenloopRamp(1);
+    //topWheel.configFactoryDefault();
    
+    configVelocLoop();
   }
 
 
@@ -58,35 +72,31 @@ public class ShooterSub extends SubsystemBase {
     leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
   }
-  public void SetServoReject(){
-    leftHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
-    rightHoodServo.setPosition(Constants.SERVO_REJECT_SHOT_LENGTH);
-  }
   public void SetServoFarShot(){
     leftHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FAR_SHOT_LENGTH);
   }
   public void farShot() {    
-    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6500));
-    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6500));
-    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-8500));
-    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6500);
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6500);
+    topWheel.set(TalonFXControlMode.Velocity, -8500);
+    kickWheel.set(TalonFXControlMode.Velocity, 6500);
   }
 
   public void fenderShot() {
-    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
-    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
-    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-7300));
-    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    kickWheel.set(TalonFXControlMode.Velocity, 6000);
   }
 
   public void autoFender(){
     leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
-    leftShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
-    rightShooterWheel.set(TalonFXControlMode.Velocity, filter.calculate(6000)); 
-    topWheel.set(TalonFXControlMode.Velocity, filter.calculate(-7300));
-    kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
+    topWheel.set(TalonFXControlMode.Velocity, -7300);
+    kickWheel.set(TalonFXControlMode.Velocity, 6000);
   }
 
   public void rejectBall(){
@@ -104,34 +114,37 @@ public class ShooterSub extends SubsystemBase {
     topWheel.set(TalonFXControlMode.PercentOutput, 0);
     kickWheel.set(TalonFXControlMode.PercentOutput, 0);
   }
-/*
+
   public void configVelocLoop() {
-    /* shooterWheel and topWheel 
+    // shooterWheel and topWheel 
     //configuring integrated encoders
     leftShooterWheel.configFactoryDefault();
+    //leftShooterWheel.configOpenloopRamp(1);
     leftShooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     leftShooterWheel.setSelectedSensorPosition(0, 0, 10);
 
     rightShooterWheel.configFactoryDefault();
+    //rightShooterWheel.configOpenloopRamp(1);
     rightShooterWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     rightShooterWheel.setSelectedSensorPosition(0, 0, 10);
 
     topWheel.configFactoryDefault();
+    //topWheel.configOpenloopRamp(1);
     topWheel.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     topWheel.setSelectedSensorPosition(0, 0, 10);
 
-    /* newer config API 
+    // newer config API 
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
-    /* config all the settings 
+    // config all the settings 
     leftShooterWheel.configAllSettings(configs);
     rightShooterWheel.configAllSettings(configs);
     //shooterWheelInverted.configAllSettings(configs);
 
     topWheel.configAllSettings(configs);
 
-    /*config nominal outputs 
+    //config nominal outputs 
     leftShooterWheel.configNominalOutputForward(0, Constants.kTimeoutMs);
 		leftShooterWheel.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		leftShooterWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
@@ -146,7 +159,7 @@ public class ShooterSub extends SubsystemBase {
 		topWheel.configPeakOutputForward(1, Constants.kTimeoutMs);
 		topWheel.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 
+    // Config the Velocity closed loop gains in slot0 
 		leftShooterWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kF, Constants.kTimeoutMs);
 		leftShooterWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kP, Constants.kTimeoutMs);
 		leftShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
@@ -157,7 +170,7 @@ public class ShooterSub extends SubsystemBase {
     rightShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kI, Constants.kTimeoutMs);
     rightShooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit_shooterWheel.kD, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 
+    // Config the Velocity closed loop gains in slot0 
 		topWheel.config_kF(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kF, Constants.kTimeoutMs);
 		topWheel.config_kP(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kP, Constants.kTimeoutMs);
 		topWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Velocit_topWheel.kI, Constants.kTimeoutMs);
@@ -216,6 +229,7 @@ public class ShooterSub extends SubsystemBase {
 		rightShooterWheel.config_kI(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kI, Constants.kTimeoutMs);
 		rightShooterWheel.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Posit_climb.kD, Constants.kTimeoutMs);
   }
+  */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -227,14 +241,17 @@ public class ShooterSub extends SubsystemBase {
     double topWheelVel = topWheel.getSelectedSensorVelocity();
     //SmartDashboard.putNumber("Motor Output Percent: ",  motorOutput);
     //SmartDashboard.putNumber("Selected Sensor Positions: ", selSenPos);
+    SmartDashboard.putNumber("Hood Position: ", leftHoodServo.getPosition());
     SmartDashboard.putNumber("Shooter Wheel Velocity: ", shooterWheelVel);
     SmartDashboard.putNumber("Top Wheel Velocity: ", topWheelVel);
+
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
     // This method will be called once per scheduler run
+
   }
 }
 

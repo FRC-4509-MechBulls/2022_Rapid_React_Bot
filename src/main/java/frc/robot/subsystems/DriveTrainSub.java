@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -39,11 +40,13 @@ public class DriveTrainSub extends SubsystemBase {
 
   private DifferentialDrive drive;
 
-  private Solenoid shifter;
+  private Solenoid shifterRight;
+  private Solenoid shifterLeft;
   private String shiftStatus; 
   Timer timer;
   double speed;
-  SlewRateLimiter filter = new SlewRateLimiter(1.5);
+  private SlewRateLimiter filter = new SlewRateLimiter(1.5);
+  private SlewRateLimiter filter1 = new SlewRateLimiter(1.5);
 
  // private PneumaticsModuleType REVPH;
 
@@ -55,38 +58,26 @@ public class DriveTrainSub extends SubsystemBase {
     //Initializing all objects, as well as the DifferentialDrive
     mc_leftFront = new WPI_TalonFX(Constants.LEFT_FRONT_TALON);
     mc_leftFront.setInverted(false);
+    ((BaseMotorController) mc_leftFront).configFactoryDefault();
     mc_leftBack = new WPI_TalonFX(Constants.LEFT_BACK_TALON);
     mc_leftBack.setInverted(false);
-
-    // leftFront = new WPI_TalonFX(Constants.LEFT_FRONT_TALON);
-    // leftFront.setInverted(false);
-    // leftBack = new WPI_TalonFX(Constants.LEFT_BACK_TALON);
-    // leftBack.setInverted(false);
+    ((BaseMotorController) mc_leftBack).configFactoryDefault();
 
     mc_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_TALON);
     mc_rightFront.setInverted(true);
+    ((BaseMotorController) mc_rightFront).configFactoryDefault();
     mc_rightBack = new WPI_TalonFX(Constants.RIGHT_BACK_TALON);
     mc_rightBack.setInverted(true);
-
-    // rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_TALON);
-    // rightFront.setInverted(true);
-    // rightBack = new WPI_TalonFX(Constants.RIGHT_BACK_TALON);
-    // rightBack.setInverted(true);
-
-    // leftBack.follow(leftFront);
-    // rightBack.follow(rightFront);
-
-    // leftFront.configOpenloopRamp(2);
-    // rightFront.configOpenloopRamp(2);
+    ((BaseMotorController) mc_rightBack).configFactoryDefault();
     
     left = new MotorControllerGroup(mc_leftFront, mc_leftBack);
     right = new MotorControllerGroup(mc_rightFront, mc_rightBack);
 
     drive = new DifferentialDrive(left, right);
 
-    //drive = new DifferentialDrive(leftFront, rightFront);
+    shifterRight = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_RIGHT);
+    shifterLeft = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL_LEFT);
 
-    shifter = new Solenoid(PneumaticsModuleType.REVPH, Constants.SHIFTER_CHANNEL);
   }
 
   //Creating a Command to drive and steer with the controller
@@ -122,28 +113,33 @@ public class DriveTrainSub extends SubsystemBase {
      drive.tankDrive(Constants.AUTO_SPEED*-1, Constants.AUTO_SPEED*-1);
   }
 
-  public void autoTurn(){
-    drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_SPEED * -1);
+  public void autoDriveRetreat(){
+    drive.tankDrive(Constants.AUTO_SPEED, Constants.AUTO_TURN_RATE);
   }
 
-  // high gear?
-  public void shiftIn() {
-    shifter.set(false);  
-    shiftStatus = "Low Gear";
+  public void shiftLow() {
+    shifterLeft.set(false);
+    shifterRight.set(false);  
+    //shiftStatus = "Low Gear";
   }
 
-  //low gear?
-  public void shiftOut() {
-    shifter.set(true);
-    shiftStatus = "High Gear";
+  public void shiftHigh() {
+    shifterLeft.set(true);
+    shifterRight.set(true);
+    //shiftStatus = "High Gear";
   }
 
   public void aimLimelight(double driveCommand, double steerCommand) {
+    if (driveCommand > 0.53) {
+      driveCommand = 0.53;
+    } else if (driveCommand < -0.53) {
+      driveCommand = -0.53;
+    }
     drive.arcadeDrive(driveCommand, steerCommand);
   }
 
   public void seekLimelight() {
-    drive.arcadeDrive(0, 0.35);
+    drive.arcadeDrive(0, 0.5);
   }
 
   public boolean readyToShoot() {
@@ -160,7 +156,13 @@ public class DriveTrainSub extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putString("Drivetrain Status", shiftStatus);
+    if (shifterLeft.get()) {
+      shiftStatus = "High Gear";
+    } else {
+      shiftStatus = "Low Gear";
+    }
     SmartDashboard.putBoolean("Ready To Shoot!!", readyToShoot());
+    SmartDashboard.putString("Drivetrain Gear: ", shiftStatus);
     // This method will be called once per scheduler run
   }
 }

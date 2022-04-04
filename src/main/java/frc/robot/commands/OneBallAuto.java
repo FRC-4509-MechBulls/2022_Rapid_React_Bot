@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
@@ -16,10 +15,9 @@ import frc.robot.subsystems.ShooterSub;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OneBallAuto extends SequentialCommandGroup {
   /** Creates a new OneBallAuto. */
-  public OneBallAuto(ShooterSub scs, IndexerSub idx, DriveTrainSub dt, IntakeSub i) {
+  public OneBallAuto(DriveTrainSub dt, IndexerSub idx, IntakeSub i, ShooterSub scs) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoShoot(scs), new AutoIndexCmd(idx), new StopIndexAndShootCmd(idx, scs) /*new AutoDriveCmd(dt, i)*/);
-    //addCommands(new AutoDriveCmd(dt, i));
+    addCommands(new OneBallAutoShot(scs, idx, dt, i), new AutoDriveCmd(dt, i), new RetractIntakeCmd(i)) ;
   }
 }

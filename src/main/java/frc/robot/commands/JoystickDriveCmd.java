@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -13,6 +14,8 @@ import frc.robot.subsystems.LimelightSub;
 public class JoystickDriveCmd extends CommandBase {
   private DriveTrainSub driveTrain;
   private LimelightSub limelight;
+
+  //private SlewRateLimiter filter = new SlewRateLimiter(1.5);
 
   /** Creates a new joystickDrive. */
   public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
@@ -33,7 +36,7 @@ public class JoystickDriveCmd extends CommandBase {
     if (RobotContainer.driverController.getYButton()) {
       if (limelight.isTargetValid()) {
         // if target is detected, run aim command
-        driveTrain.aimLimelight(limelight.getDistanceAdjust(), limelight.getSteer());
+        driveTrain.aimLimelight(/*limelight.getDistanceAdjust()*/0, limelight.getSteer());
         
       } else {
         // robot turns until target is detected

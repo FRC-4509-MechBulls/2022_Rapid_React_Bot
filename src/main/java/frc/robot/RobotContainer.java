@@ -21,11 +21,13 @@ import frc.robot.commands.BBIndexBallCmd;
 import frc.robot.commands.DeployIntakeCmd;
 import frc.robot.commands.ExtendClimbCmd;
 import frc.robot.commands.FenderShotCmd;
+import frc.robot.commands.HighBarClimbCmd;
 import frc.robot.commands.IndexBackwardsCmd;
 import frc.robot.commands.IndexBallCmd;
 import frc.robot.commands.JoystickDriveCmd;
 import frc.robot.commands.JoystickDriveInvertedCmd;
 import frc.robot.commands.OneBallAuto;
+import frc.robot.commands.OneBallAutoShot;
 import frc.robot.commands.RejectBallCmd;
 import frc.robot.commands.RetractClimbCmd;
 import frc.robot.commands.RetractIntakeCmd;
@@ -36,8 +38,8 @@ import frc.robot.subsystems.ClimbSub;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.IndexerSub;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.commands.ShiftInCmd;
-import frc.robot.commands.ShiftOutCmd;
+import frc.robot.commands.ShiftLowCmd;
+import frc.robot.commands.ShiftHighCmd;
 import frc.robot.commands.FarShotCmd;
 import frc.robot.commands.StopIndexAndShootCmd;
 import frc.robot.subsystems.LimelightSub;
@@ -63,8 +65,8 @@ public class RobotContainer {
   private ClimbSub climb;
 
   //DriveTrain
-  private ShiftInCmd shiftIn;
-  private ShiftOutCmd shiftOut;
+  private ShiftLowCmd shiftIn;
+  private ShiftHighCmd shiftOut;
   private DriveTrainSub driveTrain;
   private JoystickDriveCmd joystickDrive;
 
@@ -134,7 +136,7 @@ public class RobotContainer {
     autoDriveTwo.addRequirements(driveTrain, intake);
     autoIndex = new AutoIndexCmd(indexer);
     autoTwoBall = new TwoBallAuto(driveTrain, limelight, intake, indexer, shooterClimb);
-    autoOneBall = new OneBallAuto(shooterClimb, indexer, driveTrain, intake);
+    autoOneBall = new OneBallAuto(driveTrain, indexer, intake, shooterClimb);
     
     chooser.addOption("TwoBall", autoTwoBall);
     chooser.addOption("OneBall", autoOneBall);
@@ -206,6 +208,15 @@ public class RobotContainer {
 
      JoystickButton retractClimbButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
      retractClimbButton.whenPressed(new RetractClimbCmd(climb));
+
+     JoystickButton shiftLowButton = new JoystickButton(driverController, XboxController.Button.kX.value);
+     shiftLowButton.toggleWhenPressed(new ShiftLowCmd(driveTrain));
+
+     JoystickButton shiftHighButton = new JoystickButton(driverController, XboxController.Button.kB.value);
+     shiftHighButton.whenPressed(new ShiftHighCmd(driveTrain));
+
+     JoystickButton highBarButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
+     highBarButton.whenPressed(new HighBarClimbCmd(climb));
   }
   
 
