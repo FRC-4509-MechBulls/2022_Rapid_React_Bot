@@ -13,7 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -28,7 +30,6 @@ public class ShooterSub extends SubsystemBase {
   private WPI_TalonFX rightShooterWheel;
   private WPI_TalonFX topWheel;
   private WPI_TalonFX kickWheel;
-  //private ServoSub servo;
   Timer timer;
   private static LinearServo leftHoodServo;
   private static LinearServo rightHoodServo;
@@ -38,44 +39,116 @@ public class ShooterSub extends SubsystemBase {
   private NetworkTableEntry servoSettings = shooter_tune.add("Servo Length", 70).getEntry();
   private NetworkTableEntry topWheel_speed = shooter_tune.add("Top Wheel RPM Speed", -8500).getEntry();
 
+  //LIMELIGHT
+  private double STEER_K = -0.045; 
+  private double DRIVE_K = 0.123; 
+  private double min_cmd = 0.07;
+  private double steer_cmd;
+  private double drive_cmd;
+
+  private double distance_error;
+
+  private double current_distance;
+
+  private NetworkTable limelight;
+  private double tv;
+  private double ta;
+  private double tx;
+  private double ty;
 
   public ShooterSub() {
-  
-   // compressor = new Compressor(module, moduleType)
     leftHoodServo = new LinearServo(Constants.LEFT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
     rightHoodServo = new LinearServo(Constants.RIGHT_SERVO_CHANNEL, Constants.SERVO_LENGTH, Constants.SERVO_SPEED);
 
     leftShooterWheel = new WPI_TalonFX(Constants.LEFT_SHOOTER_FALCON);
     leftShooterWheel.setNeutralMode(NeutralMode.Coast);
     leftShooterWheel.setInverted(true);   // MRNOTE This has been tested, true is good
-    //leftShooterWheel.configClosedloopRamp(10);
-    //leftShooterWheel.configOpenloopRamp(1);
-    //leftShooterWheel.configFactoryDefault();
-
     rightShooterWheel = new WPI_TalonFX(Constants.RIGHT_SHOOTER_FALCON);
     rightShooterWheel.setNeutralMode(NeutralMode.Coast);
     rightShooterWheel.setInverted(false);  // MRNOTE This has been tested, false is good
     rightShooterWheel.configClosedloopRamp(10);
-    //rightShooterWheel.configOpenloopRamp(1);
-    //rightShooterWheel.configFactoryDefault();
-
     kickWheel = new WPI_TalonFX(Constants.KICKER_FALCON);
-    //kickWheel.configClosedloopRamp(1);
-    //kickWheel.configOpenloopRamp(1);
-    //kickWheel.configFactoryDefault();
-
     topWheel = new WPI_TalonFX(Constants.SHOOTER_FALCON_TOP);  //MRNOTE - why WPI for this one?
     topWheel.setInverted(false);
-    //topWheel.configClosedloopRamp(1);
-    //topWheel.configOpenloopRamp(1);
-    //topWheel.configFactoryDefault();
-   
+
+
+    //LIMELIGHT
+    limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     configVelocLoop();
   }
 
+  //LIMELIGHT
+  public double getSteer() {
+    // steer_cmd = (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)) * STEER_K;
+    // // We do see the target, execute aiming code
+    // //steer_cmd = 0;
+    // if (tx > 1.0) {
+    //   return steer_cmd = tx * STEER_K - min_cmd; //either + or -
+    // } else if (tx < -1.0) {
+    //   return steer_cmd = tx * STEER_K + min_cmd; //either + or -
+    // }
+    
+    // return steer_cmd;
+    if (tx > 8.0) {
+      steer_cmd = -0.5;
+    } 
+    else if (tx > 1.5 && tx < 8.0) {
+      steer_cmd = -0.36;
+    } 
+    else if (tx < -8.0) {
+      steer_cmd = 0.5;
+    }
+    else if (tx < -1.5 && tx > -8.0) {
+      steer_cmd = 0.36;
+    } 
+    else {
+      steer_cmd = 0.0;
+    }
+    return steer_cmd;
 
-  // spins shooterWheels
-  // might need to be separate from topWheel??
+  }
+
+  public double getDistanceAdjust() {
+    distance_error = ty + 12.83;
+    drive_cmd = DRIVE_K * distance_error;
+    return drive_cmd;
+  }
+
+  public double getX() {
+    return tx;
+  }
+
+  public double getArea() {
+    return ta;
+  }
+
+  public double getY(){
+    return ty;
+  }
+
+  public boolean isTargetValid() { //ONLY RETURNS FALSE if you type tv == 1.0 (must not be updating enough)
+    if (tv == 1.0) {
+      return true;
+    }
+    return false;
+  }
+
+  public void setPipeline(Integer pipeline) {
+    if(pipeline<0){
+        pipeline = 0;
+        throw new IllegalArgumentException("Pipeline can not be less than zero");
+    }else if(pipeline>9){
+        pipeline = 9;
+        throw new IllegalArgumentException("Pipeline can not be greater than nine");
+    }
+    limelight.getEntry("pipeline").setValue(pipeline);
+  }
+
+
   public void SetServoFender(){
     leftHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
     rightHoodServo.setPosition(Constants.SERVO_FENDER_SHOT_LENGTH);
@@ -91,16 +164,19 @@ public class ShooterSub extends SubsystemBase {
     kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
-  public void LLShot(){
-    leftShooterWheel.set(TalonFXControlMode.Velocity, treadWheel_speed.getDouble(6000));
-    rightShooterWheel.set(TalonFXControlMode.Velocity, treadWheel_speed.getDouble(6000));
-    topWheel.set(TalonFXControlMode.Velocity, topWheel_speed.getDouble(-8500));
+  public void LLShot(double shootVelocity, double topVelocity){
+    System.out.println(shootVelocity);
+    System.out.println(topVelocity);
+    leftShooterWheel.set(TalonFXControlMode.Velocity, shootVelocity);
+    rightShooterWheel.set(TalonFXControlMode.Velocity, shootVelocity);
+    topWheel.set(TalonFXControlMode.Velocity, topVelocity);
+
     kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
-  public void LLShotServo(){
-    leftHoodServo.setPosition(servoSettings.getDouble(70));
-    rightHoodServo.setPosition(servoSettings.getDouble(70));
+  public void LLShotServo(double servoPosition){
+    leftHoodServo.setPosition(servoPosition);
+    rightHoodServo.setPosition(servoPosition);
   }
 
   public void fenderShot() {
@@ -116,7 +192,7 @@ public class ShooterSub extends SubsystemBase {
     leftShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     rightShooterWheel.set(TalonFXControlMode.Velocity, 6000); 
     topWheel.set(TalonFXControlMode.Velocity, -7300);
-    kickWheel.set(TalonFXControlMode.Velocity, 6000);
+    kickWheel.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
   public void rejectBall(){
@@ -126,8 +202,6 @@ public class ShooterSub extends SubsystemBase {
     kickWheel.set(TalonFXControlMode.PercentOutput, Constants.KICK_SPEED);
   }
 
-
-  // stops shooter1
   public void stop() {
     leftShooterWheel.set(TalonFXControlMode.PercentOutput, 0);
     rightShooterWheel.set(TalonFXControlMode.PercentOutput, 0);
@@ -252,15 +326,18 @@ public class ShooterSub extends SubsystemBase {
   */
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    /* get the selected sensor for PID0 */
-    //double motorOutput = shooterWheel.getMotorOutputPercent();
-    //double selSenPos = shooterWheel.getSelectedSensorPosition(0); /* position units */
+    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    current_distance = 96 + -4.12*ty + 0.0981*(Math.pow(ty, 2)) + -1.22*(Math.pow(10, -3))*(Math.pow(ty, 3));
+
+    SmartDashboard.putBoolean("Is Target Valid", isTargetValid());
+    SmartDashboard.putNumber("Horizonatal Error (tx): ", tx);
+    SmartDashboard.putNumber("Vertical Error (ty): ", ty);
+    SmartDashboard.putNumber("Area of Screen (ta): ", ta);
     double shooterWheelVel = leftShooterWheel.getSelectedSensorVelocity(0); /* position units per 100ms */
-    //double shooterWheelVel = leftShooterWheel.getSelectedSensorVelocity(0); /* position units per 100ms */
     double topWheelVel = topWheel.getSelectedSensorVelocity();
-    //SmartDashboard.putNumber("Motor Output Percent: ",  motorOutput);
-    //SmartDashboard.putNumber("Selected Sensor Positions: ", selSenPos);
     SmartDashboard.putNumber("Hood Position: ", leftHoodServo.getPosition());
     SmartDashboard.putNumber("Shooter Wheel Velocity: ", shooterWheelVel);
     SmartDashboard.putNumber("Top Wheel Velocity: ", topWheelVel);

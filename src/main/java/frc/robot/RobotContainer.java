@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.TwoBallAuto;
+import frc.robot.commands.AimCmd;
 import frc.robot.commands.AutoDriveCmd;
 import frc.robot.commands.AutoDriveTwo;
 import frc.robot.commands.AutoIndexCmd;
@@ -63,6 +64,8 @@ public class RobotContainer {
   private FarShotCmd shootShooters;
   private ClimbSub climb;
 
+  private AimCmd aim;
+
   //DriveTrain
   private ShiftLowCmd shiftIn;
   private ShiftHighCmd shiftOut;
@@ -104,8 +107,13 @@ public class RobotContainer {
     //Intializing USBcamera
     camera = new VisionSub();  //MRNOTE caused simulation to crash
 
-    joystickDrive = new JoystickDriveCmd(driveTrain, limelight);
-    joystickDrive.addRequirements(driveTrain, limelight);
+    //Intitializing all ShooterClimb Components
+    shooterClimb = new ShooterSub();    // MRNOTE Servo conflict
+    shootShooters = new FarShotCmd(shooterClimb);
+    shootShooters.addRequirements(shooterClimb);
+
+    joystickDrive = new JoystickDriveCmd(driveTrain /*shooterClimb*/);
+    joystickDrive.addRequirements(driveTrain /*shooterClimb*/);
     driveTrain.setDefaultCommand(joystickDrive);
 
     
@@ -115,10 +123,7 @@ public class RobotContainer {
     retractIntake = new RetractIntakeCmd(intake);
     //commands are constructed in button bindings
     
-    //Intitializing all ShooterClimb Components
-    shooterClimb = new ShooterSub();    // MRNOTE Servo conflict
-    shootShooters = new FarShotCmd(shooterClimb);
-    shootShooters.addRequirements(shooterClimb);
+    
     
     climb = new ClimbSub();
 
@@ -219,6 +224,9 @@ public class RobotContainer {
 
      JoystickButton highBarButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
      highBarButton.whenPressed(new HighBarClimbCmd(climb));
+
+     JoystickButton aimButton = new JoystickButton(driverController, XboxController.Button.kY.value);
+     aimButton.whileHeld(new AimCmd(shooterClimb, driveTrain));
   }
   
 

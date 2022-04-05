@@ -49,7 +49,7 @@ public class DriveTrainSub extends SubsystemBase {
   Timer timer;
   double speed;
   private SlewRateLimiter filter = new SlewRateLimiter(1.5);
-  private SlewRateLimiter filter1 = new SlewRateLimiter(1.5);
+  //private SlewRateLimiter filter1 = new SlewRateLimiter(1.5);
   private ShuffleboardTab ll_turn = Shuffleboard.getTab("LL Tuning");
   private NetworkTableEntry turn = ll_turn.add("LL Turn", 0).getEntry();
 
@@ -136,11 +136,11 @@ public class DriveTrainSub extends SubsystemBase {
   }
 
   public void aimLimelight(double driveCommand, double steerCommand) {
-    if (driveCommand > 0.53) {
-      driveCommand = 0.53;
-    } else if (driveCommand < -0.53) {
-      driveCommand = -0.53;
-    }
+    // if (driveCommand > 0.53) {
+    //   driveCommand = 0.53;
+    // } else if (driveCommand < -0.53) {
+    //   driveCommand = -0.53;
+    // }
     drive.arcadeDrive(driveCommand, steerCommand);
   }
 

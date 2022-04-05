@@ -10,20 +10,21 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSub;
 import frc.robot.subsystems.LimelightSub;
+import frc.robot.subsystems.ShooterSub;
 
 public class JoystickDriveCmd extends CommandBase {
   private DriveTrainSub driveTrain;
-  private LimelightSub limelight;
+  //private ShooterSub shooter;
 
   //private SlewRateLimiter filter = new SlewRateLimiter(1.5);
 
   /** Creates a new joystickDrive. */
-  public JoystickDriveCmd(DriveTrainSub dt, LimelightSub l) {
+  public JoystickDriveCmd(DriveTrainSub dt /*ShooterSub s*/) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = dt;
-    limelight = l;
+   // shooter = s;
 
-    addRequirements(driveTrain, limelight);
+    addRequirements(driveTrain /*shooter*/);
   }
 
   // Called when the command is initially scheduled.
@@ -33,20 +34,20 @@ public class JoystickDriveCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.driverController.getYButton()) {
-      if (limelight.isTargetValid()) {
-        // if target is detected, run aim command
-        driveTrain.aimLimelight(/*limelight.getDistanceAdjust()*/0, limelight.getSteer());
+    // if (RobotContainer.driverController.getYButton()) {
+    //   if (shooter.isTargetValid()) {
+    //     // if target is detected, run aim command
+    //     driveTrain.aimLimelight(/*limelight.getDistanceAdjust()*/0, shooter.getSteer());
         
-      } else {
-        // robot turns until target is detected
-        driveTrain.seekLimelight();
-      }
-    } else {
-      // if a button is not pressed, run drive command as usual
+    //   } else {
+    //     // robot turns until target is detected
+    //     driveTrain.seekLimelight();
+    //   }
+    // } else {
+    //   // if a button is not pressed, run drive command as usual
       driveTrain.joystickDrive(RobotContainer.driverController, Constants.DRIVETRAIN_SPEED);
     }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

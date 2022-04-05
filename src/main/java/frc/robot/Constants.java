@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -40,7 +43,7 @@ public final class Constants {
     public static final double DRIVETRAIN_SPEED = 1.0;//set to low for demo with kids
     public static final double SHOOTER_SPEED = 0.4;
     public static final double SHOOTER_SPEED_TOP = 1.0;
-    public static final double INDEXER_SPEED = 1.0;
+    public static final double INDEXER_SPEED = 0.8;
     public static final double INTAKE_SPEED = 0.65;
     public static final double CLIMB_SPEED = 0;
     public static final double KICK_SPEED = 0.4;
@@ -96,6 +99,11 @@ public final class Constants {
     public static final int kPIDLoopIdx = 0;
 
     //kP kI kD kF Iz PeakOut -- FOR PID LOOP
+    private static ShuffleboardTab gains_tab = Shuffleboard.getTab("Gains");
+    private static NetworkTableEntry kP = gains_tab.add("kP", 0.1).getEntry();
+    private static NetworkTableEntry kI = gains_tab.add("kI", 0.001).getEntry();
+    private static NetworkTableEntry kD = gains_tab.add("kD", 2).getEntry();
+    private static NetworkTableEntry kF = gains_tab.add("kF", 767.25/17207).getEntry();
     public final static Gains kGains_Velocit_shooterWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00);
     public final static Gains kGains_Velocit_topWheel = new Gains(0.1,  0.001,  2,  767.25/17207,  300,  1.00); // needs to be tuned unless it's the same lol
     public final static Gains kGains_Posit_climb = new Gains(0.15,  0.0,  1,  0.0,  0,  1.00); //needs to be tuned

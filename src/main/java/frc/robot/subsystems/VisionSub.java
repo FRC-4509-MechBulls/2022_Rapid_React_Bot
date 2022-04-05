@@ -16,10 +16,6 @@ public class VisionSub extends SubsystemBase {
     camera4509back = CameraServer.startAutomaticCapture();
     camera4509back.setResolution(320, 240);
     camera4509back.setFPS(20);
-
-    camera4509front = CameraServer.startAutomaticCapture();
-    camera4509front.setResolution(320, 240);
-    camera4509front.setFPS(20);
   }
 
   @Override
