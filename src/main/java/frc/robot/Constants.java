@@ -118,6 +118,8 @@ public final class Constants {
     public static final int SERVO_1_CHANNEL = 0;
     public static final int SERVO_2_CHANNEL = 9;
     
+    public static final Integer SHOOTER_PIPELINE = 1;
+    
     
 
     
