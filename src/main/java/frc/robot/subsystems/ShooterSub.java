@@ -94,23 +94,25 @@ public class ShooterSub extends SubsystemBase {
     // }
     
     // return steer_cmd;
-    if (tx > 8.0) {
-      steer_cmd = -0.5;
+
+    //new comments
+
+    //if (tx > 8.0) {
+    //  steer_cmd = -0.5;
+    //} 
+    /*else */if (tx > 0.75 /*1.5*/ /*&& tx < 8.0*/) {
+      steer_cmd = -Constants.AIM_SPEED;//.36
     } 
-    else if (tx > 1.5 && tx < 8.0) {
-      steer_cmd = -0.36;
-    } 
-    else if (tx < -8.0) {
+    /*else if (tx < -8.0) {
       steer_cmd = 0.5;
-    }
-    else if (tx < -1.5 && tx > -8.0) {
-      steer_cmd = 0.36;
+    }*/
+    else if (tx < -0.75 /*1.5*/ /*&& tx > -8.0*/) {
+      steer_cmd = Constants.AIM_SPEED;//.36
     } 
     else {
       steer_cmd = 0.0;
     }
     return steer_cmd;
-
   }
 
   public double getDistanceAdjust() {
